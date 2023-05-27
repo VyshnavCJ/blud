@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
-const validator = require('validator');
-const bcrypt = require('bcryptjs');
-
+const geocoder = require('../utils/geocoder');
 // sample use-case
 const UserSchema = new mongoose.Schema(
   {
@@ -9,37 +7,74 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: [true, 'Please provide name'],
       minlength: 3,
-      trim: true
+      maxlength: 50
     },
-    email: {
+    mobileNumber: {
       type: String,
-      required: [true, 'Please provide email'],
+      required: [true, 'Please provide Phone number'],
       unique: true,
-      validate: {
-        validator: validator.isEmail,
-        message: 'please provide valid email'
-      },
-      trim: true
+      minlength: 10,
+      maxlength: 13
     },
-    password: {
+    address: {
       type: String,
-      required: [true, 'Please provide password'],
+      required: [true, 'Plz provide address']
+    },
+    district: {
+      type: String,
+      required: [true, 'Plz provide district']
+    },
+    state: {
+      type: String,
+      required: [true, 'Plz provide state']
+    },
+    pinCode: {
+      type: String,
+      required: [true, 'Plz provide pin-code'],
       minlength: 6,
-      trim: true
+      maxlength: 6
+    },
+    location: {
+      type: {
+        type: String,
+        enum: ['Point']
+      },
+      coordinates: {
+        type: [Number],
+        index: '2dsphere'
+      }
+    },
+    gender: {
+      type: String,
+      required: true,
+      enum: ['male', 'female', 'others']
+    },
+    bloodGroup: {
+      type: String,
+      required: true,
+      enum: ['O+', 'O-', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-']
+    },
+    dob: {
+      type: Date,
+      required: true
+    },
+    active: {
+      type: Boolean,
+      default: true
     }
   },
   { timestamps: true }
 );
 
-UserSchema.pre('save', async function () {
-  if (!this.isModified('password')) return;
-  const salt = await bcrypt.genSalt(10);
-  this.password = await bcrypt.hash(this.password, salt);
-});
+UserSchema.pre('save', async function (next) {
+  if (!this.isModified('pinCode')) return;
+  const loc = await geocoder.geocode(this.pinCode);
 
-UserSchema.methods.comparePassword = async function (candidatePassword) {
-  const isMatch = await bcrypt.compare(candidatePassword, this.password);
-  return isMatch;
-};
+  this.location = {
+    type: 'Point',
+    coordinates: [loc[0].longitude, loc[0].latitude]
+  };
+  next();
+});
 
 module.exports = mongoose.model('User', UserSchema);

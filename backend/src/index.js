@@ -59,7 +59,7 @@ const { errorHandler, notFound } = require('./middleware');
 
 const userRouter = require('./api/user');
 
-app.use('/api/v1/user/', userRouter);
+app.use('/api/v1/user', userRouter);
 
 // Error Handlers
 app.use(notFound);

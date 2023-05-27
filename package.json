@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "fast-two-sms": "^3.0.0",
+    "node-geocoder": "^4.2.0"
+  }
+}

@@ -1,5 +1,3 @@
-// sample - usecase
-
 const jwt = require('jsonwebtoken');
 
 const generateJwt = (payload, expires) => {
@@ -13,7 +11,7 @@ const generateJwt = (payload, expires) => {
   return token;
 };
 
-const verifyJwtToken = (token, next) => {
+const verifyJwt = (token, next) => {
   try {
     const { userId } = jwt.verify(token, process.env.JWT_SECRET);
     return userId;
@@ -22,4 +20,4 @@ const verifyJwtToken = (token, next) => {
   }
 };
 
-module.exports = { verifyJwtToken, generateJwt };
+module.exports = { verifyJwt, generateJwt };

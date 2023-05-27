@@ -1,95 +1,27 @@
 const { StatusCodes } = require('http-status-codes');
 const jwt = require('jsonwebtoken');
-const { generateAPIError } = require('../errors/apiError');
-const User = require('../models/User');
+const { generateAPIError } = require('../../errors');
+const fast2sms = require('fast-two-sms');
 
-const auth = async (req, res, next) => {
-  // check header
-  const authHeader = req.headers.authorization;
-  if (!authHeader || !authHeader.startsWith('Bearer'))
-    return next(generateAPIError('Authentication invalid', 401));
-
-  const token = authHeader.split(' ')[1];
-  if (!token) {
-    next({ status: 403, message: 'auth token is missing' });
-    return;
+exports.generateOtp = (otp_length) => {
+  var digits = '0123456789';
+  let otp = '';
+  for (let i = 0; i < otp_length; i++) {
+    otp += digits[Math.floor(Math.random() * 10)];
   }
+  return otp;
+};
+
+exports.fast2sms = async (message, contactNumber) => {
   try {
-    const payload = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = payload.payload;
-
-    if ('otp' in req.user)
-      return next(generateAPIError('Authentication invalid', 401));
-
-    if ('email' in req.user) {
-      const user = await User.findOne({
-        email: req.user.email
+    if (process.env.NODE_ENV === 'development') {
+      const res = await fast2sms.sendMessage({
+        authorization: process.env.FAST2SMS,
+        message,
+        numbers: [contactNumber]
       });
-
-      if (!user) return next(generateAPIError('Authentication invalid', 401));
-    } else return next(generateAPIError('Authentication invalid', 401));
-
-    next();
-  } catch (error) {
-    return next(generateAPIError('Authentication invalid', 401));
-  }
-};
-
-const authOtp = async (req, res, next) => {
-  // check header
-  const authHeader = req.headers.authorization;
-  if (!authHeader || !authHeader.startsWith('Bearer'))
-    return next(generateAPIError('Authentication invalid', 401));
-
-  const token = authHeader.split(' ')[1];
-  if (!token) {
-    next({ status: 403, message: 'auth token is missing' });
-    return;
-  }
-  try {
-    const payload = jwt.verify(token, process.env.JWT_SECRET);
-
-    req.user = payload.payload;
-    next();
-  } catch (error) {
-    return next(generateAPIError('Otp Expired', 404));
-  }
-};
-
-const authCreateUser = async (req, res, next) => {
-  // check header
-  const authHeader = req.headers.authorization;
-  if (!authHeader || !authHeader.startsWith('Bearer'))
-    return next(generateAPIError('Authentication invalid', 401));
-
-  const token = authHeader.split(' ')[1];
-  if (!token) {
-    next({ status: 403, message: 'auth token is missing' });
-    return;
-  }
-  try {
-    const payload = jwt.verify(token, process.env.JWT_SECRET);
-
-    req.user = payload.payload;
-    if ('otp' in req.user)
-      return next(generateAPIError('Authentication invalid', 401));
-    next();
-  } catch (error) {
-    return next(generateAPIError('Otp Expired', 401));
-  }
-};
-
-const authorizePermissions = (roles) => {
-  return (req, res, next) => {
-    let isAuthorized = false;
-    roles.forEach((role) => {
-      if (role == req.user.role) isAuthorized = true;
-    });
-    if (!isAuthorized) {
-      throw generateAPIError('Forbidden Request', StatusCodes.FORBIDDEN);
     }
-    next();
-  };
+  } catch (error) {
+    next(error);
+  }
 };
-
-module.exports = { auth, authorizePermissions, authOtp, authCreateUser };
