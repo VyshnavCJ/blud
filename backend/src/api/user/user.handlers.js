@@ -27,7 +27,6 @@ module.exports.auth = async (req, res) => {
 };
 
 module.exports.create = async (req, res) => {
-  console.log(req.user);
   req.body.mobileNumber = req.user.mobileNumber;
   const token = await services.createUser(req.body);
   return res.status(StatusCodes.CREATED).json({
