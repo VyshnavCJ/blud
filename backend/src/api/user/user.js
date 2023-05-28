@@ -80,3 +80,35 @@ module.exports.userEdit = async (mobileNumber, newDetails) => {
   await user.save();
   return user;
 };
+
+module.exports.checkRequest = async (mobileNumber) => {
+  const user = await models.User.findOne({ mobileNumber: mobileNumber }).select(
+    '-location -active -createdAt -updatedAt -__v'
+  );
+  const request = await models.Request.findOne({
+    userId: user._id,
+    isActiveRequest: true
+  });
+  return request.length == 0 ? false : true;
+};
+
+module.exports.getRequestHistory = async (mobileNumber) => {
+  const user_id = await models.User.findOne({
+    mobileNumber: mobileNumber
+  }).select('+_id');
+  const data = await models.Request.find({
+    userId: user_id,
+    isActiveRequest: false
+  });
+  return data;
+};
+
+module.exports.getDonationHistory = async (mobileNumber) => {
+  const user_id = await models.User.findOne({
+    mobileNumber: mobileNumber
+  }).select('+_id');
+  const data = await models.Request.find({
+    donorId: user_id
+  });
+  return data;
+};

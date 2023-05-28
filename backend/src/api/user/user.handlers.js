@@ -54,3 +54,28 @@ module.exports.edit = async (req, res) => {
     user: user
   });
 };
+
+module.exports.home = async (req, res) => {
+  const isActive = await services.checkRequest(req.user.mobileNumber);
+  return res.status(StatusCodes.OK).json({
+    success: true,
+    msg: 'Home data',
+    isActive: isActive
+  });
+};
+module.exports.history = async (req, res) => {
+  const option = req.params.id;
+  const mobileNumber = req.user.mobileNumber;
+  let data = [];
+  if (option == 1) {
+    data = await services.getRequestHistory(mobileNumber);
+  } else if (option == 2) {
+    data = await services.getDonationHistory(mobileNumber);
+  }
+
+  return res.status(StatusCodes.OK).json({
+    success: true,
+    msg: 'Home data',
+    data: data
+  });
+};
