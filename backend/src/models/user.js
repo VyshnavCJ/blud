@@ -65,14 +65,14 @@ const UserSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-
+UserSchema.index({ location: '2dsphere' });
 UserSchema.pre('save', async function (next) {
   if (!this.isModified('pinCode')) return;
   const loc = await geocoder.geocode(this.pinCode);
 
   this.location = {
     type: 'Point',
-    coordinates: [loc[0].longitude, loc[0].latitude]
+    coordinates: [loc[0].longit.de, loc[0].latitude]
   };
   next();
 });

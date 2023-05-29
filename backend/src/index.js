@@ -58,8 +58,10 @@ app.use(morgan('tiny'));
 const { errorHandler, notFound } = require('./middleware');
 
 const userRouter = require('./api/user');
+const requestRouter = require('./api/request');
 
 app.use('/api/v1/user', userRouter);
+app.use('/api/v1/request', requestRouter);
 
 // Error Handlers
 app.use(notFound);

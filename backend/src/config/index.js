@@ -1,2 +1,2 @@
-const { firebaseConfig } = require('./firebase.config');
-module.exports = { firebaseConfig };
+const { firebaseResponseConfig } = require('./firebase.config');
+module.exports = { firebaseResponseConfig };

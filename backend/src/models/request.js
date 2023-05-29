@@ -68,6 +68,14 @@ const RequestSchema = new mongoose.Schema(
     isActiveRequest: {
       type: Boolean,
       default: true
+    },
+    range: {
+      type: Number,
+      default: 0
+    },
+    distance: {
+      type: Number,
+      default: 0
     }
   },
   { timestamps: true }

@@ -1,10 +1,10 @@
-module.exports.firebaseConfig = {
-  apiKey: 'AIzaSyAJ8QPqhBb_kLb2pPfrmdihMIGllX2olGQ',
-  authDomain: 'location-tracker-a7573.firebaseapp.com',
-  databaseURL: 'https://location-tracker-a7573-default-rtdb.firebaseio.com',
-  projectId: 'location-tracker-a7573',
-  storageBucket: 'location-tracker-a7573.appspot.com',
-  messagingSenderId: '18287703491',
-  appId: '1:18287703491:web:8676796875fcb518a73976',
-  measurementId: 'G-KJP2Y1FEZ9'
+module.exports.firebaseResponseConfig = {
+  apiKey: 'AIzaSyDwut6jASd0zJVNuMU7ADkBYvak54FOFJQ',
+  authDomain: 'blud-back-end.firebaseapp.com',
+  databaseURL: 'https://blud-back-end-default-rtdb.firebaseio.com',
+  projectId: 'blud-back-end',
+  storageBucket: 'blud-back-end.appspot.com',
+  messagingSenderId: '1042004075278',
+  appId: '1:1042004075278:web:93b7f7affa62e3a2ebed5f',
+  measurementId: 'G-8MMNHW44J7'
 };
