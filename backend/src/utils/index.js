@@ -4,10 +4,12 @@ const {
   getAcceptableBloodGroups,
   getDonatableBloodGroups
 } = require('./bloodGroupfinder');
+const Whatsapp = require('./whatsapp');
 module.exports = {
   connectDB,
   generateJwt,
   verifyJwt,
   getDonatableBloodGroups,
-  getAcceptableBloodGroups
+  getAcceptableBloodGroups,
+  Whatsapp
 };

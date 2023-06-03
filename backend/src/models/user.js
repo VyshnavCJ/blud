@@ -61,6 +61,10 @@ const UserSchema = new mongoose.Schema(
     active: {
       type: Boolean,
       default: true
+    },
+    lastActive: {
+      type: Date,
+      default: null
     }
   },
   { timestamps: true }
@@ -72,7 +76,7 @@ UserSchema.pre('save', async function (next) {
 
   this.location = {
     type: 'Point',
-    coordinates: [loc[0].longit.de, loc[0].latitude]
+    coordinates: [loc[0].longitude, loc[0].latitude]
   };
   next();
 });

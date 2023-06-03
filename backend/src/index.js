@@ -50,10 +50,10 @@ app.use(
 app.use(cors(corsOptions));
 app.use(helmet());
 app.use(xss());
-app.use(mongoSanitize());
+app.use(mongoSanitize({ allowDots: true }));
 app.use(express.json());
 app.use(morgan('tiny'));
-
+app.use(express.urlencoded({ extended: false }));
 // Routers
 const { errorHandler, notFound } = require('./middleware');
 

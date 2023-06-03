@@ -1,4 +1,4 @@
-module.exports.firebaseResponseConfig = {
+module.exports.firebaseConfig = {
   apiKey: 'AIzaSyDwut6jASd0zJVNuMU7ADkBYvak54FOFJQ',
   authDomain: 'blud-back-end.firebaseapp.com',
   databaseURL: 'https://blud-back-end-default-rtdb.firebaseio.com',

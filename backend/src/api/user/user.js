@@ -28,6 +28,7 @@ module.exports.createUser = async (user) => {
     throw generateAPIError('User already exists', StatusCodes.BAD_REQUEST);
   await models.User.create(user);
 
+  console.log(user);
   const token = generateJwt(
     { mobileNumber: user.mobileNumber },
     process.env.JWT_LIFETIME
@@ -83,19 +84,21 @@ module.exports.userEdit = async (mobileNumber, newDetails) => {
 
 module.exports.checkRequest = async (mobileNumber) => {
   const user = await models.User.findOne({ mobileNumber: mobileNumber }).select(
-    '-location -active -createdAt -updatedAt -__v'
+    '-location -createdAt -updatedAt -__v'
   );
   const request = await models.Request.findOne({
     userId: user._id,
     isActiveRequest: true
   });
-  return request.length == 0 ? false : true;
+  return request.length == 0
+    ? { requestId: null, canDonate: user.active }
+    : { requestId: request._id, canDonate: user.active };
 };
 
 module.exports.getRequestHistory = async (mobileNumber) => {
   const user_id = await models.User.findOne({
     mobileNumber: mobileNumber
-  }).select('+_id');
+  }).select('_id');
   const data = await models.Request.find({
     userId: user_id,
     isActiveRequest: false
@@ -106,7 +109,7 @@ module.exports.getRequestHistory = async (mobileNumber) => {
 module.exports.getDonationHistory = async (mobileNumber) => {
   const user_id = await models.User.findOne({
     mobileNumber: mobileNumber
-  }).select('+_id');
+  }).select('_id');
   const data = await models.Request.find({
     donorId: user_id
   });

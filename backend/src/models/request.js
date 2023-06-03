@@ -27,8 +27,7 @@ const RequestSchema = new mongoose.Schema(
         enum: ['Point']
       },
       coordinates: {
-        type: [Number],
-        index: '2dsphere'
+        type: [Number]
       }
     },
     units: {
@@ -73,14 +72,15 @@ const RequestSchema = new mongoose.Schema(
       type: Number,
       default: 0
     },
-    distance: {
-      type: Number,
-      default: 0
+    donatedDate: {
+      type: Date,
+      default: null
     }
   },
   { timestamps: true }
 );
 
+RequestSchema.index({ location: '2dsphere' });
 RequestSchema.pre('save', async function (next) {
   if (!this.isModified('pinCode')) return;
   const loc = await geocoder.geocode(this.pinCode);

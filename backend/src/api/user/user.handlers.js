@@ -60,7 +60,7 @@ module.exports.home = async (req, res) => {
   return res.status(StatusCodes.OK).json({
     success: true,
     msg: 'Home data',
-    isActive: isActive
+    isActiveRequest: isActive
   });
 };
 module.exports.history = async (req, res) => {
