@@ -19,11 +19,11 @@ module.exports.createRequest = async (requestDetails, mobileNumber) => {
   const request = await models.Request.create(requestDetails);
   return request;
 };
-module.exports.findDonors = async (request, range) => {
+module.exports.findDonors = async (request) => {
   const bg = getAcceptableBloodGroups(request.bloodGroup);
   const lng = request.location.coordinates[0];
   const lat = request.location.coordinates[1];
-  const maxdistance = range + 35000;
+  const maxdistance = request.range + 35000;
   const pd = await models.User.find({
     $and: [
       { active: true },
