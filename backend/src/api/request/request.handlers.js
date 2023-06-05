@@ -5,15 +5,67 @@ const services = require('./request');
 const { whatsappConfig } = require('../../config');
 const models = require('../../models');
 const { getResponse } = require('./request.helpers');
+
 module.exports.create = async (req, res) => {
   const request = await services.createRequest(req.body, req.user.mobileNumber);
   const potentialDonors = await services.findDonors(request);
   const numbers = await services.createResponse(potentialDonors, request._id);
+
   await services.sendWhatsapp(request, numbers);
-  return res.status(StatusCodes.OK).json({
+
+  return res.status(StatusCodes.CREATED).json({
     success: true,
     msg: 'Request Created',
     requestid: request._id
+  });
+};
+
+module.exports.view = async (req, res) => {
+  const requestDetails = await services.getRequest(req.user.mobileNumber);
+
+  return res.status(StatusCodes.OK).json({
+    success: true,
+    msg: 'Request Details',
+    requestDetails: requestDetails
+  });
+};
+
+module.exports.accept = async (req, res) => {
+  const mobileNumber = req.user.mobileNumber;
+
+  await services.updateResponse(req.body.id, mobileNumber);
+
+  return res.status(StatusCodes.OK).json({
+    success: true,
+    msg: 'Request Accepted'
+  });
+};
+
+module.exports.complete = async (req, res) => {
+  const requestId = req.body.id;
+  const donorNumber = req.body.mobileNumber;
+
+  await services.updateRequest(requestId, donorNumber);
+
+  return res.status(StatusCodes.OK).json({
+    success: true,
+    msg: 'Request Completed'
+  });
+};
+
+module.exports.cancel = async (req, res) => {
+  const numbers = await services.dropResponse(req.body.id);
+
+  await services.dropRequest(req.body.id);
+  await services.updateUser(numbers);
+  await Whatsapp.sendText({
+    recipientPhone: 917306255230,
+    message: `Sry the the blood request is cancelled.\n Not to worry You can donote when new request comes`
+  });
+
+  return res.status(StatusCodes.OK).json({
+    success: true,
+    msg: 'Request Cancelled'
   });
 };
 
@@ -71,47 +123,6 @@ module.exports.whatsappRecieve = async (req, res) => {
     console.error({ error });
     return res.sendStatus(500);
   }
-};
-module.exports.view = async (req, res) => {
-  const requestDetails = await services.getRequest(req.user.mobileNumber);
-
-  return res.status(StatusCodes.OK).json({
-    success: true,
-    msg: 'Request Created',
-    requestDetails: requestDetails
-  });
-};
-module.exports.accept = async (req, res) => {
-  const mobileNumber = req.user.mobileNumber;
-  await services.updateResponse(req.body.id, mobileNumber);
-
-  return res.status(StatusCodes.OK).json({
-    success: true,
-    msg: 'Request Created'
-  });
-};
-module.exports.complete = async (req, res) => {
-  const requestId = req.body.id;
-  const donorNumber = req.body.mobileNumber;
-  await services.updateRequest(requestId, donorNumber);
-
-  return res.status(StatusCodes.OK).json({
-    success: true,
-    msg: 'Request Created'
-  });
-};
-module.exports.cancel = async (req, res) => {
-  const numbers = await services.dropResponse(req.body.id);
-  await services.dropRequest(req.body.id);
-  await services.updateUser(numbers);
-  await Whatsapp.sendText({
-    recipientPhone: 917306255230,
-    message: `Sry the the blood request is cancelled.\n Not to worry You can donote when new request comes`
-  });
-  return res.status(StatusCodes.OK).json({
-    success: true,
-    msg: 'Request Created'
-  });
 };
 
 cron.schedule(

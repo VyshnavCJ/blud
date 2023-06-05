@@ -1,6 +1,3 @@
-const { StatusCodes } = require('http-status-codes');
-const jwt = require('jsonwebtoken');
-const { generateAPIError } = require('../../errors');
 const fast2sms = require('fast-two-sms');
 
 exports.generateOtp = (otp_length) => {

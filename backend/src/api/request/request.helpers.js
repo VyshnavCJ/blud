@@ -1,4 +1,4 @@
-const { remove, ref, child, get, set, onValue } = require('firebase/database');
+const { remove, ref, child, get, set } = require('firebase/database');
 const models = require('../../models');
 
 module.exports.getResponse = async (id) => {
@@ -31,29 +31,7 @@ module.exports.setResponse = async (pd, requestId, accept, distance) => {
   }
   return numbers;
 };
-// module.exports.updateRes = async (requestId, number, distance, location) => {
-//   set(
-//     ref(
-//       models.Response,
-//       'response/' + `${requestId}/` + `${number}/` + `distance`
-//     ),
-//     distance
-//   );
-//   set(
-//     ref(
-//       models.Response,
-//       'response/' + `${requestId}/` + `${number}/` + `accept`
-//     ),
-//     true
-//   );
-//   set(
-//     ref(
-//       models.Response,
-//       'response/' + `${requestId}/` + `${number}/` + `location`
-//     ),
-//     location
-//   );
-// };
+
 module.exports.calculateDistance = (lat1, lon1, lat2, lon2) => {
   const earthRadius = 6371; // Radius of the Earth in kilometers
 
@@ -82,6 +60,7 @@ module.exports.calculateDistance = (lat1, lon1, lat2, lon2) => {
 function toRadians(degrees) {
   return degrees * (Math.PI / 180);
 }
+
 module.exports.deleteResponse = async (requestId) => {
   remove(ref(models.Response, 'response/' + `${requestId}/`), null);
 };
