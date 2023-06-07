@@ -1,11 +1,21 @@
+import 'package:blud_frontend/screens/homepage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 
-class OTPScreen extends StatelessWidget {
+class OTPScreen extends StatefulWidget {
   const OTPScreen({super.key});
+
+  @override
+  State<OTPScreen> createState() => _OTPScreenState();
+}
+
+class _OTPScreenState extends State<OTPScreen> {
+  String otpCode = "";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
           Container(
@@ -29,17 +39,36 @@ class OTPScreen extends StatelessWidget {
           ),
           Container(
             margin: const EdgeInsets.only(top: 317, left: 32),
-            child: const Column(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   'Enter the verification\ncode',
                   style: TextStyle(fontSize: 26, fontWeight: FontWeight.w600),
                 ),
-                Text(
+                const Text(
                   'You will receive a 4 digit code for phone\nnumber verification',
                   style: TextStyle(fontFamily: "Lora", fontSize: 13),
                 ),
+                Container(
+                  margin: const EdgeInsets.only(top: 30),
+                  child: OtpTextField(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    numberOfFields: 4,
+                    showFieldAsBox: true,
+                    borderColor: const Color(0xffFF4040),
+                    borderRadius: BorderRadius.circular(30),
+                    fillColor: const Color(0xffFFE3E3),
+                    onSubmit: (String verificationCode) {
+                      setState(() {
+                        otpCode = verificationCode;
+                      });
+                    },
+                    focusedBorderColor: const Color(0xffFF4040),
+                    obscureText: true,
+                    showCursor: false,
+                  ),
+                )
               ],
             ),
           ),
@@ -66,10 +95,11 @@ class OTPScreen extends StatelessWidget {
                   ),
                   child: InkWell(
                     onTap: () {
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //         builder: (context) => const PhoneLogin()));
+                      print(otpCode);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const HomePage()));
                     },
                     borderRadius: BorderRadius.circular(30),
                     child: const Icon(Icons.arrow_forward_rounded),
