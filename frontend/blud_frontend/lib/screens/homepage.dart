@@ -2,6 +2,9 @@
 
 import 'package:flutter/material.dart';
 
+import '../widgets/bloodoptions.dart';
+import '../widgets/liverequestcard.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -30,7 +33,7 @@ class _HomePageState extends State<HomePage> {
           Container(
             margin: EdgeInsets.only(
                 top: MediaQuery.of(context).size.height - 245,
-                left: MediaQuery.of(context).size.width - 170),
+                left: MediaQuery.of(context).size.width - 130),
             width: 170,
             height: 245,
             child: Image.asset('assets/images/lower_right_image.png'),
@@ -62,100 +65,68 @@ class _HomePageState extends State<HomePage> {
                     style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
                   ),
                 ),
-                SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Container(
-                        width: 330,
-                        height: 110,
-                        decoration: BoxDecoration(
-                            border: Border.all(),
-                            borderRadius: BorderRadius.circular(22)),
-                        child: Row(
-                          children: [
-                            Container(
-                              margin: const EdgeInsets.only(left: 18),
-                              child: const Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Raquel Brummock",
-                                    style: TextStyle(
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                  Text(
-                                    "Merlyn Medical\nCentre,\nAlexandria",
-                                    style: TextStyle(
-                                        fontSize: 13,
-                                        fontFamily: "Lora",
-                                        color: Color(0xff949494)),
-                                  )
-                                ],
-                              ),
-                            ),
-                            Column(
-                            children: [Container(decoration: BoxDecoration(borderRadius: BorderRadius.circular(14),color: const Color(0xffFFE3E3),
-),child: Text("B+ve"),)],
-                           )
-                          ],
+                SizedBox(
+                  height: 378,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 25),
+                        LiveRequestCard(
+                          name: "Raquel Brummock",
+                          hAdrress: "Merlyn Medical\nCentre,\nAlexandria",
+                          bloodGroup: "B+ve",
+                          distance: '0.5m',
+                          liveDonation: () {},
                         ),
-                      )
-                    ],
+                        LiveRequestCard(
+                          name: "Raquel Brummock",
+                          hAdrress: "Merlyn Medical\nCentre,\nAlexandria",
+                          bloodGroup: "B+ve",
+                          distance: '0.5m',
+                          liveDonation: () {},
+                        ),
+                        LiveRequestCard(
+                          name: "Raquel Brummock",
+                          hAdrress: "Merlyn Medical\nCentre,\nAlexandria",
+                          bloodGroup: "B+ve",
+                          distance: '0.5m',
+                          liveDonation: () {},
+                        ),
+                        LiveRequestCard(
+                          name: "Raquel Brummock",
+                          hAdrress: "Merlyn Medical\nCentre,\nAlexandria",
+                          bloodGroup: "B+ve",
+                          distance: '0.5m',
+                          liveDonation: () {},
+                        ),
+                        LiveRequestCard(
+                          name: "Raquel Brummock",
+                          hAdrress: "Merlyn Medical\nCentre,\nAlexandria",
+                          bloodGroup: "B+ve",
+                          distance: '0.5m',
+                          liveDonation: () {},
+                        ),
+                      ],
+                    ),
                   ),
                 )
               ],
             ),
-          )
-        ],
-      ),
-    );
-  }
-}
-
-class BloodOptions extends StatelessWidget {
-  final String headText;
-  final Function onTap;
-  const BloodOptions({
-    super.key,
-    required this.headText,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 150,
-      height: 125,
-      decoration: BoxDecoration(
-          border: Border.all(),
-          color: const Color(0xffFFE3E3),
-          borderRadius: BorderRadius.circular(22)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            padding: const EdgeInsets.all(15),
-            child: Text(
-              headText,
-              style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
-            ),
           ),
-          InkWell(
-            onTap: () => onTap(),
-            borderRadius: BorderRadius.circular(30),
-            child: Container(
-              margin: const EdgeInsets.only(left: 92),
-              width: 50,
-              height: 37,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                  color: const Color(0xffFF4040)),
-              child: const Icon(Icons.arrow_forward_rounded),
-            ),
-          )
+          Container(
+            margin: const EdgeInsets.only(top: 341),
+            height: 100,
+            decoration: const BoxDecoration(
+                gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Color(0xFFFFFBF1),
+                Color(0x00FFFBF1),
+                Color(0x00000000),
+              ],
+            )),
+          ),
         ],
       ),
     );

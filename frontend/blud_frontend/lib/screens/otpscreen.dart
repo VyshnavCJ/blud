@@ -1,4 +1,4 @@
-import 'package:blud_frontend/screens/homepage.dart';
+import 'package:blud_frontend/screens/navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 
@@ -99,7 +99,7 @@ class _OTPScreenState extends State<OTPScreen> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const HomePage()));
+                              builder: (context) => NavigationPanel()));
                     },
                     borderRadius: BorderRadius.circular(30),
                     child: const Icon(Icons.arrow_forward_rounded),
