@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const geocoder = require('../utils/geocoder');
-// sample use-case
+
 const RequestSchema = new mongoose.Schema(
   {
     name: {

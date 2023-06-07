@@ -26,7 +26,6 @@ module.exports.findDonors = async (request) => {
     $and: [
       { active: true },
       { bloodGroup: { $in: bg } },
-      { _id: { $ne: request.userId } },
       {
         location: {
           $near: {
@@ -53,7 +52,7 @@ module.exports.createResponse = async (pd, requestId) => {
     x.distance = 0;
     x.accept = false;
     numbers.push(x.mobileNumber);
-    await models.Response.writeData(`${requestId}/${x.mobileNumber}`, x);
+    await models.Response.writeDate(`${requestId}/${x.mobileNumber}`, x);
   }
   return numbers;
 };
@@ -105,7 +104,9 @@ module.exports.updateResponse = async (requestId, number) => {
   );
   const accepter = await models.User.findOne({
     mobileNumber: number
-  }).select('name location mobileNumber bloodGroup');
+  })
+    .select('name location mobileNumber bloodGroup')
+    .lean();
   const distance = calculateDistance(
     requestLoc.location.coordinates[1],
     requestLoc.location.coordinates[0],
@@ -116,21 +117,15 @@ module.exports.updateResponse = async (requestId, number) => {
   accepter.active = false;
 
   await accepter.save();
-
-  const doc = {
-    name: accepter.name,
-    location: accepter.location,
-    mobileNumber: accepter.mobileNumber,
-    bloodGroup: accepter.bloodGroup,
-    distance: distance,
-    accept: true
-  };
-
-  await models.Response.writeData(`${requestId}/${accepter.mobileNumber}`, doc);
+  accepter.distance = distance;
+  accepter.accept = true;
+  await models.Response.writeDate(
+    `${requestId}/${accepter.mobileNumber}`,
+    accepter
+  );
 };
 
 module.exports.getRequest = async (mobileNumber) => {
-  const response = await models.Response.readData('6480802cd9bd8c7741b33298');
   const user = await models.User.findOne({ mobileNumber: mobileNumber });
   const bg = getDonatableBloodGroups(user.bloodGroup);
   const lng = user.location.coordinates[0];
@@ -152,11 +147,7 @@ module.exports.getRequest = async (mobileNumber) => {
     },
     {
       $match: {
-        $and: [
-          { isActiveRequest: true },
-          { bloodGroup: { $in: bg } },
-          { userId: { $ne: user._id } }
-        ]
+        $and: [{ isActiveRequest: true }, { bloodGroup: { $in: bg } }]
       }
     },
     {
@@ -230,7 +221,6 @@ module.exports.sheduledOperation = async () => {
       $and: [
         { active: true },
         { bloodGroup: { $in: bg } },
-        { _id: { $ne: request.userId } },
         {
           location: {
             $near: {

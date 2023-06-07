@@ -92,7 +92,7 @@ module.exports.checkRequest = async (mobileNumber) => {
     isActiveRequest: true
   });
 
-  return request.length == 0
+  return !request
     ? { requestId: null, canDonate: user.active }
     : { requestId: request._id, canDonate: user.active };
 };

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const geocoder = require('../utils/geocoder');
-// sample use-case
+
 const UserSchema = new mongoose.Schema(
   {
     name: {
@@ -69,6 +69,7 @@ const UserSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
 UserSchema.index({ location: '2dsphere' });
 UserSchema.pre('save', async function (next) {
   if (!this.isModified('pinCode')) return;

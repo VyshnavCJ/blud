@@ -7,14 +7,17 @@ module.exports.auth = (type) => {
   return async (req, res, next) => {
     // check header
     const authHeader = req.headers.authorization;
+
     if (!authHeader || !authHeader.startsWith('Bearer'))
       return next(generateAPIError('Authentication invalid', 401));
 
     const token = authHeader.split(' ')[1];
+
     if (!token) {
       next({ status: 403, message: 'auth token is missing' });
       return;
     }
+
     try {
       const payload = jwt.verify(token, process.env.JWT_SECRET);
       // attach the user to the job routes

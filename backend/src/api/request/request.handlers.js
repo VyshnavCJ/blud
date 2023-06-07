@@ -3,15 +3,13 @@ const { StatusCodes } = require('http-status-codes');
 const cron = require('node-cron');
 const services = require('./request');
 const { whatsappConfig } = require('../../config');
-const models = require('../../models');
-const { getResponse } = require('./request.helpers');
 
 module.exports.create = async (req, res) => {
   const request = await services.createRequest(req.body, req.user.mobileNumber);
   const potentialDonors = await services.findDonors(request);
   const numbers = await services.createResponse(potentialDonors, request._id);
 
-  await services.sendWhatsapp(request, numbers);
+  // await services.sendWhatsapp(request, numbers);
 
   return res.status(StatusCodes.CREATED).json({
     success: true,
@@ -58,10 +56,10 @@ module.exports.cancel = async (req, res) => {
 
   await services.dropRequest(req.body.id);
   await services.updateUser(numbers);
-  await Whatsapp.sendText({
-    recipientPhone: 917306255230,
-    message: `Sry the the blood request is cancelled.\n Not to worry You can donote when new request comes`
-  });
+  // await Whatsapp.sendText({
+  //   recipientPhone: 917306255230,
+  //   message: `Sry the the blood request is cancelled.\n Not to worry You can donote when new request comes`
+  // });
 
   return res.status(StatusCodes.OK).json({
     success: true,
@@ -125,39 +123,7 @@ module.exports.whatsappRecieve = async (req, res) => {
   }
 };
 
-cron.schedule(
-  '0 * * * *',
-  async () => {
-    const requests = await models.Request.find({ isActiveRequest: true });
-    for (let request of requests) {
-      request.range = request.range + 1000;
-      const potentialDonors = await services.findDonors(request);
-      const response = await getResponse(request._id);
-      const oldNumbers = Object.keys(response);
-      const filter_pd = potentialDonors.filter(
-        (x) => !oldNumbers.includes(x.mobileNumber)
-      );
-      const numbers = await services.createResponse(filter_pd, request._id);
-      // await services.sendWhatsapp(request, numbers);
-
-      await request.save();
-    }
-    const users = await models.User.find({ active: false });
-    for (let user of users) {
-      const donatedDate = user.lastActive;
-      const currentDate = new Date();
-      let months = (currentDate.getFullYear() - donatedDate.getFullYear()) * 12;
-      months -= donatedDate.getMonth() + 1;
-      months += currentDate.getMonth();
-      if (months > 3) {
-        user.active = false;
-        user.lastActive = null;
-        user.save();
-      }
-    }
-  },
-  {
-    scheduled: true,
-    timezone: 'Asia/Kolkata'
-  }
-);
+cron.schedule('0 * * * *', services.sheduledOperation, {
+  scheduled: true,
+  timezone: 'Asia/Kolkata'
+});

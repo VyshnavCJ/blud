@@ -8,6 +8,7 @@ const generateJwt = (payload, expires) => {
     process.env.JWT_SECRET,
     { expiresIn: expires }
   );
+
   return token;
 };
 
