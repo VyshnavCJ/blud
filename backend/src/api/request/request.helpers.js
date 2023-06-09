@@ -1,36 +1,8 @@
-const { remove, ref, child, get, set } = require('firebase/database');
-const models = require('../../models');
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
+const client = require('twilio')(accountSid, authToken);
 
-module.exports.getResponse = async (id) => {
-  const dbRef = ref(models.Response);
-  let x;
-  await get(child(dbRef, `response/${id}`))
-    .then((snapshot) => {
-      if (snapshot.exists()) {
-        x = snapshot.val();
-      } else {
-        console.log('No data available');
-      }
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-  return x;
-};
-
-module.exports.setResponse = async (pd, requestId, accept, distance) => {
-  let numbers = [];
-  for (const x of pd) {
-    x.distance = distance;
-    x.accept = accept;
-    numbers.push(x.mobileNumber);
-    set(
-      ref(models.Response, 'response/' + `${requestId}/` + `${x.mobileNumber}`),
-      x
-    );
-  }
-  return numbers;
-};
+module.exports.whatsapp = client;
 
 module.exports.calculateDistance = (lat1, lon1, lat2, lon2) => {
   const earthRadius = 6371; // Radius of the Earth in kilometers
@@ -60,7 +32,3 @@ module.exports.calculateDistance = (lat1, lon1, lat2, lon2) => {
 function toRadians(degrees) {
   return degrees * (Math.PI / 180);
 }
-
-module.exports.deleteResponse = async (requestId) => {
-  remove(ref(models.Response, 'response/' + `${requestId}/`), null);
-};

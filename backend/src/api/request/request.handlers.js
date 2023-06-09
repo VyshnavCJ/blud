@@ -1,15 +1,15 @@
-const { Whatsapp } = require('../../utils');
 const { StatusCodes } = require('http-status-codes');
 const cron = require('node-cron');
 const services = require('./request');
-const { whatsappConfig } = require('../../config');
+const { whatsapp } = require('./request.helpers');
+const models = require('../../models');
 
 module.exports.create = async (req, res) => {
   const request = await services.createRequest(req.body, req.user.mobileNumber);
   const potentialDonors = await services.findDonors(request);
   const numbers = await services.createResponse(potentialDonors, request._id);
 
-  // await services.sendWhatsapp(request, numbers);
+  await services.sendWhatsapp(request, numbers);
 
   return res.status(StatusCodes.CREATED).json({
     success: true,
@@ -56,10 +56,16 @@ module.exports.cancel = async (req, res) => {
 
   await services.dropRequest(req.body.id);
   await services.updateUser(numbers);
-  // await Whatsapp.sendText({
-  //   recipientPhone: 917306255230,
-  //   message: `Sry the the blood request is cancelled.\n Not to worry You can donote when new request comes`
-  // });
+
+  for (const number of numbers) {
+    await whatsapp.messages
+      .create({
+        from: 'whatsapp:+14155238886',
+        body: `Sry the the blood request is cancelled.\n Not to worry You can donote when new request comes`,
+        to: `whatsapp:+91${number}`
+      })
+      .then((message) => console.log(message.sid));
+  }
 
   return res.status(StatusCodes.OK).json({
     success: true,
@@ -67,60 +73,36 @@ module.exports.cancel = async (req, res) => {
   });
 };
 
-module.exports.whatsappVerify = (req, res) => {
-  try {
-    console.log('GET: Someone is pinging me!');
-
-    let mode = req.query['hub.mode'];
-    let token = req.query['hub.verify_token'];
-    let challenge = req.query['hub.challenge'];
-    if (
-      mode &&
-      token &&
-      mode === 'subscribe' &&
-      whatsappConfig.Meta_WA_VerifyToken === token
-    ) {
-      return res.status(200).send(challenge);
-    } else {
-      return res.sendStatus(403);
-    }
-  } catch (error) {
-    console.error({ error });
-    return res.sendStatus(500);
-  }
-};
-
 module.exports.whatsappRecieve = async (req, res) => {
-  try {
-    let data = Whatsapp.parseMessage(req.body);
+  let recipientPhone = req.body.WaId;
+  recipientPhone = Number(recipientPhone.replace('91', ''));
 
-    if (data?.isMessage) {
-      let incomingMessage = data.message;
-      let recipientPhone = incomingMessage.from.phone; // extract the phone number of sender
-      let recipientName = incomingMessage.from.name;
-      let typeOfMsg = incomingMessage.type; // extract the type of message (some are text, others are images, others are responses to buttons etc...)
-      let message_id = incomingMessage.message_id; // extract the message id
-      if (typeOfMsg === 'simple_button_message') {
-        let button_id = incomingMessage.button_reply.id;
+  let id = req.body.Body;
+  if (id !== 'N' && id !== 'n') {
+    id = Number(id);
 
-        if (button_id !== 'null') {
-          await services.pdateResponse(button_id, recipientPhone);
-          await Whatsapp.sendText({
-            recipientPhone: recipientPhone,
-            message: `Not to brag, but unlike humans, chatbots are super fast⚡, we never sleep, never rest, never take lunch🍽 and can multitask.\n\nAnway don't fret, a hoooooman will 📞contact you soon.\n\nWanna blast☎ his/her phone😈?\nHere are the contact details:`
-          });
-        } else
-          await Whatsapp.sendText({
-            recipientPhone: recipientPhone,
-            message: `It's ok try to donate next time`
-          });
-      }
-    }
-    return res.sendStatus(200);
-  } catch (error) {
-    console.error({ error });
-    return res.sendStatus(500);
+    const hash = await models.Hash.findOne({ id: id })
+      .select('requestId -_id')
+      .lean();
+    await services.updateResponse(hash.requestId, recipientPhone);
+
+    await whatsapp.messages
+      .create({
+        from: 'whatsapp:+14155238886',
+        body: `Thank you, you will be contacted by the Recipient if they choose you`,
+        to: `whatsapp:+91${recipientPhone}`
+      })
+      .then((message) => console.log(message.sid));
+  } else {
+    await whatsapp.messages
+      .create({
+        from: 'whatsapp:+14155238886',
+        body: `Its Ok you can do it another time`,
+        to: `whatsapp:+91${recipientPhone}`
+      })
+      .then((message) => console.log(message.sid));
   }
+  console.log(req.body);
 };
 
 cron.schedule('0 * * * *', services.sheduledOperation, {

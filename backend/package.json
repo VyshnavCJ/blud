@@ -44,6 +44,7 @@
     "node-geocoder": "^4.2.0",
     "pdfkit": "^0.13.0",
     "request": "^2.88.2",
+    "twilio": "^4.11.2",
     "validator": "^13.7.0",
     "whatsappcloudapi_wrapper": "^1.0.13",
     "xss-clean": "^0.1.1"

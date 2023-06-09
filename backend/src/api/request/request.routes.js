@@ -8,9 +8,6 @@ requestRouter.get('/view', auth('general'), request.view);
 requestRouter.post('/accept', auth('general'), request.accept);
 requestRouter.post('/complete', auth('general'), request.complete);
 requestRouter.delete('/cancel', auth('general'), request.cancel);
-requestRouter
-  .route('/meta_wa_callbackurl')
-  .get(request.whatsappVerify)
-  .post(request.whatsappRecieve);
+requestRouter.route('/whatsapp').post(request.whatsappRecieve);
 
 module.exports = requestRouter;

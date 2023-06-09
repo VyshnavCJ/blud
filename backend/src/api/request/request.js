@@ -1,11 +1,11 @@
 const models = require('../../models');
 const {
   getAcceptableBloodGroups,
-  Whatsapp,
   getDonatableBloodGroups
 } = require('../../utils');
 const { calculateDistance } = require('./request.helpers');
 const mongoose = require('mongoose');
+const { whatsapp } = require('./request.helpers');
 
 module.exports.createRequest = async (requestDetails, mobileNumber) => {
   const user = await models.User.findOne({ mobileNumber: mobileNumber });
@@ -67,6 +67,21 @@ module.exports.sendWhatsapp = async (request, numbers) => {
   if (hr > 12) time = hr - 12 + ':' + min + ' PM';
   else time = hr + ':' + min + ' AM';
 
+  let id = '';
+  let hashId = '';
+
+  do {
+    let digits = '0123456789';
+
+    for (let i = 0; i < 4; i++) {
+      id += digits[Math.floor(Math.random() * 10)];
+    }
+
+    hashId = await models.Hash.findOne({ id: id });
+  } while (hashId);
+
+  await models.Hash.create({ id: id, requestId: request._id });
+
   const template = `Blud  BLOOD CELL🛑\n
 
 🩸 BLOOD REQUIREMENT🩸\n
@@ -79,33 +94,32 @@ Bleeding  Place : ${request?.bleedingPlace}\n
 Hospital  : ${request?.hospital}, pincode ${request?.pinCode}\n
 Bystander Name: ${request?.bystander}\n
 No of units : ${request?.units}\n
-Case : ${request.case}`;
+Case : ${request.case}\n
+Enter ${id} to donate or (N/n)`;
 
-  await Whatsapp.sendSimpleButtons({
-    message: template,
-    recipientPhone: [917306255230],
-    listOfButtons: [
-      {
-        title: 'Yes',
-        id: request._id
-      },
-      {
-        title: 'No',
-        id: 'null'
-      }
-    ]
-  });
+  for (const number of numbers) {
+    await whatsapp.messages
+      .create({
+        from: 'whatsapp:+14155238886',
+        body: template,
+        to: `whatsapp:+91${number}`
+      })
+      .then((message) => console.log(message.sid));
+  }
 };
 
 module.exports.updateResponse = async (requestId, number) => {
   requestId = mongoose.Types.ObjectId(requestId);
-
+  console.log(requestId);
   const requestLoc = await models.Request.findById(requestId).select(
     'location'
   );
+
+  console.log(requestLoc);
   const accepter = await models.User.findOne({
     mobileNumber: number
   }).select('name location mobileNumber bloodGroup');
+
   const distance = calculateDistance(
     requestLoc.location.coordinates[1],
     requestLoc.location.coordinates[0],
@@ -125,7 +139,6 @@ module.exports.updateResponse = async (requestId, number) => {
     distance: distance,
     accept: true
   };
-
   await models.Response.writeData(`${requestId}/${accepter.mobileNumber}`, doc);
 };
 
@@ -260,7 +273,54 @@ module.exports.sheduledOperation = async () => {
       numbers.push(x.mobileNumber);
       await models.Response.writeDate(`${request._id}/${x.mobileNumber}`, x);
     }
-    // await services.sendWhatsapp(request, numbers);
+
+    let x = request.time;
+    let hr = Math.trunc(x / 100);
+    let min = x % 100;
+    let time = '';
+
+    if (hr > 12) time = hr - 12 + ':' + min + ' PM';
+    else time = hr + ':' + min + ' AM';
+
+    let id = '';
+    let hashId = '';
+
+    do {
+      let digits = '0123456789';
+
+      for (let i = 0; i < 4; i++) {
+        id += digits[Math.floor(Math.random() * 10)];
+      }
+
+      hashId = await models.Hash.findOne({ id: id });
+    } while (hashId);
+
+    await models.Hash.create({ id: id, requestId: request._id });
+
+    const template = `Blud  BLOOD CELL🛑\n
+
+🩸 BLOOD REQUIREMENT🩸\n
+
+Blood group  :  ${request.bloodGroup}\n
+Name of person : ${request.name}\n
+Date : ${request.date.toDateString()}\n
+Bleeding  Time : ${time}\n
+Bleeding  Place : ${request?.bleedingPlace}\n
+Hospital  : ${request?.hospital}, pincode ${request?.pinCode}\n
+Bystander Name: ${request?.bystander}\n
+No of units : ${request?.units}\n
+Case : ${request.case}\n
+Enter ${id} to donate or (N/n)`;
+
+    for (const number of numbers) {
+      await whatsapp.messages
+        .create({
+          from: 'whatsapp:+14155238886',
+          body: template,
+          to: `whatsapp:+91${number}`
+        })
+        .then((message) => console.log(message.sid));
+    }
 
     await request.save();
   }
