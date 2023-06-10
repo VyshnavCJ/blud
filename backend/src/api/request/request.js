@@ -143,7 +143,6 @@ module.exports.updateResponse = async (requestId, number) => {
 };
 
 module.exports.getRequest = async (mobileNumber) => {
-  const response = await models.Response.readData('6480802cd9bd8c7741b33298');
   const user = await models.User.findOne({ mobileNumber: mobileNumber });
   const bg = getDonatableBloodGroups(user.bloodGroup);
   const lng = user.location.coordinates[0];
@@ -235,93 +234,16 @@ module.exports.sheduledOperation = async () => {
   for (let request of requests) {
     request.range = request.range + 1000;
 
-    const bg = getAcceptableBloodGroups(request.bloodGroup);
-    const lng = request.location.coordinates[0];
-    const lat = request.location.coordinates[1];
-    const maxdistance = request.range + 35000;
-    const potentialDonors = await models.User.find({
-      $and: [
-        { active: true },
-        { bloodGroup: { $in: bg } },
-        { _id: { $ne: request.userId } },
-        {
-          location: {
-            $near: {
-              $geometry: {
-                type: 'Point',
-                coordinates: [parseFloat(lng), parseFloat(lat)]
-              },
-              $maxDistance: maxdistance
-            }
-          }
-        }
-      ]
-    })
-      .select('name location mobileNumber bloodGroup')
-      .lean();
+    const potentialDonors = await module.exports.findDonors(request);
     const response = await models.Response.readData(request._id);
     const oldNumbers = Object.keys(response);
     const filter_pd = potentialDonors.filter(
       (x) => !oldNumbers.includes(x.mobileNumber)
     );
 
-    let numbers = [];
+    let numbers = await module.exports.createResponse(filter_pd, request._id);
 
-    for (const x of filter_pd) {
-      x.distance = 0;
-      x.accept = false;
-      numbers.push(x.mobileNumber);
-      await models.Response.writeDate(`${request._id}/${x.mobileNumber}`, x);
-    }
-
-    let x = request.time;
-    let hr = Math.trunc(x / 100);
-    let min = x % 100;
-    let time = '';
-
-    if (hr > 12) time = hr - 12 + ':' + min + ' PM';
-    else time = hr + ':' + min + ' AM';
-
-    let id = '';
-    let hashId = '';
-
-    do {
-      let digits = '0123456789';
-
-      for (let i = 0; i < 4; i++) {
-        id += digits[Math.floor(Math.random() * 10)];
-      }
-
-      hashId = await models.Hash.findOne({ id: id });
-    } while (hashId);
-
-    await models.Hash.create({ id: id, requestId: request._id });
-
-    const template = `Blud  BLOOD CELL🛑\n
-
-🩸 BLOOD REQUIREMENT🩸\n
-
-Blood group  :  ${request.bloodGroup}\n
-Name of person : ${request.name}\n
-Date : ${request.date.toDateString()}\n
-Bleeding  Time : ${time}\n
-Bleeding  Place : ${request?.bleedingPlace}\n
-Hospital  : ${request?.hospital}, pincode ${request?.pinCode}\n
-Bystander Name: ${request?.bystander}\n
-No of units : ${request?.units}\n
-Case : ${request.case}\n
-Enter ${id} to donate or (N/n)`;
-
-    for (const number of numbers) {
-      await whatsapp.messages
-        .create({
-          from: 'whatsapp:+14155238886',
-          body: template,
-          to: `whatsapp:+91${number}`
-        })
-        .then((message) => console.log(message.sid));
-    }
-
+    module.exports.sendWhatsapp(request, numbers);
     await request.save();
   }
 
