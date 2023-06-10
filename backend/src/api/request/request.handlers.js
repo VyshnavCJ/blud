@@ -102,7 +102,6 @@ module.exports.whatsappRecieve = async (req, res) => {
       })
       .then((message) => console.log(message.sid));
   }
-  console.log(req.body);
 };
 
 cron.schedule('0 * * * *', services.sheduledOperation, {
