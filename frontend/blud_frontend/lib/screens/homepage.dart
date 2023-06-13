@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../widgets/bloodoptions.dart';
 import '../widgets/liverequestcard.dart';
+import 'package:blud_frontend/screens/requestblood.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -48,7 +49,8 @@ class _HomePageState extends State<HomePage> {
                     BloodOptions(
                         headText: "Request\nBlood",
                         onTap: () {
-                          print("REQUEST BLOOD");
+                          Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => RequestBlood()));
                         }),
                     BloodOptions(
                       headText: "Willing\nDonors",
@@ -59,7 +61,7 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
                 Container(
-                  margin: const EdgeInsets.only(top: 70, right: 170),
+                  margin: const EdgeInsets.only(top: 70, right: 145),
                   child: const Text(
                     "Live Requests",
                     style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
