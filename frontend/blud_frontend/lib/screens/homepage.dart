@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_print
 
+import 'package:blud_frontend/screens/willingdonors.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/bloodoptions.dart';
@@ -50,12 +51,13 @@ class _HomePageState extends State<HomePage> {
                         headText: "Request\nBlood",
                         onTap: () {
                           Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => RequestBlood()));
+                          MaterialPageRoute(builder: (context) => const RequestBlood()));
                         }),
                     BloodOptions(
                       headText: "Willing\nDonors",
                       onTap: () {
-                        print("WILLING DONORS");
+                        Navigator.push(context, 
+                        MaterialPageRoute(builder: (context) => const WillingDonor()));
                       },
                     )
                   ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:blud_frontend/screens/userreg.dart';
 
 class Profile extends StatelessWidget {
   const Profile({super.key});
@@ -39,10 +40,17 @@ class Profile extends StatelessWidget {
             margin: const EdgeInsets.only(top: 235, left: 25),
             child: Text('Personal Details', style: TextStyle(fontFamily: 'Poppins', fontSize: 15, fontWeight: FontWeight.w600, color: Color(0xFF802120))),
           ),
-          Container(
-            margin: const EdgeInsets.only(top: 235, left: 300),
-            child: Text('Edit', style: TextStyle(fontFamily: 'Poppins', fontSize: 15, fontWeight: FontWeight.w600, color: Color(0xFF802120), decoration: TextDecoration.underline),),
+          InkWell(
+            onTap: () {
+              Navigator.push(context,
+              MaterialPageRoute(builder: (context) => UserReg()));
+            },
+            child: Container(
+              margin: const EdgeInsets.only(top: 235, left: 300),
+            child: const Text('EDIT', style: TextStyle(fontFamily: 'Poppins', fontSize: 15, fontWeight: FontWeight.w600, color: Color(0xFF802120), decoration: TextDecoration.underline),),
+            )
           ),
+          
           Positioned(
             top: 145, left: 20,
             child: CircleAvatar(radius: 35,

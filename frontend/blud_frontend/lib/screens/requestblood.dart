@@ -31,10 +31,7 @@ class _RequestBloodState extends State<RequestBlood> {
             ),
             child: InkWell(
                     onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const HomePage()));
+                      Navigator.pop(context);
                     },
                     borderRadius: BorderRadius.circular(30),
                     child: const Icon(Icons.arrow_back_rounded),

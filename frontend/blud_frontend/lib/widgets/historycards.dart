@@ -1,41 +1,36 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
-class LiveRequestCard extends StatefulWidget {
-  final Function liveDonation;
+class Historycard extends StatefulWidget {
   final String name;
-  final String hAdrress;
+  final String faddress;
   final String bloodGroup;
-  final String distance;
-  const LiveRequestCard({
+  final String units;
+  const Historycard({
     Key? key,
-    required this.liveDonation,
     required this.name,
-    required this.hAdrress,
+    required this.faddress,
     required this.bloodGroup,
-    required this.distance,
+    required this.units,
   }) : super(key: key);
 
   @override
-  State<LiveRequestCard> createState() => _LiveRequestCardState();
+  State<Historycard> createState() => _HistorycardState();
 }
 
-class _LiveRequestCardState extends State<LiveRequestCard> {
-  bool opencard = false;
+class _HistorycardState extends State<Historycard> {
+
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
-      duration: const Duration(milliseconds: 200),
-      margin: const EdgeInsets.only(top: 30),
-      width: 330,
-      height: opencard ? 160 : 110,
+      duration: Duration(milliseconds: 300),
+      margin: const EdgeInsets.only(top: 20),
+      width: 300,
+      height: 120,
       decoration: BoxDecoration(
           border: Border.all(), borderRadius: BorderRadius.circular(22)),
       child: InkWell(
         onTap: () {
-          setState(() {
-            opencard = !opencard;
-          });
+          
         },
         borderRadius: BorderRadius.circular(22),
         child: Row(
@@ -50,12 +45,12 @@ class _LiveRequestCardState extends State<LiveRequestCard> {
                   Text(
                     widget.name,
                     style: const TextStyle(
-                        fontSize: 17, fontWeight: FontWeight.w600),
+                        fontSize: 15, fontWeight: FontWeight.w600),
                   ),
                   Text(
-                    widget.hAdrress,
+                    widget.faddress,
                     style: const TextStyle(
-                        fontSize: 13,
+                        fontSize: 11,
                         fontFamily: "Poppins",
                         color: Color(0xff949494)),
                   )
@@ -66,46 +61,32 @@ class _LiveRequestCardState extends State<LiveRequestCard> {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Container(
-                  margin: const EdgeInsets.only(top: 19, right: 38),
+                  margin: const EdgeInsets.only(top: 19, left: 55),
                   width: 48,
                   height: 30,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(14),
-                    color: const Color(0xffFFE3E3),
+                    color: const Color(0xffFF5553),
                   ),
                   child: Center(
                       child: Text(
                     widget.bloodGroup,
                     style:
-                        const TextStyle(fontSize: 13, color: Color(0xFFFF4040)),
+                        const TextStyle(fontSize: 13, fontWeight: FontWeight.w700 ,color: Color(0xFF000000)),
                   )),
                 ),
                 Container(
-                  margin: const EdgeInsets.only(top: 25, right: 35),
+                  margin: const EdgeInsets.only(top: 25, left: 53),
                   child: Row(
                     children: [
-                      const Icon(Icons.near_me_rounded),
                       Text(
-                        widget.distance,
-                        style: const TextStyle(fontFamily: "Lora"),
+                        widget.units,
+                        style: const TextStyle(fontFamily: "Poppins"),
                       )
                     ],
                   ),
                 ),
-                opencard
-                    ? TextButton(
-                        style: const ButtonStyle(
-                            overlayColor: MaterialStatePropertyAll(
-                                Color.fromARGB(47, 0, 0, 0))),
-                        onPressed: () => widget.liveDonation(),
-                        child: const Text(
-                          "Accept Now",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontFamily: "Lora",
-                          ),
-                        ))
-                    : Container()
+                
               ],
             ),
             const SizedBox()

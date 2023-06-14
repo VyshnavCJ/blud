@@ -34,7 +34,7 @@ class _UserRegState extends State<UserReg> {
           ),
           Container(
             margin: const EdgeInsets.only(top: 120, left: 25),
-            child: Text('USER REGISTRATION', style: TextStyle(fontFamily: 'Poppins', fontSize: 15, fontWeight: FontWeight.w700, color: Color(0xFF700606)),),
+            child: const Text('USER REGISTRATION', style: TextStyle(fontFamily: 'Poppins', fontSize: 15, fontWeight: FontWeight.w700, color: Color(0xFF700606)),),
           ),
           const Positioned(
             top: 160, left: 135,

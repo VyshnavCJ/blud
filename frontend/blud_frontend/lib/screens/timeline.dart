@@ -1,3 +1,4 @@
+import 'package:blud_frontend/widgets/historycards.dart';
 import 'package:flutter/material.dart';
 
 class TimeLine extends StatefulWidget {
@@ -57,10 +58,29 @@ class _TimeLineState extends State<TimeLine> {
             }).toList(),
             ),
           )
-          )
-        ],
-      ),
-    );
+          ),
+          const Positioned(
+            top: 205, left: 25,
+            child: SizedBox(
+              height: 800,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    SizedBox(height: 5),
+                    Historycard(name: "Raquel Brummock", faddress: "Merlyn Medical\nCentre,\nAlexandria\n(171001)", bloodGroup: "AB+", units: "2 units"),
+                    Historycard(name: "Jennifer Abraham", faddress: "Oliver Hospital\nBrooklyn,\nUSA\n(121081)", bloodGroup: "B-", units: "4 units"),
+                    Historycard(name: "Jinash Jaleel", faddress: "Medical Hospital\nKochi\nIndia\n(628301)", bloodGroup: "O-", units: "3 units"),
+                    Historycard(name: "Cee Jay", faddress: "Medical Hospital\nKochi\nIndia\n(628301)", bloodGroup: "O-", units: "3 units"),
+                    Historycard(name: "Cee Jay", faddress: "Medical Hospital\nKochi\nIndia\n(628301)", bloodGroup: "O-", units: "3 units"),
+                    Historycard(name: "Cee Jay", faddress: "Medical Hospital\nKochi\nIndia\n(628301)", bloodGroup: "O-", units: "3 units"),
+                  ],
+                ),
+              ),
+            )
+            )
+          ],
+        ),
+      );
+    }
   }
-}
 
