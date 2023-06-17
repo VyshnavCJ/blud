@@ -6,9 +6,7 @@ const models = require('../../models');
 
 module.exports.create = async (req, res) => {
   const request = await services.createRequest(req.body, req.user.mobileNumber);
-  console.log(request);
   const potentialDonors = await services.findDonors(request);
-  console.log(potentialDonors);
   const numbers = await services.createResponse(potentialDonors, request._id);
 
   await services.sendWhatsapp(request, numbers);
@@ -16,7 +14,7 @@ module.exports.create = async (req, res) => {
   return res.status(StatusCodes.CREATED).json({
     success: true,
     msg: 'Request Created',
-    requestid: request._id
+    requestId: request._id
   });
 };
 
