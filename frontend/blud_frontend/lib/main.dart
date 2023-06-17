@@ -8,12 +8,12 @@ Future<void> main() async {
   await Hive.initFlutter();
   box = await Hive.openBox('box');
   Hive.registerAdapter(BloodStorageAdapter());
-  runApp(MainApp());
+  runApp(const MainApp());
 }
 
 class MainApp extends StatelessWidget {
 
-  MainApp({super.key});
+  const MainApp({super.key});
 
   @override
   Widget build(BuildContext context) {
