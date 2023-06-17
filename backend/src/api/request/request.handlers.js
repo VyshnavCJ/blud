@@ -14,7 +14,7 @@ module.exports.create = async (req, res) => {
   return res.status(StatusCodes.CREATED).json({
     success: true,
     msg: 'Request Created',
-    requestid: request._id
+    requestId: request._id
   });
 };
 
