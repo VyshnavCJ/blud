@@ -9,6 +9,15 @@ class RequestBlood extends StatefulWidget {
 }
 
 class _RequestBloodState extends State<RequestBlood> {
+  List<String> bloodgroups = ['Blood Group','A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
+  late String selectedBloodGroup;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedBloodGroup = bloodgroups[0];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,21 +51,33 @@ class _RequestBloodState extends State<RequestBlood> {
             child: Text('Request Blood', style: TextStyle(fontFamily: 'Poppins', fontSize: 20, fontWeight: FontWeight.w800,)),
           ),
           Container(
-          margin: EdgeInsets.only(top: 150),
+          margin: const EdgeInsets.only(top: 120),
           child: ListView(
-            padding: EdgeInsets.all(15.0),
+            padding: const EdgeInsets.all(15.0),
             children: [
-              TextField(
-                decoration: InputDecoration(
-                  labelText: 'Blood Group',
-                  filled: true,
-                  fillColor: Color(0xFFFFE3E3),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  )
+              Container(
+                width: 78,
+                height: 60,
+                padding: const EdgeInsets.all(10.0),
+                decoration: BoxDecoration(color: const Color(0xFFFFE3E3), border: Border.all(width: 1.0) ,borderRadius: BorderRadius.circular(10), ),
+                child: DropdownButton<String>(
+                  value: selectedBloodGroup,
+                  hint: Text('Select Blood Group'),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      selectedBloodGroup = newValue!;
+                    });
+                  },
+                  underline: Container(),
+                  items: bloodgroups.map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList()
                 ),
               ),
-              SizedBox(height: 12.0),
+              const SizedBox(height: 12.0),
               TextField(
                 decoration: InputDecoration(
                   labelText: 'Units',
@@ -166,20 +187,29 @@ class _RequestBloodState extends State<RequestBlood> {
                   )
                 ),
               ),
-              SizedBox(height: 15.0),
+              const SizedBox(height: 5.0),
               Container(
-              width: 50, height: 30,
-              child: ElevatedButton(onPressed: (){
-
-              },
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Color(0xFFFF4040))
+              margin: const EdgeInsets.only(top: 20, left: 10),
+              width: 70, height: 30,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20.0),
+                color: const Color(0xFFFF4040)
               ),
-              child: Text('Proceed'))
-              )
+              child: const Text('PROCEED', textAlign: TextAlign.center, style: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.w600, color: Color(0xFF000000)),),
+            ),
+            Container(
+              margin: const EdgeInsets.only(top: 20, left: 10),
+              width: 50, height: 30,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20.0),
+                color: const Color(0xFFFF4040)
+              ),
+              child: const Text('DROP REQUEST', textAlign: TextAlign.center, style: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.w600, color: Color(0xFF000000)),),
+            )
             ],
           )
-          )
+          ),
+          
         ]
       ),
     );

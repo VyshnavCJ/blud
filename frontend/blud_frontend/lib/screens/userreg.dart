@@ -8,6 +8,8 @@ class UserReg extends StatefulWidget {
 }
 
 class _UserRegState extends State<UserReg> {
+  String _gender = 'Gender';
+  String _bloodgroup = 'Blood Group';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,26 +71,48 @@ class _UserRegState extends State<UserReg> {
                 ),
               ),
               SizedBox(height: 12.0),
-              TextField(
-                decoration: InputDecoration(
-                  labelText: 'Gender',
-                  filled: true,
-                  fillColor: Color(0xFFFFE3E3),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  )
-                ),
+              Container(
+                padding: EdgeInsets.all(3.0),
+                decoration: BoxDecoration(border: Border.all(width: 1.0), borderRadius: BorderRadius.circular(10.0), color: Color(0xFFFFE3E3)),
+                child: DropdownButton<String>(
+                value: _gender,
+                hint: Text('Select Gender'),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    _gender = newValue!;
+                  });
+                },
+                underline: Container(),
+                items: <String>['Gender', 'Male', 'Female'].map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value, style: const TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.w400)),
+                  );
+                }).toList(),
+                alignment: Alignment.center,
+              ),
               ),
               SizedBox(height: 12.0,),
-              TextField(
-                decoration: InputDecoration(
-                  labelText: 'Blood Group',
-                  filled: true,
-                  fillColor: Color(0xFFFFE3E3),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  )
-                ),
+              Container(
+                padding: EdgeInsets.all(3.0),
+                decoration: BoxDecoration(border: Border.all(width: 1.0), borderRadius: BorderRadius.circular(10.0), color: Color(0xFFFFE3E3)),
+                child: DropdownButton<String>(
+                value: _bloodgroup,
+                hint: Text('Select Blood Group'),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    _bloodgroup = newValue!;
+                  });
+                },
+                underline: Container(),
+                items: <String>['Blood Group', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'].map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value, style: const TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.w400)),
+                  );
+                }).toList(),
+                alignment: Alignment.center,
+              ),
               ),
               SizedBox(height: 12.0),
               TextField(

@@ -50,6 +50,7 @@ class _TimeLineState extends State<TimeLine> {
                 _selectedOption = newValue!;
               });
             },
+            underline: Container(),
             items: <String>['Select', 'REQUESTS', 'DONATIONS'].map<DropdownMenuItem<String>>((String value) {
               return DropdownMenuItem<String>(
                 value: value,

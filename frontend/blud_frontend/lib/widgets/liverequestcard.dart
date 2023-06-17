@@ -87,7 +87,7 @@ class _LiveRequestCardState extends State<LiveRequestCard> {
                       const Icon(Icons.near_me_rounded),
                       Text(
                         widget.distance,
-                        style: const TextStyle(fontFamily: "Lora"),
+                        style: const TextStyle(fontFamily: "Poppins"),
                       )
                     ],
                   ),
@@ -102,7 +102,7 @@ class _LiveRequestCardState extends State<LiveRequestCard> {
                           "Accept Now",
                           style: TextStyle(
                             color: Colors.black,
-                            fontFamily: "Lora",
+                            fontFamily: "Poppins",
                           ),
                         ))
                     : Container()

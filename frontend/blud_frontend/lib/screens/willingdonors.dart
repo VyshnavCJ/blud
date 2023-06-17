@@ -28,7 +28,7 @@ class _WillingDonorState extends State<WillingDonor> {
             width: 60, height: 37,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(30),
-              color: Color(0xFFFF4040)
+              color: const Color(0xFFFF4040)
             ),
             child: InkWell(
                     onTap: () {
@@ -40,10 +40,10 @@ class _WillingDonorState extends State<WillingDonor> {
           ),
           Container(
             margin: const EdgeInsets.only(top: 45, left: 87),
-            child: Text('Available Donors', style: TextStyle(fontFamily: 'Poppins', fontSize: 20, fontWeight: FontWeight.w800,)),
+            child: const Text('Available Donors', style: TextStyle(fontFamily: 'Poppins', fontSize: 20, fontWeight: FontWeight.w800,)),
           ),
           const Positioned(
-            top: 105, left: 25,
+            top: 105, left: 25, bottom: 20,
             child: SizedBox(
               height: 700,
               child: SingleChildScrollView(
@@ -52,17 +52,15 @@ class _WillingDonorState extends State<WillingDonor> {
                     SizedBox(height: 5),
                     AvailableCard(name: "Raquel Brummock", faddress: "Merlyn Medical\nCentre,\nAlexandria\n(171001)", bloodGroup: "AB+"),
                     AvailableCard(name: "Jennifer Abraham", faddress: "Oliver Hospital\nBrooklyn,\nUSA\n(121081)", bloodGroup: "B-"),
-                    AvailableCard(name: "Jinash Jaleel", faddress: "Medical Hospital\nKochi\nIndia\n(628301)", bloodGroup: "O-"),
+                    AvailableCard(name: "Walter White", faddress: "Medical Hospital\nKochi\nIndia\n(628301)", bloodGroup: "O-"),
                     AvailableCard(name: "Cee Jay", faddress: "Medical Hospital\nKochi\nIndia\n(628301)", bloodGroup: "O-"),
-                    AvailableCard(name: "Cee Jay", faddress: "Medical Hospital\nKochi\nIndia\n(628301)", bloodGroup: "O-"),
-                    AvailableCard(name: "Cee Jay", faddress: "Medical Hospital\nKochi\nIndia\n(628301)", bloodGroup: "O-"),
+                    AvailableCard(name: "John H Thomson", faddress: "Medical Hospital\nKochi\nIndia\n(628301)", bloodGroup: "O-"),
+                    AvailableCard(name: "Saul Goodman", faddress: "Medical Hospital\nKochi\nIndia\n(628301)", bloodGroup: "O-"),
                   ],
                 ),
               ),
             )
-            )
-
-
+            ),
         ],
       ),
     );
