@@ -1,0 +1,4 @@
+#Sat Jun 17 23:27:18 IST 2023
+base.0=C\:\\Users\\Saurav\\Desktop\\blud\\frontend\\blud_frontend\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
+renamed.0=classes.dex
+path.0=classes.dex
