@@ -1,0 +1,47 @@
+name: blud_frontend
+description: A new Flutter project.
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: '>=3.0.2 <4.0.0'
+
+dependencies:
+  dio: ^5.2.1+1
+  flutter:
+    sdk: flutter
+  flutter_otp_text_field: ^1.1.0+2
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  intl: ^0.18.1
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_launcher_icons: ^0.13.1
+  flutter_lints: ^2.0.0
+  hive_generator: ^2.0.0
+  build_runner: ^2.4.5
+  
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/blud_logo.png"
+
+flutter:
+  uses-material-design: true
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: fonts/Poppins-Regular.ttf
+          weight: 400
+        - asset: fonts/Poppins-Bold.ttf
+          weight: 600
+        - asset: fonts/Poppins-SemiBold.ttf
+          weight: 500
+    - family: Lora
+      fonts:
+        - asset: fonts/Lora-VariableFont_wght.ttf
+  assets:
+    - assets/images/
