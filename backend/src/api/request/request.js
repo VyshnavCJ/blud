@@ -110,12 +110,11 @@ Enter ${id} to donate or (N/n)`;
 
 module.exports.updateResponse = async (requestId, number) => {
   requestId = mongoose.Types.ObjectId(requestId);
-  console.log(requestId);
+
   const requestLoc = await models.Request.findById(requestId).select(
     'location'
   );
 
-  console.log(requestLoc);
   const accepter = await models.User.findOne({
     mobileNumber: number
   }).select('name location mobileNumber bloodGroup');
@@ -221,7 +220,6 @@ module.exports.dropRequest = async (id) => {
 };
 
 module.exports.updateUser = async (numbers) => {
-  console.log(numbers);
   await models.User.updateMany(
     { mobileNumber: { $in: numbers } },
     { $set: { active: true, lastActive: null } }
