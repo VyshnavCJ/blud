@@ -40,8 +40,7 @@ const UserSchema = new mongoose.Schema(
         enum: ['Point']
       },
       coordinates: {
-        type: [Number],
-        index: '2dsphere'
+        type: [Number]
       }
     },
     gender: {
@@ -70,7 +69,7 @@ const UserSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-UserSchema.index({ Point: '2dsphere' });
+UserSchema.index({ location: '2dsphere' });
 UserSchema.pre('save', async function (next) {
   if (!this.isModified('pinCode')) return;
   const loc = await geocoder.geocode(this.pinCode);

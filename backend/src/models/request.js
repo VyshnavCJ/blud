@@ -80,7 +80,7 @@ const RequestSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-RequestSchema.index({ Point: '2dsphere' });
+RequestSchema.index({ location: '2dsphere' });
 RequestSchema.pre('save', async function (next) {
   if (!this.isModified('pinCode')) return;
   const loc = await geocoder.geocode(this.pinCode);
