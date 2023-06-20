@@ -20,19 +20,22 @@ class BloodStorageAdapter extends TypeAdapter<BloodStorage> {
       token: fields[0] as String,
       phoneNumber: fields[1] as String,
       requestID: fields[3] as String,
+      loggedin: fields[4] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, BloodStorage obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.token)
       ..writeByte(1)
       ..write(obj.phoneNumber)
       ..writeByte(3)
-      ..write(obj.requestID);
+      ..write(obj.requestID)
+      ..writeByte(4)
+      ..write(obj.loggedin);
   }
 
   @override

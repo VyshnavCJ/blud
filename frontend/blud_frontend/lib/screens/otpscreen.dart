@@ -32,7 +32,8 @@ otpVal(otpCode, context) async {
         BloodStorage(
             token: response.data["token"].toString(),
             phoneNumber: phoneOTP,
-            requestID: requestOTP));
+            requestID: requestOTP,
+            loggedin: true));
     BloodStorage bloodStorage = box.get("BloodStorage");
     print(bloodStorage.token);
     if (response.data['isRegistered']) {

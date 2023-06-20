@@ -7,7 +7,8 @@ class BloodStorage {
   BloodStorage(
       {required this.token,
       required this.phoneNumber,
-      required this.requestID});
+      required this.requestID,
+      required this.loggedin});
 
   @HiveField(0)
   String token;
@@ -17,4 +18,7 @@ class BloodStorage {
 
   @HiveField(3)
   String requestID;
+
+  @HiveField(4)
+  bool loggedin;
 }

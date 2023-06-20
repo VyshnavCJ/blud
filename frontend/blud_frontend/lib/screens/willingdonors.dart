@@ -20,22 +20,21 @@ class WillingDonor extends StatefulWidget {
 class _WillingDonorState extends State<WillingDonor> {
   final _database = FirebaseDatabase.instance.ref();
   var donorData;
+  List filteredDonorData=[];
+
   @override
   void initState() {
     super.initState();
     _activateListeners();
   }
 
-  void _activateListeners() {
-    _database.child('/').onValue.listen((event) {
-     setState(() {
+  Future<void> _activateListeners() async {
+    await _database.child('response').onValue.listen((event) {
+      setState(() {
         donorData = event.snapshot.value;
-     });
-      
+        filteredDonorData = donorData[requestWD];
+      });
     });
-    print('RTDB\n\n');
-    print(donorData);
-    print('\n\nRTDB');
   }
 
   @override
@@ -81,44 +80,23 @@ class _WillingDonorState extends State<WillingDonor> {
                   fontWeight: FontWeight.w800,
                 )),
           ),
-          const Positioned(
+          Positioned(
               top: 105,
               left: 25,
               child: SizedBox(
-                height: 700,
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      SizedBox(height: 5),
-                      AvailableCard(
-                          name: "Raquel Brummock",
-                          faddress:
-                              "Merlyn Medical\nCentre,\nAlexandria\n(171001)",
-                          bloodGroup: "AB+"),
-                      AvailableCard(
-                          name: "Jennifer Abraham",
-                          faddress: "Oliver Hospital\nBrooklyn,\nUSA\n(121081)",
-                          bloodGroup: "B-"),
-                      AvailableCard(
-                          name: "Jinash Jaleel",
-                          faddress: "Medical Hospital\nKochi\nIndia\n(628301)",
-                          bloodGroup: "O-"),
-                      AvailableCard(
-                          name: "Cee Jay",
-                          faddress: "Medical Hospital\nKochi\nIndia\n(628301)",
-                          bloodGroup: "O-"),
-                      AvailableCard(
-                          name: "Cee Jay",
-                          faddress: "Medical Hospital\nKochi\nIndia\n(628301)",
-                          bloodGroup: "O-"),
-                      AvailableCard(
-                          name: "Cee Jay",
-                          faddress: "Medical Hospital\nKochi\nIndia\n(628301)",
-                          bloodGroup: "O-"),
-                    ],
-                  ),
-                ),
-              ))
+                  height: 700,
+                  width: MediaQuery.of(context).size.width,
+                  child: filteredDonorData.isNotEmpty
+                      ? ListView.builder(
+                          itemCount: donorData.length,
+                          itemBuilder: (context, index) {
+                            return AvailableCard(
+                                name: donorData[index][0]['name'],
+                                faddress: donorData[index][0]['location'],
+                                bloodGroup: donorData[index][0]["bloodGroup"]);
+                          },
+                        )
+                      : const Text('No Donors Found')))
         ],
       ),
     );

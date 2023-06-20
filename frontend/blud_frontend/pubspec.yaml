@@ -28,7 +28,7 @@ dev_dependencies:
   
 flutter_icons:
   android: true
-  ios: true
+  # ios: true
   image_path: "assets/images/blud_logo.png"
 
 flutter:

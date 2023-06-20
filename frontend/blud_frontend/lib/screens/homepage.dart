@@ -23,7 +23,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  var liveRequests;
+  List liveRequests=[];
 
   final dio = Dio();
   bool requested = false;
@@ -54,7 +54,7 @@ class _HomePageState extends State<HomePage> {
             BloodStorage(
                 token: tokenHP,
                 phoneNumber: phoneHP,
-                requestID: response.data['data']['requestId'].toString()));
+                requestID: response.data['data']['requestId'].toString(),loggedin: true));
       }
       setState(() {
         canDonate = response.data['data']['canDonate'];
@@ -182,7 +182,7 @@ class _HomePageState extends State<HomePage> {
                 SizedBox(
                   height: 378,
                   child: loaded?canDonate
-                      ? liveRequests == []
+                      ? liveRequests.isEmpty
                           ? Container(
                               margin: const EdgeInsets.all(30),
                               child: const Text("No Live Requests right now."),

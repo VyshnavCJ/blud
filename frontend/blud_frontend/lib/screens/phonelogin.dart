@@ -15,7 +15,7 @@ Future getHTTP(num phoneNumber, context) async {
         BloodStorage(
             token: response.data["token"].toString(),
             phoneNumber: phoneNumber.toString(),
-            requestID: ""));
+            requestID: "",loggedin: false));
     // BloodStorage bloodStorage = box.get("BloodStorage");
     // print("HEHE: ${bloodStorage.phoneNumber}");
     Navigator.push(

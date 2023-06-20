@@ -1,5 +1,5 @@
 import 'package:blud_frontend/main.dart';
-import 'package:blud_frontend/screens/homepage.dart';
+import 'package:blud_frontend/screens/navigation.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import '../Hive_storage/blood_storage.dart';
@@ -8,11 +8,11 @@ BloodStorage bloodStorage = box.get("BloodStorage");
 String tokenREG = bloodStorage.token;
 String phoneREG = bloodStorage.phoneNumber;
 String requestREG = bloodStorage.requestID;
-
+late Response response;
 final dio = Dio();
 createUser(
     name, address, pincode, district, state, dob, gender, bg, context) async {
-  Response response =
+  response =
       await dio.post('https://blud-backend.onrender.com/api/v1/user/create',
           data: {
             "name": name,
@@ -29,17 +29,17 @@ createUser(
             "Authorization": "Bearer $tokenREG",
           }));
   if (response.data["success"]) {
-        box.put(
+    box.put(
         'BloodStorage',
         BloodStorage(
-          token: response.data["token"].toString(),
-          phoneNumber: phoneREG,
-          requestID: requestREG
-        ));
+            token: response.data["token"].toString(),
+            phoneNumber: phoneREG,
+            requestID: requestREG,
+            loggedin: false));
     Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => const HomePage(),
+          builder: (context) => const NavigationPanel(),
         ));
   } else {}
   print(response);
@@ -221,6 +221,13 @@ class _UserRegState extends State<UserReg> {
                             bg = bgcontroller.text.toString();
                             createUser(name, address, pincode, district, state,
                                 dob, gender, bg, context);
+                            box.put(
+                                'BloodStorage',
+                                BloodStorage(
+                                    token: response.data["token"].toString(),
+                                    phoneNumber: phoneREG,
+                                    requestID: requestREG,
+                                    loggedin: true));
                           },
                           style: ButtonStyle(
                               backgroundColor: MaterialStateProperty.all(

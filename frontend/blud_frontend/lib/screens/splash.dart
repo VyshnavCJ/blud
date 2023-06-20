@@ -1,10 +1,27 @@
 import 'package:blud_frontend/screens/phonelogin.dart';
 import 'package:flutter/material.dart';
 
+import '../Hive_storage/blood_storage.dart';
+import '../main.dart';
 
+BloodStorage bloodStorage = box.get("BloodStorage");
+String tokenSplash = bloodStorage.token;
+String phoneSplash = bloodStorage.phoneNumber;
+String requestSplash = bloodStorage.requestID;
 
 class Splash extends StatelessWidget {
   const Splash({super.key});
+
+  void initState(){
+    box.put(
+        'BloodStorage',
+        BloodStorage(
+          token: tokenSplash,
+          phoneNumber: phoneSplash,
+          requestID: requestSplash,
+          loggedin: false
+        ));
+  }
 
   @override
   Widget build(BuildContext context) {
