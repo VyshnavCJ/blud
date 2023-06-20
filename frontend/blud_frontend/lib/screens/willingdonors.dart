@@ -1,4 +1,5 @@
 import 'package:blud_frontend/widgets/availablecard.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 import '../Hive_storage/blood_storage.dart';
@@ -17,12 +18,30 @@ class WillingDonor extends StatefulWidget {
 }
 
 class _WillingDonorState extends State<WillingDonor> {
-
-  
-
+  final _database = FirebaseDatabase.instance.ref();
+  var donorData;
   @override
   void initState() {
     super.initState();
+    _activateListeners();
+  }
+
+  void _activateListeners() {
+    _database.child('/').onValue.listen((event) {
+     setState(() {
+        donorData = event.snapshot.value;
+     });
+      
+    });
+    print('RTDB\n\n');
+    print(donorData);
+    print('\n\nRTDB');
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _activateListeners();
   }
 
   @override

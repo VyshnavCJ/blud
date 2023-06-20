@@ -17,10 +17,10 @@ class NavigationPanel extends StatelessWidget {
         initialIndex: 1,
         child: Scaffold(
           bottomNavigationBar: menu(),
-          body: const TabBarView(
+          body: TabBarView(
             children: [
-              TimeLine(),
-              HomePage(),
+              const TimeLine(),
+              const HomePage(),
               Profile(),
             ],
           ),

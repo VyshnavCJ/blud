@@ -8,6 +8,8 @@ environment:
 
 dependencies:
   dio: ^5.2.1+1
+  firebase_core: ^2.14.0
+  firebase_database: ^10.2.3
   flutter:
     sdk: flutter
   flutter_otp_text_field: ^1.1.0+2
