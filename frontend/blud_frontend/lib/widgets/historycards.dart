@@ -18,7 +18,6 @@ class Historycard extends StatefulWidget {
 }
 
 class _HistorycardState extends State<Historycard> {
-
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
@@ -29,12 +28,10 @@ class _HistorycardState extends State<Historycard> {
       decoration: BoxDecoration(
           border: Border.all(), borderRadius: BorderRadius.circular(22)),
       child: InkWell(
-        onTap: () {
-          
-        },
+        onTap: () {},
         borderRadius: BorderRadius.circular(22),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Container(
               margin: const EdgeInsets.only(left: 18),
@@ -58,7 +55,7 @@ class _HistorycardState extends State<Historycard> {
               ),
             ),
             Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
                   margin: const EdgeInsets.only(top: 19, left: 55),
@@ -71,8 +68,10 @@ class _HistorycardState extends State<Historycard> {
                   child: Center(
                       child: Text(
                     widget.bloodGroup,
-                    style:
-                        const TextStyle(fontSize: 13, fontWeight: FontWeight.w700 ,color: Color(0xFF000000)),
+                    style: const TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w700,
+                        color: Color(0xFF000000)),
                   )),
                 ),
                 Container(
@@ -86,7 +85,6 @@ class _HistorycardState extends State<Historycard> {
                     ],
                   ),
                 ),
-                
               ],
             ),
             const SizedBox()

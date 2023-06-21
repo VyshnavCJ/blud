@@ -54,8 +54,6 @@ class UserReg extends StatefulWidget {
 
 class _UserRegState extends State<UserReg> {
   final TextEditingController namecontroller = TextEditingController();
-  final TextEditingController gendercontroller = TextEditingController();
-  final TextEditingController bgcontroller = TextEditingController();
   final TextEditingController dobcontroller = TextEditingController();
   final TextEditingController addresscontroller = TextEditingController();
   final TextEditingController districtcontroller = TextEditingController();
@@ -69,6 +67,10 @@ class _UserRegState extends State<UserReg> {
   String? district;
   String? state;
   int? pincode;
+  bool pressed = false;
+
+  String bloodgroupDD = 'Blood Group';
+  String genderDD = 'Gender';
 
   @override
   Widget build(BuildContext context) {
@@ -127,28 +129,86 @@ class _UserRegState extends State<UserReg> {
                         )),
                   ),
                   const SizedBox(height: 12.0),
-                  TextField(
-                    controller: gendercontroller,
-                    decoration: InputDecoration(
-                        labelText: 'Gender',
-                        filled: true,
-                        fillColor: const Color(0xFFFFE3E3),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        )),
+                  Container(
+                    padding: const EdgeInsets.all(3.0),
+                    decoration: BoxDecoration(
+                        border: Border.all(width: 1.0),
+                        borderRadius: BorderRadius.circular(10.0),
+                        color: Color(0xFFFFE3E3)),
+                    child: DropdownButton<String>(
+                      value: genderDD,
+                      hint: const Text('Select Gender'),
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          genderDD = newValue!;
+                        });
+                      },
+                      underline: Container(),
+                      items: <String>['Gender', 'Male', 'Female']
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value,
+                              style: const TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400)),
+                        );
+                      }).toList(),
+                      alignment: Alignment.center,
+                    ),
                   ),
+
+                  // TextField(
+                  //   controller: gendercontroller,
+                  //   decoration: InputDecoration(
+                  //       labelText: 'Gender',
+                  //       filled: true,
+                  //       fillColor: const Color(0xFFFFE3E3),
+                  //       border: OutlineInputBorder(
+                  //         borderRadius: BorderRadius.circular(10.0),
+                  //       )),
+                  // ),
                   const SizedBox(
                     height: 12.0,
                   ),
-                  TextField(
-                    controller: bgcontroller,
-                    decoration: InputDecoration(
-                        labelText: 'Blood Group',
-                        filled: true,
-                        fillColor: const Color(0xFFFFE3E3),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        )),
+                  Container(
+                    padding: EdgeInsets.all(3.0),
+                    decoration: BoxDecoration(
+                        border: Border.all(width: 1.0),
+                        borderRadius: BorderRadius.circular(10.0),
+                        color: Color(0xFFFFE3E3)),
+                    child: DropdownButton<String>(
+                      value: bloodgroupDD,
+                      hint: Text('Select Blood Group'),
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          bloodgroupDD = newValue!;
+                        });
+                      },
+                      underline: Container(),
+                      items: <String>[
+                        'Blood Group',
+                        'A+',
+                        'A-',
+                        'B+',
+                        'B-',
+                        'AB+',
+                        'AB-',
+                        'O+',
+                        'O-'
+                      ].map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value,
+                              style: const TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400)),
+                        );
+                      }).toList(),
+                      alignment: Alignment.center,
+                    ),
                   ),
                   const SizedBox(height: 12.0),
                   TextField(
@@ -211,14 +271,17 @@ class _UserRegState extends State<UserReg> {
                       height: 30,
                       child: ElevatedButton(
                           onPressed: () {
+                            setState(() {
+                              pressed = true;
+                            });
                             name = namecontroller.text.toString();
                             address = addresscontroller.text.toString();
                             pincode = int.parse(pincodecontroller.text);
                             district = districtcontroller.text.toString();
                             state = statecontroller.text.toString();
                             dob = dobcontroller.text.toString();
-                            gender = gendercontroller.text.toString();
-                            bg = bgcontroller.text.toString();
+                            gender = genderDD.toLowerCase();
+                            bg = bloodgroupDD;
                             createUser(name, address, pincode, district, state,
                                 dob, gender, bg, context);
                             box.put(
@@ -227,12 +290,18 @@ class _UserRegState extends State<UserReg> {
                                     token: response.data["token"].toString(),
                                     phoneNumber: phoneREG,
                                     requestID: requestREG,
-                                    loggedin: 'yes'));
+                                    loggedin: 'no'));
                           },
                           style: ButtonStyle(
                               backgroundColor: MaterialStateProperty.all(
                                   const Color(0xFFFF4040))),
-                          child: const Text('Create Profile')))
+                          child: pressed
+                              ? const Center(
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                  ),
+                                )
+                              : const Text('Create Profile')))
                 ],
               ))
         ],

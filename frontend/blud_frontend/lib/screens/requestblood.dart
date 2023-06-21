@@ -16,10 +16,11 @@ class RequestBlood extends StatefulWidget {
 }
 
 class _RequestBloodState extends State<RequestBlood> {
+  String bgDD = 'Blood Group';
+  bool pressed = false;
   final dio = Dio();
   requestbloodfunc(name, bleeding, hospital, pincode, units, bystander, case_,
-      bloodgroup,date,time, context) async {
-
+      bloodgroup, date, time, context) async {
     Response response = await dio.post(
         'https://blud-backend.onrender.com/api/v1/request/create',
         data: {
@@ -31,8 +32,7 @@ class _RequestBloodState extends State<RequestBlood> {
           "bystander": bystander,
           "case": case_,
           "bloodGroup": bloodgroup,
-          "date":
-              date,
+          "date": date,
           "time": time
         },
         options: Options(headers: {
@@ -45,7 +45,8 @@ class _RequestBloodState extends State<RequestBlood> {
           BloodStorage(
               token: tokenRB,
               phoneNumber: phoneRB,
-              requestID: response.data['requestId'].toString(),loggedin: 'yes'));
+              requestID: response.data['requestId'].toString(),
+              loggedin: 'yes'));
       _showMyDialog();
       Navigator.pop(context);
     } else {}
@@ -69,7 +70,7 @@ class _RequestBloodState extends State<RequestBlood> {
             TextButton(
               child: const Text('Approve'),
               onPressed: () {
-                Navigator.of(context).pop();
+                Navigator.pop(context);
               },
             ),
           ],
@@ -79,7 +80,6 @@ class _RequestBloodState extends State<RequestBlood> {
   }
 
   final TextEditingController namecontroller = TextEditingController();
-  final TextEditingController bgcontroller = TextEditingController();
   final TextEditingController unitscontroller = TextEditingController();
   final TextEditingController loccontroller = TextEditingController();
   final TextEditingController pincontroller = TextEditingController();
@@ -129,7 +129,41 @@ class _RequestBloodState extends State<RequestBlood> {
             child: ListView(
               padding: const EdgeInsets.all(15.0),
               children: [
-                CustomTextField(controller: bgcontroller, text: 'Blood Group'),
+                Container(
+                  width: 78,
+                  height: 60,
+                  padding: const EdgeInsets.all(10.0),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFFFE3E3),
+                    border: Border.all(width: 1.0),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: DropdownButton<String>(
+                      value: bgDD,
+                      hint: Text('Select Blood Group'),
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          bgDD = newValue!;
+                        });
+                      },
+                      underline: Container(),
+                      items: [
+                        'Blood Group',
+                        'A+',
+                        'A-',
+                        'B+',
+                        'B-',
+                        'AB+',
+                        'AB-',
+                        'O+',
+                        'O-'
+                      ].map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList()),
+                ),
                 const SizedBox(height: 12.0),
                 CustomTextField(controller: unitscontroller, text: 'Units'),
                 const SizedBox(height: 12.0),
@@ -147,14 +181,10 @@ class _RequestBloodState extends State<RequestBlood> {
                 CustomTextField(
                     controller: bleedingplacecontroller,
                     text: 'Bleeding Place'),
-                    const SizedBox(height: 12.0),
-                CustomTextField(
-                    controller: datecontroller,
-                    text: 'Date'),
-                    const SizedBox(height: 12.0),
-                CustomTextField(
-                    controller: timecontroller,
-                    text: 'Time'),
+                const SizedBox(height: 12.0),
+                CustomTextField(controller: datecontroller, text: 'Date'),
+                const SizedBox(height: 12.0),
+                CustomTextField(controller: timecontroller, text: 'Time'),
                 const SizedBox(height: 12.0),
                 CustomTextField(
                     controller: casecontroller, text: 'Case of Admit'),
@@ -164,6 +194,9 @@ class _RequestBloodState extends State<RequestBlood> {
                     height: 30,
                     child: ElevatedButton(
                         onPressed: () {
+                          setState(() {
+                            pressed = true;
+                          });
                           requestbloodfunc(
                               namecontroller.text.toString(),
                               bleedingplacecontroller.text.toString(),
@@ -172,7 +205,7 @@ class _RequestBloodState extends State<RequestBlood> {
                               int.parse(unitscontroller.text),
                               bystandercontroller.text.toString(),
                               casecontroller.text.toString(),
-                              bgcontroller.text.toString(),
+                              bgDD,
                               datecontroller.text.toString(),
                               int.parse(timecontroller.text),
                               context);
@@ -180,7 +213,19 @@ class _RequestBloodState extends State<RequestBlood> {
                         style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
                                 const Color(0xFFFF4040))),
-                        child: const Text('Proceed')))
+                        child: pressed
+                            ? const SizedBox(
+                                height: 20,
+                                child: FittedBox(
+                                  fit: BoxFit.contain,
+                                  child: Center(
+                                    child: CircularProgressIndicator(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              )
+                            : const Text('Create Profile')))
               ],
             ))
       ]),

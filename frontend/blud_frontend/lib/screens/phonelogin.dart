@@ -16,7 +16,7 @@ Future getHTTP(num phoneNumber, context) async {
             token: response.data["token"].toString(),
             phoneNumber: phoneNumber.toString(),
             requestID: "",
-            loggedin: 'yes'));
+            loggedin: 'no'));
     // BloodStorage bloodStorage = box.get("BloodStorage");
     // print("HEHE: ${bloodStorage.phoneNumber}");
     Navigator.push(
@@ -76,7 +76,7 @@ class _PhoneLoginState extends State<PhoneLogin> {
           ),
           Container(
             margin: EdgeInsets.only(
-                top: MediaQuery.of(context).size.height * 0.4973, left: 32),
+                top: MediaQuery.of(context).size.height * 0.3573, left: 32),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -85,13 +85,14 @@ class _PhoneLoginState extends State<PhoneLogin> {
                   style: TextStyle(fontSize: 26, fontWeight: FontWeight.w600),
                 ),
                 const Text(
-                  'You will receive a 4 digit code for\nphone number verification',
+                  'You will receive a 6 digit code for\nphone number verification',
                   style: TextStyle(fontFamily: "Lora", fontSize: 13),
                 ),
                 SizedBox(
                   width: 203,
                   height: 40,
                   child: TextField(
+                    cursorColor: const Color(0xffFF4040),
                     controller: phoneNoController,
                     decoration: const InputDecoration(
                       focusedBorder: UnderlineInputBorder(
@@ -112,9 +113,10 @@ class _PhoneLoginState extends State<PhoneLogin> {
                 border: Border.all(), borderRadius: BorderRadius.circular(30)),
             alignment: Alignment.center,
             margin: EdgeInsets.only(
-                left: 28, top: MediaQuery.of(context).size.height * 0.6973),
-            width: 163,
-            height: 43,
+                left: MediaQuery.of(context).size.width * 0.0746,
+                top: MediaQuery.of(context).size.height * 0.5973),
+            width: MediaQuery.of(context).size.width * 163 / 375,
+            height: MediaQuery.of(context).size.height * 43 / 727,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -126,8 +128,10 @@ class _PhoneLoginState extends State<PhoneLogin> {
                 AnimatedContainer(
                   duration: const Duration(milliseconds: 500),
                   margin: const EdgeInsets.only(right: 3),
-                  height: 37,
-                  width: pressed ? 155 : 67,
+                  height: MediaQuery.of(context).size.height * 37 / 727,
+                  width: pressed
+                      ? MediaQuery.of(context).size.width * 155 / 375
+                      : MediaQuery.of(context).size.width * 67 / 375,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30),
                     color: const Color(0xffFF4040),
@@ -142,7 +146,7 @@ class _PhoneLoginState extends State<PhoneLogin> {
                     borderRadius: BorderRadius.circular(30),
                     child: pressed
                         ? Container(
-                            margin: const EdgeInsets.fromLTRB(65, 5, 65, 5),
+                            margin: const EdgeInsets.fromLTRB(67, 7, 67, 7),
                             child: const Center(
                               child: CircularProgressIndicator(
                                 color: Colors.white,

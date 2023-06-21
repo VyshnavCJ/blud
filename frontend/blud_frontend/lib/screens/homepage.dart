@@ -23,7 +23,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List liveRequests=[];
+  List liveRequests = [];
 
   final dio = Dio();
   bool requested = false;
@@ -41,20 +41,24 @@ class _HomePageState extends State<HomePage> {
     print(response);
     if (response.data['success']) {
       if (response.data['data']['requestId'] == null) {
-        setState(() {
-          requested = false;
-        });
+        // setState(() {
+        //   requested = false;
+        // });
+        requested = false;
       } else {
-        setState(() {
-          requested = true;
-        });
+        // setState(() {
+        //   requested = true;
+        // });
+        requested = true;
 
         box.put(
             'BloodStorage',
             BloodStorage(
                 token: tokenHP,
                 phoneNumber: phoneHP,
-                requestID: response.data['data']['requestId'].toString(),loggedin: 'yes'));
+                requestID: response.data['data']['requestId'].toString(),
+                loggedin: 'yes'));
+        print(response.data['data']['requestId'].toString());
       }
       setState(() {
         canDonate = response.data['data']['canDonate'];
@@ -74,8 +78,7 @@ class _HomePageState extends State<HomePage> {
     print(response2);
     print(liveRequests);
     setState(() {
-    loaded = true;
-      
+      loaded = true;
     });
   }
 
@@ -167,8 +170,7 @@ class _HomePageState extends State<HomePage> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          const WillingDonor()))
-                              .then((value) => homeRequest());
+                                          const WillingDonor()));
                         })
                   ],
                 ),
@@ -181,62 +183,68 @@ class _HomePageState extends State<HomePage> {
                 ),
                 SizedBox(
                   height: 378,
-                  child: loaded?canDonate
-                      ? liveRequests.isEmpty
-                          ? Container(
-                              margin: const EdgeInsets.all(30),
-                              child: const Text("No Live Requests right now."),
-                            )
-                          : Container(
-                                    padding: const EdgeInsets.only(
-                                        left: 25, right: 25),
-                                    child: ListView.builder(
-                                        itemCount: liveRequests.length,
-                                        itemBuilder:
-                                            (BuildContext context, int index) {
-                                          return LiveRequestCard(
-                                            name: liveRequests[index]['name'],
-                                            hAdrress: liveRequests[index]
-                                                ['hospital'],
-                                            bloodGroup: liveRequests[index]
-                                                ['bloodGroup'],
-                                            distance:
-                                                '${liveRequests[index]['distance']}km',
-                                            units: liveRequests[index]['units']
-                                                .toString(),
-                                            liveDonation: () async {
-                                              await dio.post(
-                                                  'https://blud-backend.onrender.com/api/v1/request/accept',
-                                                  data: {
-                                                    "id": liveRequests[index]
-                                                        ['_id']
-                                                  },
-                                                  options: Options(headers: {
-                                                    "Content-Type":
-                                                        "application/json",
-                                                    "Authorization":
-                                                        "Bearer $tokenHP",
-                                                  }));
-                                              _showMyDialog();
-                                              homeRequest();
-                                            },
-                                          );
-                                          // return Text(liveRequests[index].title);
-                                        }),
-                                  )
-                      // LiveRequestCard(
-                      //   name: "Raquel Brummock",
-                      //   hAdrress: "Merlyn Medical\nCentre,\nAlexandria",
-                      //   bloodGroup: "B+ve",
-                      //   distance: '0.5m',
-                      //   liveDonation: () {},
-                      // ),
+                  child: loaded
+                      ? canDonate
+                          ? liveRequests.isEmpty
+                              ? Container(
+                                  margin: const EdgeInsets.all(30),
+                                  child:
+                                      const Text("No Live Requests right now."),
+                                )
+                              : Container(
+                                  padding: const EdgeInsets.only(
+                                      left: 25, right: 25),
+                                  child: ListView.builder(
+                                      itemCount: liveRequests.length,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        return LiveRequestCard(
+                                          name: liveRequests[index]['name'],
+                                          hAdrress: liveRequests[index]
+                                              ['hospital'],
+                                          bloodGroup: liveRequests[index]
+                                              ['bloodGroup'],
+                                          distance:
+                                              '${liveRequests[index]['distance']}km',
+                                          units: liveRequests[index]['units']
+                                              .toString(),
+                                          liveDonation: () async {
+                                            await dio.post(
+                                                'https://blud-backend.onrender.com/api/v1/request/accept',
+                                                data: {
+                                                  "id": liveRequests[index]
+                                                      ['_id']
+                                                },
+                                                options: Options(headers: {
+                                                  "Content-Type":
+                                                      "application/json",
+                                                  "Authorization":
+                                                      "Bearer $tokenHP",
+                                                }));
+                                            _showMyDialog();
+                                            homeRequest();
+                                          },
+                                        );
+                                        // return Text(liveRequests[index].title);
+                                      }),
+                                )
+                          // LiveRequestCard(
+                          //   name: "Raquel Brummock",
+                          //   hAdrress: "Merlyn Medical\nCentre,\nAlexandria",
+                          //   bloodGroup: "B+ve",
+                          //   distance: '0.5m',
+                          //   liveDonation: () {},
+                          // ),
 
-                      : Container(
-                          margin: const EdgeInsets.all(30),
-                          child: const Text(
-                              "No compactible request with your current donation status"),
-                        ):const Center(child: CircularProgressIndicator(color: Color(0xFF802120),)),
+                          : Container(
+                              margin: const EdgeInsets.all(30),
+                              child: const Text(
+                                  "No compactible request with your current donation status"),
+                            )
+                      : const Center(
+                          child: CircularProgressIndicator(
+                          color: Color(0xFF802120),
+                        )),
                 )
               ],
             ),
