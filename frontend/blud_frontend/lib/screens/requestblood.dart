@@ -45,7 +45,7 @@ class _RequestBloodState extends State<RequestBlood> {
           BloodStorage(
               token: tokenRB,
               phoneNumber: phoneRB,
-              requestID: response.data['requestId'].toString(),loggedin: true));
+              requestID: response.data['requestId'].toString(),loggedin: 'yes'));
       _showMyDialog();
       Navigator.pop(context);
     } else {}

@@ -20,32 +20,34 @@ Future<void> main() async {
 class MainApp extends StatelessWidget {
   final Future<FirebaseApp> _fbApp = Firebase.initializeApp();
 
-  MainApp({super.key});
+  MainApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    BloodStorage bloodStorage = box.get("BloodStorage");
-    bool login = bloodStorage.loggedin;
+    BloodStorage? bloodStorage = box.get("BloodStorage");
+    String login = bloodStorage?.loggedin ?? '';
 
     return MaterialApp(
-        theme: ThemeData(
-            fontFamily: 'Poppins',
-            scaffoldBackgroundColor: const Color(0xFFFFFBF1)),
-        home: FutureBuilder(
-          future: _fbApp,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              if (login) {
-              return const NavigationPanel();  
-              } else {
-                return const Splash();
-              }
-            } else if (snapshot.hasError) {
-              return const Center(child: Text('ERROR'));
+      theme: ThemeData(
+        fontFamily: 'Poppins',
+        scaffoldBackgroundColor: const Color(0xFFFFFBF1),
+      ),
+      home: FutureBuilder(
+        future: _fbApp,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            if (login == 'yes') {
+              return const NavigationPanel();
             } else {
-              return const CircularProgressIndicator();
+              return const Splash();
             }
-          },
-        ));
+          } else if (snapshot.hasError) {
+            return const Center(child: Text('ERROR'));
+          } else {
+            return const CircularProgressIndicator();
+          }
+        },
+      ),
+    );
   }
 }

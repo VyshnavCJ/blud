@@ -15,18 +15,33 @@ Future getHTTP(num phoneNumber, context) async {
         BloodStorage(
             token: response.data["token"].toString(),
             phoneNumber: phoneNumber.toString(),
-            requestID: "",loggedin: false));
+            requestID: "",
+            loggedin: 'yes'));
     // BloodStorage bloodStorage = box.get("BloodStorage");
     // print("HEHE: ${bloodStorage.phoneNumber}");
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => const OTPScreen()));
+            context, MaterialPageRoute(builder: (context) => const OTPScreen()))
+        .then((_) => const PhoneLogin());
   }
 }
 
-class PhoneLogin extends StatelessWidget {
+class PhoneLogin extends StatefulWidget {
+  const PhoneLogin({super.key});
+
+  @override
+  State<PhoneLogin> createState() => _PhoneLoginState();
+}
+
+class _PhoneLoginState extends State<PhoneLogin> {
+  bool pressed = false;
+
   final TextEditingController phoneNoController = TextEditingController();
 
-  PhoneLogin({super.key});
+  @override
+  void initState() {
+    super.initState();
+    pressed = false;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,26 +50,33 @@ class PhoneLogin extends StatelessWidget {
       body: Stack(
         children: [
           Container(
-              margin: const EdgeInsets.only(top: 56, left: 25),
-              width: 55,
-              height: 70,
+              alignment: Alignment.topLeft,
+              margin: EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height * 0.0962,
+                  left: MediaQuery.of(context).size.width * 0.0666),
+              width: MediaQuery.of(context).size.width * 0.1466,
+              height: MediaQuery.of(context).size.height * 0.0962,
               child: Image.asset('assets/images/blud_icon.png')),
           Container(
-            margin: const EdgeInsets.only(top: 52, left: 223),
-            height: 113,
-            width: 132,
-            child: Image.asset('assets/images/blud_logo.png'),
-          ),
+              alignment: Alignment.topRight,
+              margin: EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height * 0.0962,
+                  left: MediaQuery.of(context).size.width * 253 / 375),
+              width: MediaQuery.of(context).size.width * 0.2466,
+              height: MediaQuery.of(context).size.height * 0.1962,
+              child: Image.asset('assets/images/blud_logo.png')),
           Container(
+            alignment: Alignment.bottomRight,
             margin: EdgeInsets.only(
-                top: MediaQuery.of(context).size.height - 245,
-                left: MediaQuery.of(context).size.width - 170),
-            width: 170,
-            height: 245,
+                top: MediaQuery.of(context).size.height * 482 / 727,
+                left: MediaQuery.of(context).size.width * 205 / 375),
+            width: MediaQuery.of(context).size.width * 170 / 375,
+            height: MediaQuery.of(context).size.height * 245 / 727,
             child: Image.asset('assets/images/lower_right_image.png'),
           ),
           Container(
-            margin: const EdgeInsets.only(top: 317, left: 32),
+            margin: EdgeInsets.only(
+                top: MediaQuery.of(context).size.height * 0.4973, left: 32),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -89,29 +111,45 @@ class PhoneLogin extends StatelessWidget {
             decoration: BoxDecoration(
                 border: Border.all(), borderRadius: BorderRadius.circular(30)),
             alignment: Alignment.center,
-            margin: const EdgeInsets.only(left: 28, top: 557),
+            margin: EdgeInsets.only(
+                left: 28, top: MediaQuery.of(context).size.height * 0.6973),
             width: 163,
             height: 43,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
-                    margin: const EdgeInsets.only(left: 13),
-                    child: const Text('Continue')),
-                Container(
+                pressed
+                    ? Container()
+                    : Container(
+                        margin: const EdgeInsets.only(left: 13),
+                        child: const Text('Continue')),
+                AnimatedContainer(
+                  duration: const Duration(milliseconds: 500),
                   margin: const EdgeInsets.only(right: 3),
                   height: 37,
-                  width: 67,
+                  width: pressed ? 155 : 67,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30),
                     color: const Color(0xffFF4040),
                   ),
                   child: InkWell(
                     onTap: () {
+                      setState(() {
+                        pressed = true;
+                      });
                       getHTTP(int.parse(phoneNoController.text), context);
                     },
                     borderRadius: BorderRadius.circular(30),
-                    child: const Icon(Icons.arrow_forward_rounded),
+                    child: pressed
+                        ? Container(
+                            margin: const EdgeInsets.fromLTRB(65, 5, 65, 5),
+                            child: const Center(
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                              ),
+                            ),
+                          )
+                        : const Icon(Icons.arrow_forward_rounded),
                   ),
                 )
               ],

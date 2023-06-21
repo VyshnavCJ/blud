@@ -20,7 +20,7 @@ class BloodStorageAdapter extends TypeAdapter<BloodStorage> {
       token: fields[0] as String,
       phoneNumber: fields[1] as String,
       requestID: fields[3] as String,
-      loggedin: fields[4] as bool,
+      loggedin: fields[4] as String,
     );
   }
 

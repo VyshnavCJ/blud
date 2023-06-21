@@ -54,7 +54,7 @@ class _HomePageState extends State<HomePage> {
             BloodStorage(
                 token: tokenHP,
                 phoneNumber: phoneHP,
-                requestID: response.data['data']['requestId'].toString(),loggedin: true));
+                requestID: response.data['data']['requestId'].toString(),loggedin: 'yes'));
       }
       setState(() {
         canDonate = response.data['data']['canDonate'];

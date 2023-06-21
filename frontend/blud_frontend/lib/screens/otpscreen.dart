@@ -33,7 +33,7 @@ otpVal(otpCode, context) async {
             token: response.data["token"].toString(),
             phoneNumber: phoneOTP,
             requestID: requestOTP,
-            loggedin: true));
+            loggedin: 'yes'));
     BloodStorage bloodStorage = box.get("BloodStorage");
     print(bloodStorage.token);
     if (response.data['isRegistered']) {
@@ -55,6 +55,13 @@ class OTPScreen extends StatefulWidget {
 
 class _OTPScreenState extends State<OTPScreen> {
   int? otpCode;
+  bool pressed = false;
+
+  @override
+  void initState() {
+    super.initState();
+    pressed = false;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,22 +70,28 @@ class _OTPScreenState extends State<OTPScreen> {
       body: Stack(
         children: [
           Container(
-              margin: const EdgeInsets.only(top: 56, left: 25),
-              width: 55,
-              height: 70,
+              alignment: Alignment.topLeft,
+              margin: EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height * 0.0962,
+                  left: MediaQuery.of(context).size.width * 0.0666),
+              width: MediaQuery.of(context).size.width * 0.1466,
+              height: MediaQuery.of(context).size.height * 0.0962,
               child: Image.asset('assets/images/blud_icon.png')),
           Container(
-            margin: const EdgeInsets.only(top: 52, left: 223),
-            height: 113,
-            width: 132,
-            child: Image.asset('assets/images/blud_logo.png'),
-          ),
+              alignment: Alignment.topRight,
+              margin: EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height * 0.0962,
+                  left: MediaQuery.of(context).size.width * 253 / 375),
+              width: MediaQuery.of(context).size.width * 0.2466,
+              height: MediaQuery.of(context).size.height * 0.1962,
+              child: Image.asset('assets/images/blud_logo.png')),
           Container(
+            alignment: Alignment.bottomRight,
             margin: EdgeInsets.only(
-                top: MediaQuery.of(context).size.height - 245,
-                left: MediaQuery.of(context).size.width - 170),
-            width: 170,
-            height: 245,
+                top: MediaQuery.of(context).size.height * 482 / 727,
+                left: MediaQuery.of(context).size.width * 205 / 375),
+            width: MediaQuery.of(context).size.width * 170 / 375,
+            height: MediaQuery.of(context).size.height * 245 / 727,
             child: Image.asset('assets/images/lower_right_image.png'),
           ),
           Container(
@@ -91,7 +104,7 @@ class _OTPScreenState extends State<OTPScreen> {
                   style: TextStyle(fontSize: 26, fontWeight: FontWeight.w600),
                 ),
                 const Text(
-                  'You will receive a 4 digit code for phone\nnumber verification',
+                  'You will receive a 6 digit code for phone\nnumber verification',
                   style: TextStyle(fontFamily: "Lora", fontSize: 13),
                 ),
                 Container(
@@ -125,24 +138,38 @@ class _OTPScreenState extends State<OTPScreen> {
             height: 43,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                    margin: const EdgeInsets.only(left: 13),
-                    child: const Text('Continue')),
-                Container(
+              children: [pressed
+                    ? Container()
+                    : Container(
+                        margin: const EdgeInsets.only(left: 13),
+                        child: const Text('Continue')),
+                AnimatedContainer(
+                  duration: const Duration(milliseconds: 500),
                   margin: const EdgeInsets.only(right: 3),
                   height: 37,
-                  width: 67,
+                  width: pressed ? 155 : 67,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30),
                     color: const Color(0xffFF4040),
                   ),
                   child: InkWell(
                     onTap: () {
+                      setState(() {
+                        pressed = true;
+                      });
                       otpVal(otpCode, context);
                     },
                     borderRadius: BorderRadius.circular(30),
-                    child: const Icon(Icons.arrow_forward_rounded),
+                    child: pressed
+                        ? Container(
+                            margin: const EdgeInsets.fromLTRB(65, 5, 65, 5),
+                            child: const Center(
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                              ),
+                            ),
+                          )
+                        : const Icon(Icons.arrow_forward_rounded),
                   ),
                 )
               ],

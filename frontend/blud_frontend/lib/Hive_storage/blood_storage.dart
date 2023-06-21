@@ -20,5 +20,5 @@ class BloodStorage {
   String requestID;
 
   @HiveField(4)
-  bool loggedin;
+  String loggedin;
 }

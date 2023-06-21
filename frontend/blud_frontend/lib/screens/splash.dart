@@ -12,15 +12,14 @@ String requestSplash = bloodStorage.requestID;
 class Splash extends StatelessWidget {
   const Splash({super.key});
 
-  void initState(){
+  void initState() {
     box.put(
         'BloodStorage',
         BloodStorage(
-          token: tokenSplash,
-          phoneNumber: phoneSplash,
-          requestID: requestSplash,
-          loggedin: false
-        ));
+            token: tokenSplash,
+            phoneNumber: phoneSplash,
+            requestID: requestSplash,
+            loggedin: 'no'));
   }
 
   @override
@@ -30,31 +29,37 @@ class Splash extends StatelessWidget {
         children: [
           Container(
               alignment: Alignment.topLeft,
-              margin: const EdgeInsets.only(top: 56, left: 25),
-              width: 55,
-              height: 70,
+              margin: EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height * 0.0962,
+                  left: MediaQuery.of(context).size.width * 0.0666),
+              width: MediaQuery.of(context).size.width * 0.1466,
+              height: MediaQuery.of(context).size.height * 0.0962,
               child: Image.asset('assets/images/blud_icon.png')),
           Container(
             alignment: Alignment.topLeft,
-            margin: const EdgeInsets.only(top: 186, left: 28),
-            height: 188,
-            width: 226,
+            margin: EdgeInsets.only(
+                top: MediaQuery.of(context).size.height * 0.2558,
+                left: MediaQuery.of(context).size.width * 0.0746),
+            height: MediaQuery.of(context).size.height * 0.2585,
+            width: MediaQuery.of(context).size.width * 0.6026,
             child: Image.asset('assets/images/blud_logo.png'),
           ),
           Container(
-            alignment: Alignment.topLeft,
+            alignment: Alignment.bottomRight,
             margin: EdgeInsets.only(
-                top: MediaQuery.of(context).size.height - 245,
-                left: MediaQuery.of(context).size.width - 170),
-            width: 170,
-            height: 245,
+                top: MediaQuery.of(context).size.height * 482 / 727,
+                left: MediaQuery.of(context).size.width * 205 / 375),
+            width: MediaQuery.of(context).size.width * 170 / 375,
+            height: MediaQuery.of(context).size.height * 245 / 727,
             child: Image.asset('assets/images/lower_right_image.png'),
           ),
           Container(
             decoration: BoxDecoration(
                 border: Border.all(), borderRadius: BorderRadius.circular(30)),
             alignment: Alignment.center,
-            margin: const EdgeInsets.only(left: 28, top: 507),
+            margin: EdgeInsets.only(
+                left: MediaQuery.of(context).size.width * 0.0746,
+                top: MediaQuery.of(context).size.height * 0.6973),
             width: 163,
             height: 43,
             child: Row(

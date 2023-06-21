@@ -35,7 +35,7 @@ createUser(
             token: response.data["token"].toString(),
             phoneNumber: phoneREG,
             requestID: requestREG,
-            loggedin: false));
+            loggedin: 'no'));
     Navigator.push(
         context,
         MaterialPageRoute(
@@ -227,7 +227,7 @@ class _UserRegState extends State<UserReg> {
                                     token: response.data["token"].toString(),
                                     phoneNumber: phoneREG,
                                     requestID: requestREG,
-                                    loggedin: true));
+                                    loggedin: 'yes'));
                           },
                           style: ButtonStyle(
                               backgroundColor: MaterialStateProperty.all(
