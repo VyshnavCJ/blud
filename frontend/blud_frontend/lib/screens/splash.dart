@@ -60,18 +60,18 @@ class Splash extends StatelessWidget {
             margin: EdgeInsets.only(
                 left: MediaQuery.of(context).size.width * 0.0746,
                 top: MediaQuery.of(context).size.height * 0.6973),
-            width: 163,
-            height: 43,
+            width: MediaQuery.of(context).size.width * 163 / 375,
+            height: MediaQuery.of(context).size.height * 43 / 727,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                    margin: const EdgeInsets.only(left: 13),
+                    margin: EdgeInsets.only(left: MediaQuery.of(context).size.width * 13 / 375),
                     child: const Text('Continue')),
                 Container(
                   margin: const EdgeInsets.only(right: 3),
-                  height: 37,
-                  width: 67,
+                  height: MediaQuery.of(context).size.height * 37 / 727,
+                  width: MediaQuery.of(context).size.width * 67 / 375,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30),
                     color: const Color(0xffFF4040),
@@ -81,7 +81,7 @@ class Splash extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => PhoneLogin()));
+                              builder: (context) =>const PhoneLogin()));
                     },
                     borderRadius: BorderRadius.circular(30),
                     child: const Icon(Icons.arrow_forward_rounded),
