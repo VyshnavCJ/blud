@@ -27,7 +27,7 @@ module.exports.errorHandler = (err, req, res, next) => {
   }
 
   return res.status(customError.statusCode).json({
-    message: customError.msg,
+    msg: customError.msg,
     status: 'failure',
     success: customError.success
   });
