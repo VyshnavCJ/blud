@@ -302,6 +302,12 @@
       "languageVersion": "2.15"
     },
     {
+      "name": "internet_connection_checker",
+      "rootUri": "file:///C:/Users/Saurav/AppData/Local/Pub/Cache/hosted/pub.dev/internet_connection_checker-1.0.0+1",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
       "name": "intl",
       "rootUri": "file:///C:/Users/Saurav/AppData/Local/Pub/Cache/hosted/pub.dev/intl-0.18.1",
       "packageUri": "lib/",
@@ -638,7 +644,7 @@
       "languageVersion": "3.0"
     }
   ],
-  "generated": "2023-06-21T17:11:01.023569Z",
+  "generated": "2023-06-23T07:11:26.045206Z",
   "generator": "pub",
   "generatorVersion": "3.0.2"
 }

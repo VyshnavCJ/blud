@@ -4,24 +4,59 @@ import 'package:blud_frontend/screens/otpscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 
+import 'errorscreen.dart';
+
 final dio = Dio();
 Future getHTTP(num phoneNumber, context) async {
-  Response response = await dio.post(
-      'https://blud-backend.onrender.com/api/v1/user/login',
-      data: {"mobileNumber": phoneNumber});
-  if (response.data['success']) {
-    box.put(
-        'BloodStorage',
-        BloodStorage(
-            token: response.data["token"].toString(),
-            phoneNumber: phoneNumber.toString(),
-            requestID: "",
-            loggedin: 'no'));
-    // BloodStorage bloodStorage = box.get("BloodStorage");
-    // print("HEHE: ${bloodStorage.phoneNumber}");
-    Navigator.push(
-            context, MaterialPageRoute(builder: (context) => const OTPScreen()))
-        .then((_) => const PhoneLogin());
+  try {
+    Response response = await dio.post(
+        'https://blud-backend.onrender.com/api/v1/user/login',
+        data: {"mobileNumber": phoneNumber});
+    if (response.data['success']) {
+      box.put(
+          'BloodStorage',
+          BloodStorage(
+              token: response.data["token"].toString(),
+              phoneNumber: phoneNumber.toString(),
+              requestID: "",
+              loggedin: 'no'));
+      // BloodStorage bloodStorage = box.get("BloodStorage");
+      // print("HEHE: ${bloodStorage.phoneNumber}");
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => const OTPScreen()));
+    }
+  } catch (e) {
+    if (e is DioException) {
+      // Handle Dio-specific errors
+      if (e.type == DioExceptionType.connectionTimeout) {
+        print('connectontimeout$e');
+        int statusCode = e.response?.statusCode ?? 0;
+        String statusmsg = e.response?.data['msg'] ?? '';
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (BuildContext context) {
+          return ErrorScreen(statusCode: statusCode, statusmsg: statusmsg);
+        }));
+      } else if (e.type == DioExceptionType.sendTimeout) {
+        // Handle send timeout error
+        print('senttimeout$e');
+      } else if (e.type == DioExceptionType.receiveTimeout) {
+        // Handle receive timeout error
+        print('receivetimeout$e');
+      } else if (e.type == DioExceptionType.badResponse) {
+        int statusCode = e.response?.statusCode ?? 0;
+        String statusmsg = e.response?.data['msg'] ?? '';
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (BuildContext context) {
+          return ErrorScreen(statusCode: statusCode, statusmsg: statusmsg);
+        }));
+      } else if (e.type == DioExceptionType.cancel) {
+        print('cancle$e');
+      } else {
+        print('else$e');
+      }
+    } else {
+      // Handle other non-Dio exceptions
+    }
   }
 }
 

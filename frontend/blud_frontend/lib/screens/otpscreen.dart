@@ -5,9 +5,9 @@ import 'package:blud_frontend/screens/userreg.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
-
 import '../Hive_storage/blood_storage.dart';
 import '../main.dart';
+import 'errorscreen.dart';
 
 BloodStorage bloodStorage = box.get("BloodStorage");
 String tokenOTP = bloodStorage.token;
@@ -16,34 +16,68 @@ String requestOTP = bloodStorage.requestID;
 
 final dio = Dio();
 otpVal(otpCode, context) async {
-  Response response =
-      await dio.post('https://blud-backend.onrender.com/api/v1/user/auth',
-          data: {"otp": otpCode},
-          options: Options(headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer $tokenOTP",
+  
+    try {
+      Response response =
+          await dio.post('https://blud-backend.onrender.com/api/v1/user/auth',
+              data: {"otp": otpCode},
+              options: Options(headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer $tokenOTP",
+              }));
+      print(response.data['msg']);
+      if (response.data['success']) {
+        box.put(
+            'BloodStorage',
+            BloodStorage(
+                token: response.data["token"].toString(),
+                phoneNumber: phoneOTP,
+                requestID: requestOTP,
+                loggedin: 'no'));
+        BloodStorage bloodStorage = box.get("BloodStorage");
+        print(bloodStorage.token);
+        if (response.data['isRegistered']) {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const NavigationPanel()));
+        } else {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const UserReg()));
+        }
+      }
+    } catch (e) {
+      if (e is DioException) {
+        // Handle Dio-specific errors
+        if (e.type == DioExceptionType.connectionTimeout) {
+          print(e);
+          int statusCode = e.response?.statusCode ?? 0;
+          String statusmsg = e.response?.data['msg'] ?? '';
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (BuildContext context) {
+            return ErrorScreen(statusCode: statusCode, statusmsg: statusmsg);
           }));
-  print(response.data['msg']);
-  print(response.data["token"].toString());
-
-  if (response.data['success']) {
-    box.put(
-        'BloodStorage',
-        BloodStorage(
-            token: response.data["token"].toString(),
-            phoneNumber: phoneOTP,
-            requestID: requestOTP,
-            loggedin: 'no'));
-    BloodStorage bloodStorage = box.get("BloodStorage");
-    print(bloodStorage.token);
-    if (response.data['isRegistered']) {
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const NavigationPanel()));
-    } else {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => const UserReg()));
+        } else if (e.type == DioExceptionType.sendTimeout) {
+          // Handle send timeout error
+          print(e);
+        } else if (e.type == DioExceptionType.receiveTimeout) {
+          // Handle receive timeout error
+          print(e);
+        } else if (e.type == DioExceptionType.badResponse) {
+          int statusCode = e.response?.statusCode ?? 0;
+          String statusmsg = e.response?.data['msg'] ?? '';
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (BuildContext context) {
+            return ErrorScreen(statusCode: statusCode, statusmsg: statusmsg);
+          }));
+        } else if (e.type == DioExceptionType.cancel) {
+          print(e);
+        } else {
+          print(e);
+        }
+      } else {
+        // Handle other non-Dio exceptions
+      }
     }
-  }
+  
 }
 
 class OTPScreen extends StatefulWidget {
@@ -138,7 +172,8 @@ class _OTPScreenState extends State<OTPScreen> {
             height: 43,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [pressed
+              children: [
+                pressed
                     ? Container()
                     : Container(
                         margin: const EdgeInsets.only(left: 13),

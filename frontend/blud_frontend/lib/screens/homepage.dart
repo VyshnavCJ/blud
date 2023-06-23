@@ -157,8 +157,7 @@ class _HomePageState extends State<HomePage> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          const RequestBlood()))
-                              .then((_) => const HomePage());
+                                          const RequestBlood()));
                         }),
                     BloodOptions(
                         headText: requested

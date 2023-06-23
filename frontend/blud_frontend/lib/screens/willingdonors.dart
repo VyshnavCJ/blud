@@ -166,7 +166,7 @@ class _WillingDonorState extends State<WillingDonor> {
                               },
                             )
                           : const Text('No Donors Found')))
-              : Center(
+              : const Center(
                   child: FittedBox(
                     child: CircularProgressIndicator(),
                   ),

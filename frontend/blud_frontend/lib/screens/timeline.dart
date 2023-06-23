@@ -19,6 +19,7 @@ class TimeLine extends StatefulWidget {
 
 class _TimeLineState extends State<TimeLine> {
   bool select = false;
+  bool pressed = false;
   late bool requested;
   final dio = Dio();
   List<dynamic> requestlist = [];
@@ -26,6 +27,9 @@ class _TimeLineState extends State<TimeLine> {
   String _selectedOption = 'Select';
 
   getHistory(index) async {
+    setState(() {
+      pressed = false;
+    });
     if (index == 1) {
       Response response = await dio.get(
           'https://blud-backend.onrender.com/api/v1/user/history/$index',
@@ -49,6 +53,9 @@ class _TimeLineState extends State<TimeLine> {
         donationlist = response.data['data'];
       });
     }
+    setState(() {
+      pressed = true;
+    });
   }
 
   @override
@@ -131,50 +138,65 @@ class _TimeLineState extends State<TimeLine> {
           Positioned(
               top: 205,
               left: 25,
-              child: SizedBox(
-                  height: 800,
-                  width: MediaQuery.of(context).size.width - 50,
-                  child: select
-                      ? requested
-                          ? requestlist.isNotEmpty? ListView.builder(
-                              itemCount: requestlist.length,
-                              itemBuilder: (context, index) {
-                                return Historycard(
-                                    name: requestlist[index]["name"],
-                                    faddress: requestlist[index]["hospital"],
-                                    bloodGroup: requestlist[index]
-                                        ["bloodGroup"],
-                                    units: (requestlist[index]["units"])
-                                        .toString());
-                              },
-                            ):const Text("Request history empty")
-                          : donationlist.isNotEmpty?ListView.builder(
-                              itemCount: donationlist.length,
-                              itemBuilder: (context, index) {
-                                return Historycard(
-                                    name: donationlist[index]["name"],
-                                    faddress: donationlist[index]["hospital"],
-                                    bloodGroup: donationlist[index]
-                                        ["bloodGroup"],
-                                    units: donationlist[index]["units"]
-                                        .toString());
-                              },
-                            ):const Text("Donation history empty")
-                      : const Text("Select an option to continue")
-                  // child: SingleChildScrollView(
-                  //   child: Column(
-                  //     children: [
-                  //       SizedBox(height: 5),
-                  //       Historycard(
-                  //           name: "Raquel Brummock",
-                  //           faddress:
-                  //               "Merlyn Medical\nCentre,\nAlexandria\n(171001)",
-                  //           bloodGroup: "AB+",
-                  //           units: "2 units"),
-                  //     ],
-                  //   ),
-                  // ),
-                  ))
+              child: pressed
+                  ? SizedBox(
+                      height: 800,
+                      width: MediaQuery.of(context).size.width - 50,
+                      child: select
+                          ? requested
+                              ? requestlist.isNotEmpty
+                                  ? ListView.builder(
+                                      itemCount: requestlist.length,
+                                      itemBuilder: (context, index) {
+                                        return Historycard(
+                                            name: requestlist[index]["name"],
+                                            faddress: requestlist[index]
+                                                ["hospital"],
+                                            bloodGroup: requestlist[index]
+                                                ["bloodGroup"],
+                                            units: (requestlist[index]["units"])
+                                                .toString());
+                                      },
+                                    )
+                                  : const Text("Request history empty")
+                              : donationlist.isNotEmpty
+                                  ? ListView.builder(
+                                      itemCount: donationlist.length,
+                                      itemBuilder: (context, index) {
+                                        return Historycard(
+                                            name: donationlist[index]["name"],
+                                            faddress: donationlist[index]
+                                                ["hospital"],
+                                            bloodGroup: donationlist[index]
+                                                ["bloodGroup"],
+                                            units: donationlist[index]["units"]
+                                                .toString());
+                                      },
+                                    )
+                                  : const Text("Donation history empty")
+                          : const Text("Select an option to continue")
+                      // child: SingleChildScrollView(
+                      //   child: Column(
+                      //     children: [
+                      //       SizedBox(height: 5),
+                      //       Historycard(
+                      //           name: "Raquel Brummock",
+                      //           faddress:
+                      //               "Merlyn Medical\nCentre,\nAlexandria\n(171001)",
+                      //           bloodGroup: "AB+",
+                      //           units: "2 units"),
+                      //     ],
+                      //   ),
+                      // ),
+                      )
+                  : select
+                      ? SizedBox(
+                          width: MediaQuery.of(context).size.width - 50,
+                          child: const Center(
+                              child: CircularProgressIndicator(
+                                  color: Color(0xFFFF4040))),
+                        )
+                      : const Text('Select an option to continue'))
         ],
       ),
     );

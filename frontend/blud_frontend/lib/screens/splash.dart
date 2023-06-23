@@ -1,5 +1,6 @@
 import 'package:blud_frontend/screens/phonelogin.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../Hive_storage/blood_storage.dart';
 import '../main.dart';
@@ -55,7 +56,8 @@ class Splash extends StatelessWidget {
           ),
           Container(
             decoration: BoxDecoration(
-                border: Border.all(), borderRadius: BorderRadius.circular(30)),
+                border: Border.all(),
+                borderRadius: BorderRadius.circular(30)),
             alignment: Alignment.center,
             margin: EdgeInsets.only(
                 left: MediaQuery.of(context).size.width * 0.0746,
@@ -66,7 +68,8 @@ class Splash extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                    margin: EdgeInsets.only(left: MediaQuery.of(context).size.width * 13 / 375),
+                    margin: EdgeInsets.only(
+                        left: MediaQuery.of(context).size.width * 13 / 375),
                     child: const Text('Continue')),
                 Container(
                   margin: const EdgeInsets.only(right: 3),
@@ -81,7 +84,7 @@ class Splash extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>const PhoneLogin()));
+                              builder: (context) => const PhoneLogin()));
                     },
                     borderRadius: BorderRadius.circular(30),
                     child: const Icon(Icons.arrow_forward_rounded),

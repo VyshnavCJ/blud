@@ -1,14 +1,16 @@
+import 'package:blud_frontend/screens/splash.dart';
+import 'package:blud_frontend/screens/userreg.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:blud_frontend/screens/userreg.dart';
 
 import '../Hive_storage/blood_storage.dart';
 import '../main.dart';
 
 BloodStorage bloodStorage = box.get("BloodStorage");
 String tokenProf = bloodStorage.token;
-String phoneProf = bloodStorage.phoneNumber;
+String numberProf = bloodStorage.phoneNumber;
 String requestProf = bloodStorage.requestID;
+String loginProf = bloodStorage.loggedin;
 
 class Profile extends StatefulWidget {
   Profile({super.key});
@@ -232,7 +234,26 @@ class _ProfileState extends State<Profile> {
                       ),
                     ),
             ),
-          )
+          ),
+          Container(
+              margin: const EdgeInsets.only(top: 600, left: 25),
+              width: 100,
+              height: 40,
+              child: ElevatedButton(
+                  onPressed: () {
+                    box.put(
+                        'BloodStorage',
+                        BloodStorage(
+                            token: '',
+                            phoneNumber: '',
+                            requestID: '',
+                            loggedin: 'no'));
+                    Navigator. pushReplacement(context, MaterialPageRoute(builder: (BuildContext context){ return const Splash(); }));
+                  },
+                  style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all(const Color(0xFFFF4040))),
+                  child: const Text('Log Out')))
         ],
       ),
     );
