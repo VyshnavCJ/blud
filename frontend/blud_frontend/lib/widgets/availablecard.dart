@@ -73,8 +73,10 @@ class _AvailableCardState extends State<AvailableCard> {
     return AnimatedContainer(
         duration: const Duration(milliseconds: 300),
         margin: const EdgeInsets.only(top: 15),
-        width: 200,
-        height: openCard1 ? 195 : 120,
+        width: MediaQuery.of(context).size.width * 339 / 375,
+        height: openCard1
+            ? MediaQuery.of(context).size.height * 195 / 727
+            : MediaQuery.of(context).size.height * 120 / 727,
         decoration: BoxDecoration(
             border: Border.all(), borderRadius: BorderRadius.circular(22)),
         child: InkWell(
@@ -90,20 +92,23 @@ class _AvailableCardState extends State<AvailableCard> {
                 Container(
                   margin: const EdgeInsets.only(left: 18),
                   child: SizedBox(
-                    width: 150,
+                    width: MediaQuery.of(context).size.width * 150 / 375,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           widget.name,
-                          style: const TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.w600),
+                          style: TextStyle(
+                              fontSize:
+                                  MediaQuery.of(context).size.height * 15 / 727,
+                              fontWeight: FontWeight.w600),
                         ),
                         Text(
                           widget.faddress,
-                          style: const TextStyle(
-                              fontSize: 11,
+                          style: TextStyle(
+                              fontSize:
+                                  MediaQuery.of(context).size.height * 11 / 727,
                               fontFamily: "Poppins",
                               color: Color(0xff949494)),
                         ),
@@ -125,15 +130,16 @@ class _AvailableCardState extends State<AvailableCard> {
                   ),
                 ),
                 SizedBox(
-                  width: 100,
+                  width: MediaQuery.of(context).size.width * 100 / 375,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
-                        margin: const EdgeInsets.only(top: 19),
-                        width: 48,
-                        height: 30,
+                        margin: EdgeInsets.only(
+                            top: MediaQuery.of(context).size.height * 19 / 727),
+                        width: MediaQuery.of(context).size.width * 48 / 375,
+                        height: MediaQuery.of(context).size.height * 30 / 727,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(14),
                           color: const Color(0xffFFE3E3),
@@ -141,8 +147,9 @@ class _AvailableCardState extends State<AvailableCard> {
                         child: Center(
                             child: Text(
                           widget.bloodGroup,
-                          style: const TextStyle(
-                              fontSize: 13,
+                          style: TextStyle(
+                              fontSize:
+                                  MediaQuery.of(context).size.height * 13 / 727,
                               fontWeight: FontWeight.w700,
                               color: Color(0xFFFF4040)),
                         )),

@@ -53,15 +53,25 @@ class _WillingDonorState extends State<WillingDonor> {
           content: const SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Text('Request Closed'),
+                Text('Drop Request?'),
               ],
             ),
           ),
           actions: <Widget>[
             TextButton(
-              child: const Text('Ok'),
-              onPressed: () {
+              child: const Text('Ok',style:TextStyle(color: const Color(0xFFFF4040))),
+              onPressed: () async {
                 Navigator.of(context).pop();
+                Response response = await dio.delete(
+                    'https://blud-backend.onrender.com/api/v1/request/cancel',
+                    data: {"id": requestWD},
+                    options: Options(headers: {
+                      "Content-Type": "application/json",
+                      "Authorization": "Bearer $tokenWD",
+                    }));
+                if (response.data['success']) {
+                  Navigator.pop(context);
+                }
               },
             ),
           ],
@@ -82,95 +92,102 @@ class _WillingDonorState extends State<WillingDonor> {
       body: Stack(
         children: [
           Container(
+            alignment: Alignment.bottomRight,
             margin: EdgeInsets.only(
-                top: MediaQuery.of(context).size.height - 245,
-                left: MediaQuery.of(context).size.width - 170),
-            width: 170,
-            height: 245,
+                top: MediaQuery.of(context).size.height * 482 / 727,
+                left: MediaQuery.of(context).size.width * 205 / 375),
+            width: MediaQuery.of(context).size.width * 170 / 375,
+            height: MediaQuery.of(context).size.height * 245 / 727,
             child: Image.asset('assets/images/lower_right_image.png'),
           ),
           Container(
-            margin: const EdgeInsets.only(top: 40, left: 18),
-            width: 60,
-            height: 37,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30),
-                color: const Color(0xFFFF4040)),
-            child: InkWell(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              borderRadius: BorderRadius.circular(30),
-              child: const Icon(Icons.arrow_back_rounded),
-            ),
-          ),
-          Row(
-            children: [
-              Container(
-                margin: const EdgeInsets.only(top: 45, left: 87),
-                child: const Text('Available Donors',
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 20,
-                      fontWeight: FontWeight.w800,
-                    )),
-              ),
-              InkWell(
-                onTap: () async {
-                  Response response = await dio.delete(
-                      'https://blud-backend.onrender.com/api/v1/request/cancel',
-                      data: {"id": requestWD},
-                      options: Options(headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": "Bearer $tokenWD",
-                      }));
-                  if (response.data['success']) {
-                    _showMyDialog();
-                    Navigator.pop(context);
-                  }
-                },
-                child: const Row(
+            margin: EdgeInsets.only(
+                top: MediaQuery.of(context).size.height * 40 / 727,
+                left: MediaQuery.of(context).size.width * 18 / 375),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Row(
                   children: [
-                    Icon(Icons.dnd_forwardslash_sharp),
-                    Text('Drop Request')
+                    Container(
+                      width: MediaQuery.of(context).size.width * 60 / 375,
+                      height: MediaQuery.of(context).size.height * 40 / 727,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          color: const Color(0xFFFF4040)),
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        borderRadius: BorderRadius.circular(30),
+                        child: const Icon(Icons.arrow_back_rounded),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 25),
+                      child: Text('Available Donors',
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
+                            fontSize:
+                                MediaQuery.of(context).size.height * 20 / 727,
+                            fontWeight: FontWeight.w800,
+                          )),
+                    ),
                   ],
                 ),
-              )
-            ],
-          ),
-          pressed
-              ? Positioned(
-                  top: 105,
-                  left: 25,
-                  child: SizedBox(
-                      height: 700,
-                      width: MediaQuery.of(context).size.width - 50,
-                      child: filteredDonorData != null
-                          ? ListView.builder(
-                              itemCount: filteredDonorData.values.length,
-                              itemBuilder: (context, index) {
-                                return AvailableCard(
-                                    name: filteredDonorData.values
-                                        .elementAt(index)['name']
-                                        .toString(),
-                                    faddress: filteredDonorData.values
-                                        .elementAt(index)['location']
-                                        .toString(),
-                                    bloodGroup: filteredDonorData.values
-                                        .elementAt(index)["bloodGroup"]
-                                        .toString(),
-                                    phonenumber: int.parse(filteredDonorData
-                                        .values
-                                        .elementAt(index)["mobileNumber"]
-                                        .toString()));
-                              },
-                            )
-                          : const Text('No Donors Found')))
-              : const Center(
-                  child: FittedBox(
-                    child: CircularProgressIndicator(),
+                Container(
+                  margin: const EdgeInsets.only(left: 5, top: 25),
+                  child: InkWell(
+                    onTap: () {
+                      _showMyDialog();
+                    },
+                    child: Row(
+                      children: [
+                        Icon(Icons.dnd_forwardslash_sharp),
+                        Text(
+                          'Drop Request',
+                          style: TextStyle(
+                            fontSize:
+                                MediaQuery.of(context).size.height * 15 / 727,
+                          ),
+                        )
+                      ],
+                    ),
                   ),
-                )
+                ),
+                pressed
+                    ? SizedBox(
+                        height: 700,
+                        width: MediaQuery.of(context).size.width * 309 / 375,
+                        child: donorData != null
+                            ? ListView.builder(
+                                itemCount: filteredDonorData.values.length,
+                                itemBuilder: (context, index) {
+                                  return AvailableCard(
+                                      name: filteredDonorData.values
+                                          .elementAt(index)['name']
+                                          .toString(),
+                                      faddress: filteredDonorData.values
+                                          .elementAt(index)['location']
+                                          .toString(),
+                                      bloodGroup: filteredDonorData.values
+                                          .elementAt(index)["bloodGroup"]
+                                          .toString(),
+                                      phonenumber: int.parse(filteredDonorData
+                                          .values
+                                          .elementAt(index)["mobileNumber"]
+                                          .toString()));
+                                },
+                              )
+                            : const Text('No Donors Found'))
+                    : const Center(
+                        child: FittedBox(
+                          child: CircularProgressIndicator(color:  Color(0xFFFF4040),),
+                        ),
+                      )
+              ],
+            ),
+          ),
         ],
       ),
     );

@@ -16,7 +16,7 @@ class NavigationPanel extends StatelessWidget {
         length: 3,
         initialIndex: 1,
         child: Scaffold(
-          bottomNavigationBar: menu(),
+          bottomNavigationBar: menu(context),
           body: TabBarView(
             children: [
               const TimeLine(),
@@ -29,10 +29,10 @@ class NavigationPanel extends StatelessWidget {
     );
   }
 
-  Widget menu() {
+  Widget menu(context) {
     return Container(
-      width: 40,
-      height: 60,
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height * 60 / 727,
       decoration: const BoxDecoration(
         color: Colors.white,
       ),

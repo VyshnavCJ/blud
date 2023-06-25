@@ -23,8 +23,8 @@ class _HistorycardState extends State<Historycard> {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
       margin: const EdgeInsets.only(top: 20),
-      width: 300,
-      height: 120,
+      width: MediaQuery.of(context).size.width * 300 / 375,
+      height: MediaQuery.of(context).size.height * 120 / 727,
       decoration: BoxDecoration(
           border: Border.all(), borderRadius: BorderRadius.circular(22)),
       child: InkWell(
@@ -41,26 +41,28 @@ class _HistorycardState extends State<Historycard> {
                 children: [
                   Text(
                     widget.name,
-                    style: const TextStyle(
-                        fontSize: 15, fontWeight: FontWeight.w600),
+                    style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.height * 15 / 727,
+                        fontWeight: FontWeight.w600),
                   ),
                   Text(
                     widget.faddress,
-                    style: const TextStyle(
-                        fontSize: 11,
+                    style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.height * 11 / 727,
                         fontFamily: "Poppins",
-                        color: Color(0xff949494)),
+                        color: const Color(0xff949494)),
                   )
                 ],
               ),
             ),
             Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
                   margin: const EdgeInsets.only(top: 19, left: 55),
-                  width: 48,
-                  height: 30,
+                  width: MediaQuery.of(context).size.width * 48 / 375,
+                  height: MediaQuery.of(context).size.height * 30 / 727,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(14),
                     color: const Color(0xffFF5553),
@@ -68,10 +70,10 @@ class _HistorycardState extends State<Historycard> {
                   child: Center(
                       child: Text(
                     widget.bloodGroup,
-                    style: const TextStyle(
-                        fontSize: 13,
+                    style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.height * 13 / 727,
                         fontWeight: FontWeight.w700,
-                        color: Color(0xFF000000)),
+                        color: const Color(0xFF000000)),
                   )),
                 ),
                 Container(
@@ -79,8 +81,12 @@ class _HistorycardState extends State<Historycard> {
                   child: Row(
                     children: [
                       Text(
-                        widget.units,
-                        style: const TextStyle(fontFamily: "Poppins"),
+                        '${widget.units} Unit(s)',
+                        style: TextStyle(
+                          fontFamily: "Poppins",
+                          fontSize:
+                              MediaQuery.of(context).size.height * 13 / 727,
+                        ),
                       )
                     ],
                   ),

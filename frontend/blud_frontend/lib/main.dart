@@ -17,10 +17,26 @@ Future<void> main() async {
   runApp(MainApp());
 }
 
-class MainApp extends StatelessWidget {
+class MainApp extends StatefulWidget {
+  MainApp({Key? key}) : super(key: key);
+
+  @override
+  State<MainApp> createState() => _MainAppState();
+}
+
+class _MainAppState extends State<MainApp> {
   final Future<FirebaseApp> _fbApp = Firebase.initializeApp();
 
-  MainApp({Key? key}) : super(key: key);
+  Future<void> initbox() async {
+    box = await Hive.openBox('box');
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    initbox();
+  }
 
   @override
   Widget build(BuildContext context) {

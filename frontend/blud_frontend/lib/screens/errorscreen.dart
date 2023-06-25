@@ -1,11 +1,19 @@
-import 'package:blud_frontend/screens/splash.dart';
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:flutter/material.dart';
+
+import '../Hive_storage/blood_storage.dart';
+import '../main.dart';
 
 class ErrorScreen extends StatelessWidget {
   final int statusCode;
   final String statusmsg;
+  final int screen;
   const ErrorScreen(
-      {super.key, required this.statusCode, required this.statusmsg});
+      {super.key,
+      required this.statusCode,
+      required this.statusmsg,
+      required this.screen});
 
   @override
   Widget build(BuildContext context) {
@@ -39,11 +47,21 @@ class ErrorScreen extends StatelessWidget {
               color: const Color(0xffFF4040),
               child: TextButton(
                   onPressed: () {
+                    print('object');
+                    box.put(
+                        'BloodStorage',
+                        BloodStorage(
+                            token: '',
+                            phoneNumber: '',
+                            requestID: "",
+                            loggedin: 'no'));
+                    box.clear();
+                    box.close();
+                    box.deleteFromDisk();
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const Splash(),
-                        ));
+                            builder: (context) => MainApp()));
                   },
                   child: const Text(
                     'Click Me To Retry',

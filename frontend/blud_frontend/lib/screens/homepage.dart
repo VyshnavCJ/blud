@@ -9,6 +9,7 @@ import '../main.dart';
 import '../Hive_storage/blood_storage.dart';
 import '../widgets/bloodoptions.dart';
 import '../widgets/liverequestcard.dart';
+import 'errorscreen.dart';
 
 BloodStorage bloodStorage = box.get("BloodStorage");
 String tokenHP = bloodStorage.token;
@@ -30,56 +31,95 @@ class _HomePageState extends State<HomePage> {
   bool canDonate = false;
   bool loaded = false;
   homeRequest() async {
-    print(tokenHP);
+    try {
+      print(tokenHP);
 
-    Response response =
-        await dio.get('https://blud-backend.onrender.com/api/v1/user/home',
-            options: Options(headers: {
-              "Content-Type": "application/json",
-              "Authorization": "Bearer $tokenHP",
-            }));
-    print(response);
-    if (response.data['success']) {
-      if (response.data['data']['requestId'] == null) {
-        // setState(() {
-        //   requested = false;
-        // });
-        requested = false;
-      } else {
-        // setState(() {
-        //   requested = true;
-        // });
-        requested = true;
+      Response response =
+          await dio.get('https://blud-backend.onrender.com/api/v1/user/home',
+              options: Options(headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer $tokenHP",
+              }));
+      print(response);
+      if (response.data['success']) {
+        if (response.data['data']['requestId'] == null) {
+          // setState(() {
+          //   requested = false;
+          // });
+          requested = false;
+        } else {
+          // setState(() {
+          //   requested = true;
+          // });
+          requested = true;
 
-        box.put(
-            'BloodStorage',
-            BloodStorage(
-                token: tokenHP,
-                phoneNumber: phoneHP,
-                requestID: response.data['data']['requestId'].toString(),
-                loggedin: 'yes'));
-        print(response.data['data']['requestId'].toString());
+          box.put(
+              'BloodStorage',
+              BloodStorage(
+                  token: tokenHP,
+                  phoneNumber: phoneHP,
+                  requestID: response.data['data']['requestId'].toString(),
+                  loggedin: 'yes'));
+          print(response.data['data']['requestId'].toString());
+        }
+        setState(() {
+          canDonate = response.data['data']['canDonate'];
+        });
+        print(canDonate);
       }
-      setState(() {
-        canDonate = response.data['data']['canDonate'];
-      });
-      print(canDonate);
-    }
 
-    Response response2 =
-        await dio.get('https://blud-backend.onrender.com/api/v1/request/view',
-            options: Options(headers: {
-              "Content-Type": "application/json",
-              "Authorization": "Bearer $tokenHP",
-            }));
-    setState(() {
-      liveRequests = response2.data['requestDetails'];
-    });
-    print(response2);
-    print(liveRequests);
-    setState(() {
-      loaded = true;
-    });
+      Response response2 =
+          await dio.get('https://blud-backend.onrender.com/api/v1/request/view',
+              options: Options(headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer $tokenHP",
+              }));
+      setState(() {
+        liveRequests = response2.data['requestDetails'];
+      });
+      print(response2);
+      print(liveRequests);
+      setState(() {
+        loaded = true;
+      });
+    } catch (e) {
+      if (e is DioException) {
+        if (e.type == DioExceptionType.connectionTimeout) {
+          print('connectontimeout$e');
+          int statusCode = e.response?.statusCode ?? 0;
+          String statusmsg = e.response?.data['msg'].toString() ?? '';
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (BuildContext context) {
+            return ErrorScreen(
+              statusCode: statusCode,
+              statusmsg: statusmsg,
+              screen: 1,
+            );
+          }));
+        } else if (e.type == DioExceptionType.sendTimeout) {
+          print('senttimeout$e');
+        } else if (e.type == DioExceptionType.receiveTimeout) {
+          print('receivetimeout$e');
+        } else if (e.type == DioExceptionType.badResponse) {
+          int statusCode = e.response?.statusCode ?? 0;
+          String statusmsg = e.response?.data['msg'].toString() ?? '';
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (BuildContext context) {
+            return ErrorScreen(
+              statusCode: statusCode,
+              statusmsg: statusmsg,
+              screen: 1,
+            );
+          }));
+        } else if (e.type == DioExceptionType.cancel) {
+          print('cancle$e');
+        } else {
+          print('else$e');
+        }
+      } else {
+        print("other$e");
+      }
+    }
   }
 
   Future<void> _showMyDialog() async {
@@ -98,7 +138,7 @@ class _HomePageState extends State<HomePage> {
           ),
           actions: <Widget>[
             TextButton(
-              child: const Text('Approve'),
+              child: const Text('Approve',style:TextStyle(color:  Color(0xFFFF4040))),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -122,26 +162,33 @@ class _HomePageState extends State<HomePage> {
       body: Stack(
         children: [
           Container(
-              margin: const EdgeInsets.only(top: 40, left: 23),
-              width: 38,
-              height: 49,
+              margin: EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height * 40 / 727,
+                  left: MediaQuery.of(context).size.width * 23 / 375),
+              width: MediaQuery.of(context).size.width * 38 / 375,
+              height: MediaQuery.of(context).size.height * 49 / 727,
               child: Image.asset('assets/images/blud_icon.png')),
           Container(
-            margin: const EdgeInsets.only(top: 40, left: 297),
-            height: 43,
-            width: 45,
+            margin: EdgeInsets.only(
+                top: MediaQuery.of(context).size.height * 40 / 727,
+                left: MediaQuery.of(context).size.width * 297 / 375),
+            height: MediaQuery.of(context).size.height * 43 / 727,
+            width: MediaQuery.of(context).size.width * 45 / 37,
             child: Image.asset('assets/images/blud_logo.png'),
           ),
           Container(
+            alignment: Alignment.bottomRight,
             margin: EdgeInsets.only(
-                top: MediaQuery.of(context).size.height - 245,
-                left: MediaQuery.of(context).size.width - 130),
-            width: 170,
-            height: 245,
+                top: MediaQuery.of(context).size.height * 482 / 727,
+                left: MediaQuery.of(context).size.width * 205 / 375),
+            width: MediaQuery.of(context).size.width * 170 / 375,
+            height: MediaQuery.of(context).size.height * 245 / 727,
             child: Image.asset('assets/images/lower_right_image.png'),
           ),
           Container(
-            margin: const EdgeInsets.only(top: 111),
+            margin: EdgeInsets.only(
+                top: MediaQuery.of(context).size.height * 111 / 727),
+            height: MediaQuery.of(context).size.height * 575 / 727,
             child: Column(
               children: [
                 Row(
@@ -154,10 +201,9 @@ class _HomePageState extends State<HomePage> {
                         active: !requested,
                         onTap: () {
                           Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const RequestBlood()));
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const RequestBlood())).then((_) => const HomePage());
                         }),
                     BloodOptions(
                         headText: requested
@@ -166,33 +212,48 @@ class _HomePageState extends State<HomePage> {
                         active: requested,
                         onTap: () {
                           Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const WillingDonor()));
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const WillingDonor())).then((_) => const HomePage());
                         })
                   ],
                 ),
                 Container(
-                  margin: const EdgeInsets.only(top: 70, right: 145),
-                  child: const Text(
+                  margin: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 70 / 727,
+                      right: MediaQuery.of(context).size.width * 145 / 375),
+                  child: Text(
                     "Live Requests",
-                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
+                    style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.height * 25 / 727,
+                        fontWeight: FontWeight.w600),
                   ),
                 ),
                 SizedBox(
-                  height: 378,
+                  height: MediaQuery.of(context).size.height * 323 / 727,
                   child: loaded
                       ? canDonate
                           ? liveRequests.isEmpty
                               ? Container(
                                   margin: const EdgeInsets.all(30),
-                                  child:
-                                      const Text("No Live Requests right now."),
+                                  child: Text(
+                                    "No Live Requests right now.",
+                                    style: TextStyle(
+                                        fontSize:
+                                            MediaQuery.of(context).size.height *
+                                                15 /
+                                                727,
+                                        color: Colors.black38),
+                                  ),
                                 )
                               : Container(
-                                  padding: const EdgeInsets.only(
-                                      left: 25, right: 25),
+                                  padding: EdgeInsets.only(
+                                      left: MediaQuery.of(context).size.width *
+                                          25 /
+                                          375,
+                                      right: MediaQuery.of(context).size.width *
+                                          25 /
+                                          375),
                                   child: ListView.builder(
                                       itemCount: liveRequests.length,
                                       itemBuilder:
@@ -204,7 +265,7 @@ class _HomePageState extends State<HomePage> {
                                           bloodGroup: liveRequests[index]
                                               ['bloodGroup'],
                                           distance:
-                                              '${liveRequests[index]['distance']}km',
+                                              '${liveRequests[index]['distance'].toString().substring(0,3)}km',
                                           units: liveRequests[index]['units']
                                               .toString(),
                                           liveDonation: () async {
@@ -237,8 +298,14 @@ class _HomePageState extends State<HomePage> {
 
                           : Container(
                               margin: const EdgeInsets.all(30),
-                              child: const Text(
-                                  "No compactible request with your current donation status"),
+                              child: Text(
+                                  "No compactible request with your current donation status",
+                                  style: TextStyle(
+                                      fontSize:
+                                          MediaQuery.of(context).size.height *
+                                              15 /
+                                              727,
+                                      color: Colors.black38)),
                             )
                       : const Center(
                           child: CircularProgressIndicator(
@@ -248,20 +315,20 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ),
-          Container(
-            margin: const EdgeInsets.only(top: 341),
-            height: 100,
-            decoration: const BoxDecoration(
-                gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                Color(0xFFFFFBF1),
-                Color(0x00FFFBF1),
-                Color(0x00000000),
-              ],
-            )),
-          ),
+          // Container(
+          //   margin: const EdgeInsets.only(top: 341),
+          //   height: 100,
+          //   decoration: const BoxDecoration(
+          //       gradient: LinearGradient(
+          //     begin: Alignment.topCenter,
+          //     end: Alignment.bottomCenter,
+          //     colors: [
+          //       Color(0xFFFFFBF1),
+          //       Color(0x00FFFBF1),
+          //       Color(0x00000000),
+          //     ],
+          //   )),
+          // ),
         ],
       ),
     );

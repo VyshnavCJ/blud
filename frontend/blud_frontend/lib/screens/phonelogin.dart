@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:blud_frontend/Hive_storage/blood_storage.dart';
 import 'package:blud_frontend/main.dart';
 import 'package:blud_frontend/screens/otpscreen.dart';
@@ -9,9 +11,11 @@ import 'errorscreen.dart';
 final dio = Dio();
 Future getHTTP(num phoneNumber, context) async {
   try {
+    print('123');
     Response response = await dio.post(
         'https://blud-backend.onrender.com/api/v1/user/login',
         data: {"mobileNumber": phoneNumber});
+    print('23');
     if (response.data['success']) {
       box.put(
           'BloodStorage',
@@ -20,34 +24,42 @@ Future getHTTP(num phoneNumber, context) async {
               phoneNumber: phoneNumber.toString(),
               requestID: "",
               loggedin: 'no'));
-      // BloodStorage bloodStorage = box.get("BloodStorage");
-      // print("HEHE: ${bloodStorage.phoneNumber}");
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => const OTPScreen()));
     }
   } catch (e) {
     if (e is DioException) {
-      // Handle Dio-specific errors
       if (e.type == DioExceptionType.connectionTimeout) {
         print('connectontimeout$e');
         int statusCode = e.response?.statusCode ?? 0;
-        String statusmsg = e.response?.data['msg'] ?? '';
+        String statusmsg;
+        if (statusCode >= 500) {
+          statusmsg = e.response?.data['msg'] ?? '';
+        } else {
+          statusmsg = '';
+        }
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (BuildContext context) {
-          return ErrorScreen(statusCode: statusCode, statusmsg: statusmsg);
+          return ErrorScreen(
+            statusCode: statusCode,
+            statusmsg: statusmsg,
+            screen: 0,
+          );
         }));
       } else if (e.type == DioExceptionType.sendTimeout) {
-        // Handle send timeout error
         print('senttimeout$e');
       } else if (e.type == DioExceptionType.receiveTimeout) {
-        // Handle receive timeout error
         print('receivetimeout$e');
       } else if (e.type == DioExceptionType.badResponse) {
         int statusCode = e.response?.statusCode ?? 0;
         String statusmsg = e.response?.data['msg'] ?? '';
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (BuildContext context) {
-          return ErrorScreen(statusCode: statusCode, statusmsg: statusmsg);
+          return ErrorScreen(
+            statusCode: statusCode,
+            statusmsg: statusmsg,
+            screen: 0,
+          );
         }));
       } else if (e.type == DioExceptionType.cancel) {
         print('cancle$e');
@@ -55,7 +67,7 @@ Future getHTTP(num phoneNumber, context) async {
         print('else$e');
       }
     } else {
-      // Handle other non-Dio exceptions
+      print("other$e");
     }
   }
 }
@@ -76,6 +88,13 @@ class _PhoneLoginState extends State<PhoneLogin> {
   void initState() {
     super.initState();
     pressed = false;
+    box.put(
+          'BloodStorage',
+          BloodStorage(
+              token: '',
+              phoneNumber: '',
+              requestID: "",
+              loggedin: 'no'));
   }
 
   @override
@@ -111,21 +130,26 @@ class _PhoneLoginState extends State<PhoneLogin> {
           ),
           Container(
             margin: EdgeInsets.only(
-                top: MediaQuery.of(context).size.height * 0.3573, left: 32),
+                top: MediaQuery.of(context).size.height * 0.3573,
+                left: MediaQuery.of(context).size.width * 25 / 375),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
+                Text(
                   'Enter your phone\nnumber',
-                  style: TextStyle(fontSize: 26, fontWeight: FontWeight.w600),
+                  style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.height * 26 / 727,
+                      fontWeight: FontWeight.w600),
                 ),
-                const Text(
+                Text(
                   'You will receive a 6 digit code for\nphone number verification',
-                  style: TextStyle(fontFamily: "Lora", fontSize: 13),
+                  style: TextStyle(
+                      fontFamily: "Lora",
+                      fontSize: MediaQuery.of(context).size.height * 13 / 727),
                 ),
                 SizedBox(
-                  width: 203,
-                  height: 40,
+                  width: 150,
+                  height: MediaQuery.of(context).size.height * 40 / 727,
                   child: TextField(
                     cursorColor: const Color(0xffFF4040),
                     controller: phoneNoController,
@@ -159,7 +183,13 @@ class _PhoneLoginState extends State<PhoneLogin> {
                     ? Container()
                     : Container(
                         margin: const EdgeInsets.only(left: 13),
-                        child: const Text('Continue')),
+                        child: Text(
+                          'Continue',
+                          style: TextStyle(
+                              fontSize: MediaQuery.of(context).size.height *
+                                  13 /
+                                  727),
+                        )),
                 AnimatedContainer(
                   duration: const Duration(milliseconds: 500),
                   margin: const EdgeInsets.only(right: 3),
@@ -183,8 +213,10 @@ class _PhoneLoginState extends State<PhoneLogin> {
                         ? Container(
                             margin: const EdgeInsets.fromLTRB(67, 7, 67, 7),
                             child: const Center(
-                              child: CircularProgressIndicator(
-                                color: Colors.white,
+                              child: FittedBox(
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
                           )
