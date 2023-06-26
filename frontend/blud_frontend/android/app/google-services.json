@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "1042004075278",
+    "firebase_url": "https://blud-back-end-default-rtdb.firebaseio.com",
+    "project_id": "blud-back-end",
+    "storage_bucket": "blud-back-end.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1042004075278:android:a3db7c0207ca0a23ebed5f",
+        "android_client_info": {
+          "package_name": "com.example.blud_frontend"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCRxqONcp5YtmbN5QJDB8gQ19u43aMaVyI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
