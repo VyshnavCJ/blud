@@ -56,8 +56,8 @@ class ErrorScreen extends StatelessWidget {
                             requestID: "",
                             loggedin: 'no'));
                     box.clear();
-                    box.close();
-                    box.deleteFromDisk();
+                    // box.close();
+                    // box.deleteFromDisk();
                     Navigator.push(
                         context,
                         MaterialPageRoute(

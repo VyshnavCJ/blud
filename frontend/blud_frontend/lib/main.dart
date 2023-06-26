@@ -44,6 +44,7 @@ class _MainAppState extends State<MainApp> {
     String login = bloodStorage?.loggedin ?? '';
 
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         fontFamily: 'Poppins',
         scaffoldBackgroundColor: const Color(0xFFFFFBF1),

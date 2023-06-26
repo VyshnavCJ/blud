@@ -56,27 +56,31 @@ class Splash extends StatelessWidget {
           ),
           Container(
             decoration: BoxDecoration(
-                border: Border.all(),
-                borderRadius: BorderRadius.circular(30)),
+                border: Border.all(), borderRadius: BorderRadius.circular(50)),
             alignment: Alignment.center,
             margin: EdgeInsets.only(
                 left: MediaQuery.of(context).size.width * 0.0746,
                 top: MediaQuery.of(context).size.height * 0.6973),
-            width: MediaQuery.of(context).size.width * 163 / 375,
-            height: MediaQuery.of(context).size.height * 43 / 727,
+            width: MediaQuery.of(context).size.width * 170 / 375,
+            height: MediaQuery.of(context).size.height * 50 / 727,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
                     margin: EdgeInsets.only(
                         left: MediaQuery.of(context).size.width * 13 / 375),
-                    child: const Text('Continue')),
+                    child: Text(
+                      'Continue',
+                      style: TextStyle(
+                          fontSize:
+                              MediaQuery.of(context).size.height * 15 / 727),
+                    )),
                 Container(
                   margin: const EdgeInsets.only(right: 3),
-                  height: MediaQuery.of(context).size.height * 37 / 727,
+                  height: MediaQuery.of(context).size.height * 45 / 727,
                   width: MediaQuery.of(context).size.width * 67 / 375,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
+                    borderRadius: BorderRadius.circular(50),
                     color: const Color(0xffFF4040),
                   ),
                   child: InkWell(

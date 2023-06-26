@@ -8,6 +8,7 @@ environment:
 
 dependencies:
   dio: ^5.2.1+1
+  double_back_to_close_app: ^2.1.0
   firebase_core: ^2.14.0
   firebase_database: ^10.2.3
   flutter:

@@ -106,11 +106,12 @@ Future<void> _showMyDialog(context) async {
               launch(
                   'https://api.whatsapp.com/send/?phone=14155238886&text=join+shoot-rocket&type=phone_number&app_absent=0');
                   
-      Navigator.push(
+      Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(
-            builder: (context) => const NavigationPanel(),
-          ));
+          MaterialPageRoute(builder: (context) => const NavigationPanel()),
+          (route) => route
+              .isCurrent, 
+        );
               // Navigator.of(context).pop();
             },
           ),

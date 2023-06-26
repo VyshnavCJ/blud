@@ -24,6 +24,8 @@ Future getHTTP(num phoneNumber, context) async {
               phoneNumber: phoneNumber.toString(),
               requestID: "",
               loggedin: 'no'));
+      print('Phone Login-->${response.data["token"]}');
+      print('Box Token-->${bloodStorage.token}');
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => const OTPScreen()));
     }
@@ -89,12 +91,9 @@ class _PhoneLoginState extends State<PhoneLogin> {
     super.initState();
     pressed = false;
     box.put(
-          'BloodStorage',
-          BloodStorage(
-              token: '',
-              phoneNumber: '',
-              requestID: "",
-              loggedin: 'no'));
+        'BloodStorage',
+        BloodStorage(
+            token: '', phoneNumber: '', requestID: "", loggedin: 'no'));
   }
 
   @override

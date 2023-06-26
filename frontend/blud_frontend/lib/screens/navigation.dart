@@ -1,6 +1,7 @@
 import 'package:blud_frontend/screens/homepage.dart';
 import 'package:blud_frontend/screens/profile.dart';
 import 'package:blud_frontend/screens/timeline.dart';
+import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
 
 class NavigationPanel extends StatelessWidget {
@@ -17,12 +18,20 @@ class NavigationPanel extends StatelessWidget {
         initialIndex: 1,
         child: Scaffold(
           bottomNavigationBar: menu(context),
-          body: TabBarView(
-            children: [
-              const TimeLine(),
-              const HomePage(),
-              Profile(),
-            ],
+          body: DoubleBackToCloseApp(
+            snackBar: const SnackBar(
+              content: Text(
+                'Tap back again to leave',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+            child: TabBarView(
+              children: [
+                const TimeLine(),
+                const HomePage(),
+                Profile(),
+              ],
+            ),
           ),
         ),
       ),

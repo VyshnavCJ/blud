@@ -36,8 +36,17 @@ otpVal(otpCode, context) async {
       BloodStorage bloodStorage = box.get("BloodStorage");
       print(bloodStorage.token);
       if (response.data['isRegistered']) {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const NavigationPanel()));
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const NavigationPanel()),
+          (route) => route
+              .isCurrent, 
+        );
+        // Navigator.pushReplacement(context,
+        //     MaterialPageRoute(builder: (context) => const NavigationPanel(),
+        // ));
+        // Navigator.push(context,
+        //     MaterialPageRoute(builder: (context) => const NavigationPanel()));
       } else {
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => const UserReg()));
