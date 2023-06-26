@@ -5,7 +5,6 @@ const { generateAPIError } = require('../../errors');
 
 module.exports.otpCreate = async (mobileNumber) => {
   const otp = generateOtp(6);
-  console.log(otp);
   const token = generateJwt(
     { otp: otp, mobileNumber: mobileNumber },
     process.env.JWT_OTP_LIFETIME
@@ -23,7 +22,7 @@ module.exports.isRegistered = async (mobileNumber) => {
 
 module.exports.createUser = async (user) => {
   await models.User.create(user);
-  console.log(user);
+
   const token = generateJwt(
     { mobileNumber: user.mobileNumber },
     process.env.JWT_LIFETIME
