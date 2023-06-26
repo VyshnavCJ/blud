@@ -59,7 +59,8 @@ class _WillingDonorState extends State<WillingDonor> {
           ),
           actions: <Widget>[
             TextButton(
-              child: const Text('Ok',style:TextStyle(color: const Color(0xFFFF4040))),
+              child: const Text('Ok',
+                  style: TextStyle(color: const Color(0xFFFF4040))),
               onPressed: () async {
                 Navigator.of(context).pop();
                 Response response = await dio.delete(
@@ -157,7 +158,7 @@ class _WillingDonorState extends State<WillingDonor> {
                 ),
                 pressed
                     ? SizedBox(
-                        height: 700,
+                        height: MediaQuery.of(context).size.height * 600 / 727,
                         width: MediaQuery.of(context).size.width * 309 / 375,
                         child: donorData != null
                             ? ListView.builder(
@@ -182,7 +183,9 @@ class _WillingDonorState extends State<WillingDonor> {
                             : const Text('No Donors Found'))
                     : const Center(
                         child: FittedBox(
-                          child: CircularProgressIndicator(color:  Color(0xFFFF4040),),
+                          child: CircularProgressIndicator(
+                            color: Color(0xFFFF4040),
+                          ),
                         ),
                       )
               ],

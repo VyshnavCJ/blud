@@ -43,13 +43,13 @@ class _HomePageState extends State<HomePage> {
               }));
       print(response);
       if (response.data['success']) {
-          box.put(
-              'BloodStorage',
-              BloodStorage(
-                  token: tokenHP,
-                  phoneNumber: phoneHP,
-                  requestID: '',
-                  loggedin: 'yes'));
+        box.put(
+            'BloodStorage',
+            BloodStorage(
+                token: tokenHP,
+                phoneNumber: phoneHP,
+                requestID: '',
+                loggedin: 'yes'));
 
         if (response.data['data']['requestId'] == null) {
           // setState(() {
@@ -179,8 +179,8 @@ class _HomePageState extends State<HomePage> {
       resizeToAvoidBottomInset: false,
       body: DoubleBackToCloseApp(
         snackBar: const SnackBar(
-            content: Text('Tap back again to leave'),
-          ),
+          content: Text('Tap back again to leave'),
+        ),
         child: Stack(
           children: [
             Container(
@@ -251,7 +251,8 @@ class _HomePageState extends State<HomePage> {
                     child: Text(
                       "Live Requests",
                       style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.height * 25 / 727,
+                          fontSize:
+                              MediaQuery.of(context).size.height * 25 / 727,
                           fontWeight: FontWeight.w600),
                     ),
                   ),
@@ -265,21 +266,24 @@ class _HomePageState extends State<HomePage> {
                                     child: Text(
                                       "No Live Requests right now.",
                                       style: TextStyle(
-                                          fontSize:
-                                              MediaQuery.of(context).size.height *
-                                                  15 /
-                                                  727,
+                                          fontSize: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              15 /
+                                              727,
                                           color: Colors.black38),
                                     ),
                                   )
                                 : Container(
                                     padding: EdgeInsets.only(
-                                        left: MediaQuery.of(context).size.width *
-                                            25 /
-                                            375,
-                                        right: MediaQuery.of(context).size.width *
-                                            25 /
-                                            375),
+                                        left:
+                                            MediaQuery.of(context).size.width *
+                                                25 /
+                                                375,
+                                        right:
+                                            MediaQuery.of(context).size.width *
+                                                25 /
+                                                375),
                                     child: ListView.builder(
                                         itemCount: liveRequests.length,
                                         itemBuilder:
@@ -291,7 +295,7 @@ class _HomePageState extends State<HomePage> {
                                             bloodGroup: liveRequests[index]
                                                 ['bloodGroup'],
                                             distance:
-                                                '${liveRequests[index]['distance'].toString().substring(0, 3)}km',
+                                                '${liveRequests[index]['distance'].toString().length > 3 ? liveRequests[index]['distance'].toString().substring(0, 3) : liveRequests[index]['distance'].toString()}km',
                                             units: liveRequests[index]['units']
                                                 .toString(),
                                             liveDonation: () async {
@@ -321,7 +325,7 @@ class _HomePageState extends State<HomePage> {
                             //   distance: '0.5m',
                             //   liveDonation: () {},
                             // ),
-      
+
                             : Container(
                                 margin: const EdgeInsets.all(30),
                                 child: Text(
