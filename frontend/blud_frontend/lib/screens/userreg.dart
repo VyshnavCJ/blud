@@ -1,15 +1,25 @@
+import 'package:blud_frontend/widgets/dateofbirthfield.dart';
 import 'package:flutter/material.dart';
 
 class UserReg extends StatefulWidget {
   const UserReg({super.key});
 
+  
   @override
   State<UserReg> createState() => _UserRegState();
+  
+  
 }
 
 class _UserRegState extends State<UserReg> {
+
   String _gender = 'Gender';
   String _bloodgroup = 'Blood Group';
+
+  @override
+  void initState() {
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,29 +62,30 @@ class _UserRegState extends State<UserReg> {
               TextField(
                 decoration: InputDecoration(
                   labelText: 'Full Name',
+                  labelStyle: TextStyle(color: Color(0xFF700606)),
                   filled: true,
                   fillColor: Color(0xFFFFE3E3),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Color(0xFF700606)),
+                    borderRadius: BorderRadius.circular(8.0)
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(9.0),
+                    borderSide: BorderSide(color: Color(0xFF700606))
                   )
                 ),
               ),
-              SizedBox(height: 12.0),
-              TextField(
-                decoration: InputDecoration(
-                  labelText: 'Age',
-                  filled: true,
-                  fillColor: Color(0xFFFFE3E3),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  )
-                ),
-              ),
-              SizedBox(height: 12.0),
+              const SizedBox(height: 12.0),
+              const DateofBirthTextField(),
+              const SizedBox(height: 12.0),
               Container(
-                padding: EdgeInsets.all(3.0),
-                decoration: BoxDecoration(border: Border.all(width: 1.0), borderRadius: BorderRadius.circular(10.0), color: Color(0xFFFFE3E3)),
-                child: DropdownButton<String>(
+                padding: const EdgeInsets.all(3.0),
+                decoration: 
+                BoxDecoration(border: Border.all(width: 1.0), borderRadius: BorderRadius.circular(10.0), color: Color(0xFFFFE3E3)),
+                child: DropdownButtonFormField<String>(
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                ),
                 value: _gender,
                 hint: Text('Select Gender'),
                 onChanged: (String? newValue) {
@@ -82,17 +93,16 @@ class _UserRegState extends State<UserReg> {
                     _gender = newValue!;
                   });
                 },
-                underline: Container(),
                 items: <String>['Gender', 'Male', 'Female'].map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
-                    child: Text(value, style: const TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.w400)),
+                    child: Text(value, style: const TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.w400, color: Color(0xFF700606))),
                   );
                 }).toList(),
                 alignment: Alignment.center,
               ),
               ),
-              SizedBox(height: 12.0,),
+              const SizedBox(height: 12.0,),
               Container(
                 padding: EdgeInsets.all(3.0),
                 decoration: BoxDecoration(border: Border.all(width: 1.0), borderRadius: BorderRadius.circular(10.0), color: Color(0xFFFFE3E3)),
@@ -108,7 +118,7 @@ class _UserRegState extends State<UserReg> {
                 items: <String>['Blood Group', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'].map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
-                    child: Text(value, style: const TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.w400)),
+                    child: Text(value, style: const TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.w400, color: Color(0xFF700606))),
                   );
                 }).toList(),
                 alignment: Alignment.center,
@@ -118,32 +128,51 @@ class _UserRegState extends State<UserReg> {
               TextField(
                 decoration: InputDecoration(
                   labelText: 'Mobile Number(should be available in Whatsapp and used for verification)',
+                  labelStyle: TextStyle(color: Color(0xFF700606)),
                   filled: true,
                   fillColor: Color(0xFFFFE3E3),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Color(0xFF700606)),
+                    borderRadius: BorderRadius.circular(8.0)
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(9.0),
+                    borderSide: BorderSide(color: Color(0xFF700606))
+                  )
                   )
                 ),
-              ),
+              
               SizedBox(height: 12.0),
               TextField(
                 decoration: InputDecoration(
                   labelText: 'Secondary Contact Number',
+                  labelStyle: TextStyle(color: Color(0xFF700606)),
                   filled: true,
                   fillColor: Color(0xFFFFE3E3),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Color(0xFF700606)),
+                    borderRadius: BorderRadius.circular(8.0)
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(9.0),
+                    borderSide: BorderSide(color: Color(0xFF700606))
+                  )
                   )
                 ),
-              ),
               SizedBox(height: 12.0),
               TextField(
                 decoration: InputDecoration(
                   labelText: 'E-Mail',
+                  labelStyle: TextStyle(color: Color(0xFF700606)),
                   filled: true,
                   fillColor: Color(0xFFFFE3E3),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Color(0xFF700606)),
+                    borderRadius: BorderRadius.circular(8.0)
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(9.0),
+                    borderSide: BorderSide(color: Color(0xFF700606))
                   )
                 ),
               ),
@@ -151,10 +180,16 @@ class _UserRegState extends State<UserReg> {
               TextField(
                 decoration: InputDecoration(
                   labelText: 'Address',
+                  labelStyle: TextStyle(color: Color(0xFF700606)),
                   filled: true,
                   fillColor: Color(0xFFFFE3E3),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Color(0xFF700606)),
+                    borderRadius: BorderRadius.circular(8.0)
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(9.0),
+                    borderSide: BorderSide(color: Color(0xFF700606))
                   )
                 ),
               ),
@@ -162,10 +197,16 @@ class _UserRegState extends State<UserReg> {
               TextField(
                 decoration: InputDecoration(
                   labelText: 'District',
+                  labelStyle: TextStyle(color: Color(0xFF700606)),
                   filled: true,
                   fillColor: Color(0xFFFFE3E3),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Color(0xFF700606)),
+                    borderRadius: BorderRadius.circular(8.0)
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(9.0),
+                    borderSide: BorderSide(color: Color(0xFF700606))
                   )
                 ),
               ),
@@ -173,10 +214,16 @@ class _UserRegState extends State<UserReg> {
               TextField(
                 decoration: InputDecoration(
                   labelText: 'State',
+                  labelStyle: TextStyle(color: Color(0xFF700606)),
                   filled: true,
                   fillColor: Color(0xFFFFE3E3),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Color(0xFF700606)),
+                    borderRadius: BorderRadius.circular(8.0)
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(9.0),
+                    borderSide: BorderSide(color: Color(0xFF700606))
                   )
                 ),
               ),
@@ -184,10 +231,16 @@ class _UserRegState extends State<UserReg> {
               TextField(
                 decoration: InputDecoration(
                   labelText: 'Pincode',
+                  labelStyle: TextStyle(color: Color(0xFF700606)),
                   filled: true,
                   fillColor: Color(0xFFFFE3E3),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Color(0xFF700606)),
+                    borderRadius: BorderRadius.circular(8.0)
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(9.0),
+                    borderSide: BorderSide(color: Color(0xFF700606))
                   )
                 ),
               ),

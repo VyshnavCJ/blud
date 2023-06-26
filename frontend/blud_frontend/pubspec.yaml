@@ -10,6 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_otp_text_field: ^1.1.0+2
+  flutter_date_pickers: ^0.4.2
 
 dev_dependencies:
   flutter_test:

@@ -43,7 +43,7 @@ class Profile extends StatelessWidget {
           InkWell(
             onTap: () {
               Navigator.push(context,
-              MaterialPageRoute(builder: (context) => UserReg()));
+              MaterialPageRoute(builder: (context) => const UserReg()));
             },
             child: Container(
               margin: const EdgeInsets.only(top: 235, left: 300),
@@ -51,7 +51,7 @@ class Profile extends StatelessWidget {
             )
           ),
           
-          Positioned(
+          const Positioned(
             top: 145, left: 20,
             child: CircleAvatar(radius: 35,
             backgroundColor: Color(0xFFFFABAB),)

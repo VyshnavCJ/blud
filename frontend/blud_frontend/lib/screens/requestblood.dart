@@ -1,5 +1,8 @@
 import 'package:blud_frontend/screens/homepage.dart';
+import 'package:blud_frontend/widgets/datetextfield.dart';
+import 'package:blud_frontend/widgets/timepicker.dart';
 import 'package:flutter/material.dart';
+
 
 class RequestBlood extends StatefulWidget {
   const RequestBlood({super.key});
@@ -62,6 +65,7 @@ class _RequestBloodState extends State<RequestBlood> {
                 decoration: BoxDecoration(color: const Color(0xFFFFE3E3), border: Border.all(width: 1.0) ,borderRadius: BorderRadius.circular(10), ),
                 child: DropdownButton<String>(
                   value: selectedBloodGroup,
+                  
                   hint: Text('Select Blood Group'),
                   onChanged: (String? newValue) {
                     setState(() {
@@ -72,7 +76,7 @@ class _RequestBloodState extends State<RequestBlood> {
                   items: bloodgroups.map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
-                      child: Text(value),
+                      child: Text(value, style: TextStyle(color: Color(0xFF700606)),),
                     );
                   }).toList()
                 ),
@@ -81,10 +85,16 @@ class _RequestBloodState extends State<RequestBlood> {
               TextField(
                 decoration: InputDecoration(
                   labelText: 'Units',
+                  labelStyle: TextStyle(color: Color(0xFF700606)),
                   filled: true,
                   fillColor: Color(0xFFFFE3E3),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Color(0xFF700606)),
+                    borderRadius: BorderRadius.circular(8.0)
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(9.0),
+                    borderSide: BorderSide(color: Color(0xFF700606))
                   )
                 ),
               ),
@@ -92,10 +102,16 @@ class _RequestBloodState extends State<RequestBlood> {
               TextField(
                 decoration: InputDecoration(
                   labelText: 'Full Name of Patient',
+                  labelStyle: TextStyle(color: Color(0xFF700606)),
                   filled: true,
                   fillColor: Color(0xFFFFE3E3),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Color(0xFF700606)),
+                    borderRadius: BorderRadius.circular(8.0)
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(9.0),
+                    borderSide: BorderSide(color: Color(0xFF700606))
                   )
                 ),
               ),
@@ -103,10 +119,16 @@ class _RequestBloodState extends State<RequestBlood> {
               TextField(
                 decoration: InputDecoration(
                   labelText: 'Mobile Number',
+                  labelStyle: TextStyle(color: Color(0xFF700606)),
                   filled: true,
                   fillColor: Color(0xFFFFE3E3),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Color(0xFF700606)),
+                    borderRadius: BorderRadius.circular(8.0)
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(9.0),
+                    borderSide: BorderSide(color: Color(0xFF700606))
                   )
                 ),
               ),
@@ -114,10 +136,16 @@ class _RequestBloodState extends State<RequestBlood> {
               TextField(
                 decoration: InputDecoration(
                   labelText: 'Location/Hospital Name',
+                  labelStyle: TextStyle(color: Color(0xFF700606)),
                   filled: true,
                   fillColor: Color(0xFFFFE3E3),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Color(0xFF700606)),
+                    borderRadius: BorderRadius.circular(8.0)
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(9.0),
+                    borderSide: BorderSide(color: Color(0xFF700606))
                   )
                 ),
               ),
@@ -125,10 +153,16 @@ class _RequestBloodState extends State<RequestBlood> {
               TextField(
                 decoration: InputDecoration(
                   labelText: 'District',
+                  labelStyle: TextStyle(color: Color(0xFF700606)),
                   filled: true,
                   fillColor: Color(0xFFFFE3E3),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Color(0xFF700606)),
+                    borderRadius: BorderRadius.circular(8.0)
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(9.0),
+                    borderSide: BorderSide(color: Color(0xFF700606))
                   )
                 ),
               ),
@@ -136,32 +170,37 @@ class _RequestBloodState extends State<RequestBlood> {
               TextField(
                 decoration: InputDecoration(
                   labelText: 'Pincode',
+                  labelStyle: TextStyle(color: Color(0xFF700606)),
                   filled: true,
                   fillColor: Color(0xFFFFE3E3),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Color(0xFF700606)),
+                    borderRadius: BorderRadius.circular(8.0)
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(9.0),
+                    borderSide: BorderSide(color: Color(0xFF700606))
                   )
                 ),
               ),
               SizedBox(height: 12.0),
-              TextField(
-                decoration: InputDecoration(
-                  labelText: 'Date',
-                  filled: true,
-                  fillColor: Color(0xFFFFE3E3),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  )
-                ),
-              ),
+              DatePickerTextField(),
+              SizedBox(height: 12.0),
+              TimePickerTextField(),
               SizedBox(height: 12.0),
               TextField(
                 decoration: InputDecoration(
                   labelText: 'Bystander Name',
+                  labelStyle: TextStyle(color: Color(0xFF700606)),
                   filled: true,
                   fillColor: Color(0xFFFFE3E3),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Color(0xFF700606)),
+                    borderRadius: BorderRadius.circular(8.0)
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(9.0),
+                    borderSide: BorderSide(color: Color(0xFF700606))
                   )
                 ),
               ),
@@ -169,10 +208,16 @@ class _RequestBloodState extends State<RequestBlood> {
               TextField(
                 decoration: InputDecoration(
                   labelText: 'Bleeding Place',
+                  labelStyle: TextStyle(color: Color(0xFF700606)),
                   filled: true,
                   fillColor: Color(0xFFFFE3E3),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Color(0xFF700606)),
+                    borderRadius: BorderRadius.circular(8.0)
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(9.0),
+                    borderSide: BorderSide(color: Color(0xFF700606))
                   )
                 ),
               ),
@@ -180,10 +225,16 @@ class _RequestBloodState extends State<RequestBlood> {
               TextField(
                 decoration: InputDecoration(
                   labelText: 'Case of Admit',
+                  labelStyle: TextStyle(color: Color(0xFF700606)),
                   filled: true,
                   fillColor: Color(0xFFFFE3E3),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Color(0xFF700606)),
+                    borderRadius: BorderRadius.circular(8.0)
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(9.0),
+                    borderSide: BorderSide(color: Color(0xFF700606))
                   )
                 ),
               ),
