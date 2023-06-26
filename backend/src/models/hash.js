@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+
 const HashSchema = new mongoose.Schema({
   id: {
     type: Number,
