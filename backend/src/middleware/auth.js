@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const { generateAPIError } = require('../errors');
 const models = require('../models');
 
+
 module.exports.auth = (type) => {
   return async (req, res, next) => {
     // check header
