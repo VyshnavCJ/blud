@@ -43,7 +43,17 @@ module.exports.complete = async (req, res) => {
   const requestId = req.body.id;
   const donorNumber = req.body.mobileNumber;
 
-  await services.updateRequest(requestId, donorNumber);
+  const numbers = await services.updateRequest(requestId, donorNumber);
+
+  for (const number of numbers) {
+    await whatsapp.messages
+      .create({
+        from: 'whatsapp:+14155238886',
+        body: `Sry the recipient choose another person.\n Not to worry You can donote when new request comes`,
+        to: `whatsapp:+91${number}`
+      })
+      .then((message) => console.log(message.sid));
+  }
 
   return res.status(StatusCodes.OK).json({
     success: true,
@@ -61,7 +71,7 @@ module.exports.cancel = async (req, res) => {
     await whatsapp.messages
       .create({
         from: 'whatsapp:+14155238886',
-        body: `Sry the the blood request is cancelled.\n Not to worry You can donote when new request comes`,
+        body: `Sry the blood request is cancelled.\n Not to worry You can donote when new request comes`,
         to: `whatsapp:+91${number}`
       })
       .then((message) => console.log(message.sid));

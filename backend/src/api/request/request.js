@@ -199,7 +199,17 @@ module.exports.updateRequest = async (requestId, donorNumber) => {
 
   await donor.save();
   await request.save();
+
+  const response = await models.Response.readData(requestId);
+  let numbers = [];
+
+  for (const key in response) {
+    if (response[key].accept == true) numbers.push(key);
+  }
+
   await models.Response.deleteData(requestId);
+
+  return numbers;
 };
 
 module.exports.dropResponse = async (requestId) => {
