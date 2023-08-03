@@ -60,7 +60,7 @@ class _WillingDonorState extends State<WillingDonor> {
           actions: <Widget>[
             TextButton(
               child: const Text('Ok',
-                  style: TextStyle(color: const Color(0xFFFF4040))),
+                  style: TextStyle(color: Color(0xFFFF4040))),
               onPressed: () async {
                 Navigator.of(context).pop();
                 Response response = await dio.delete(
