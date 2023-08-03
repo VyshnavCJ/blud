@@ -5,12 +5,14 @@ class Historycard extends StatefulWidget {
   final String faddress;
   final String bloodGroup;
   final String units;
+  final String date;
   const Historycard({
     Key? key,
     required this.name,
     required this.faddress,
     required this.bloodGroup,
     required this.units,
+    required this.date,
   }) : super(key: key);
 
   @override
@@ -47,6 +49,13 @@ class _HistorycardState extends State<Historycard> {
                   ),
                   Text(
                     widget.faddress,
+                    style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.height * 11 / 727,
+                        fontFamily: "Poppins",
+                        color: const Color(0xff949494)),
+                  ),
+                  Text(
+                    widget.date,
                     style: TextStyle(
                         fontSize: MediaQuery.of(context).size.height * 11 / 727,
                         fontFamily: "Poppins",

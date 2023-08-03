@@ -169,7 +169,7 @@ class _WillingDonorState extends State<WillingDonor> {
                                           .elementAt(index)['name']
                                           .toString(),
                                       faddress: filteredDonorData.values
-                                          .elementAt(index)['location']
+                                          .elementAt(index)['distance']
                                           .toString(),
                                       bloodGroup: filteredDonorData.values
                                           .elementAt(index)["bloodGroup"]

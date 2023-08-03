@@ -104,8 +104,8 @@ class _TimeLineState extends State<TimeLine> {
     return Scaffold(
       body: DoubleBackToCloseApp(
         snackBar: const SnackBar(
-            content: Text('Tap back again to leave'),
-          ),
+          content: Text('Tap back again to leave'),
+        ),
         child: Stack(
           children: [
             Container(
@@ -187,9 +187,10 @@ class _TimeLineState extends State<TimeLine> {
                                   value,
                                   style: TextStyle(
                                     fontFamily: 'Poppins',
-                                    fontSize: MediaQuery.of(context).size.height *
-                                        16 /
-                                        727,
+                                    fontSize:
+                                        MediaQuery.of(context).size.height *
+                                            16 /
+                                            727,
                                     fontWeight: FontWeight.normal,
                                   ),
                                 ),
@@ -200,13 +201,14 @@ class _TimeLineState extends State<TimeLine> {
                       )),
                   pressed
                       ? SizedBox(
-                          height: MediaQuery.of(context).size.height * 480 / 727,
+                          height:
+                              MediaQuery.of(context).size.height * 480 / 727,
                           width: MediaQuery.of(context).size.width * 321 / 375,
                           child: select
                               ? requested
                                   ? requestlist.isNotEmpty
                                       ? Container(
-                                          margin: EdgeInsets.only(top: 15),
+                                          margin: const EdgeInsets.only(top: 15),
                                           child: ListView.builder(
                                             itemCount: requestlist.length,
                                             itemBuilder: (context, index) {
@@ -219,12 +221,16 @@ class _TimeLineState extends State<TimeLine> {
                                                       ["bloodGroup"],
                                                   units: (requestlist[index]
                                                           ["units"])
-                                                      .toString());
+                                                      .toString(),
+                                                  date: requestlist[index]
+                                                          ["donatedDate"]
+                                                      .toString()
+                                                      .substring(0, 10));
                                             },
                                           ),
                                         )
                                       : Container(
-                                          margin: EdgeInsets.only(top: 15),
+                                          margin: const EdgeInsets.only(top: 15),
                                           child: Text(
                                             "Request history empty",
                                             style: TextStyle(
@@ -237,7 +243,7 @@ class _TimeLineState extends State<TimeLine> {
                                         )
                                   : donationlist.isNotEmpty
                                       ? Container(
-                                          margin: EdgeInsets.only(top: 15),
+                                          margin: const EdgeInsets.only(top: 15),
                                           child: ListView.builder(
                                             itemCount: donationlist.length,
                                             itemBuilder: (context, index) {
@@ -246,16 +252,21 @@ class _TimeLineState extends State<TimeLine> {
                                                       ["name"],
                                                   faddress: donationlist[index]
                                                       ["hospital"],
-                                                  bloodGroup: donationlist[index]
-                                                      ["bloodGroup"],
+                                                  bloodGroup:
+                                                      donationlist[index]
+                                                          ["bloodGroup"],
                                                   units: donationlist[index]
                                                           ["units"]
-                                                      .toString());
+                                                      .toString(),
+                                                  date: donationlist[index]
+                                                          ["donatedDate"]
+                                                      .toString()
+                                                      .substring(0, 10));
                                             },
                                           ),
                                         )
                                       : Container(
-                                          margin: EdgeInsets.only(top: 15),
+                                          margin: const EdgeInsets.only(top: 15),
                                           child: Text(
                                             "Donation history empty",
                                             style: TextStyle(
@@ -267,7 +278,7 @@ class _TimeLineState extends State<TimeLine> {
                                           ),
                                         )
                               : Container(
-                                  margin: EdgeInsets.only(top: 15),
+                                  margin: const EdgeInsets.only(top: 15),
                                   child: Text(
                                     "Select an option to continue",
                                     style: TextStyle(
@@ -293,20 +304,21 @@ class _TimeLineState extends State<TimeLine> {
                           )
                       : select
                           ? Container(
-                              margin: EdgeInsets.only(top: 15),
+                              margin: const EdgeInsets.only(top: 15),
                               width: MediaQuery.of(context).size.width - 50,
                               child: const Center(
                                   child: CircularProgressIndicator(
                                       color: Color(0xFFFF4040))),
                             )
                           : Container(
-                              margin: EdgeInsets.only(top: 15),
+                              margin: const EdgeInsets.only(top: 15),
                               child: Text(
                                 'Select an option to continue',
                                 style: TextStyle(
-                                    fontSize: MediaQuery.of(context).size.height *
-                                        13 /
-                                        727),
+                                    fontSize:
+                                        MediaQuery.of(context).size.height *
+                                            13 /
+                                            727),
                               ),
                             )
                 ],

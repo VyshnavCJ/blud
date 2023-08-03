@@ -105,7 +105,15 @@ class _AvailableCardState extends State<AvailableCard> {
                               fontWeight: FontWeight.w600),
                         ),
                         Text(
-                          widget.faddress,
+                          'Distance: ${widget.faddress.substring(0, 3)} km',
+                          style: TextStyle(
+                              fontSize:
+                                  MediaQuery.of(context).size.height * 11 / 727,
+                              fontFamily: "Poppins",
+                              color: const Color(0xff949494)),
+                        ),
+                        Text(
+                          'Number: ${widget.phonenumber}',
                           style: TextStyle(
                               fontSize:
                                   MediaQuery.of(context).size.height * 11 / 727,
