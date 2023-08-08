@@ -49,7 +49,7 @@ module.exports.complete = async (req, res) => {
     await whatsapp.messages
       .create({
         from: 'whatsapp:+14155238886',
-        body: `Sry the recipient choose another person.\n Not to worry You can donote when new request comes`,
+        body: `Sorry, the recipient choose another person.\n Not to worry, you can donate when new request comes`,
         to: `whatsapp:+91${number}`
       })
       .then((message) => console.log(message.sid));

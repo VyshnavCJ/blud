@@ -204,9 +204,13 @@ module.exports.updateRequest = async (requestId, donorNumber) => {
   let numbers = [];
 
   for (const key in response) {
-    if (response[key].accept == true) numbers.push(key);
+    if (key != donorNumber)
+      if (response[key].accept === true) numbers.push(key);
   }
-
+  await models.User.updateMany(
+    { mobileNumber: { $in: numbers } },
+    { $set: { active: true } }
+  );
   await models.Response.deleteData(requestId);
 
   return numbers;
