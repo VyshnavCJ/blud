@@ -71,7 +71,7 @@ module.exports.cancel = async (req, res) => {
     await whatsapp.messages
       .create({
         from: 'whatsapp:+14155238886',
-        body: `Sry the blood request is cancelled.\n Not to worry You can donote when new request comes`,
+        body: `Sorry, the blood request is cancelled.\n Not to worry, You can donote when new request comes`,
         to: `whatsapp:+91${number}`
       })
       .then((message) => console.log(message.sid));
