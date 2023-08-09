@@ -1,7 +1,7 @@
 #!/bin/sh
 # This is a generated file; do not edit or check into version control.
 export "FLUTTER_ROOT=C:\Users\Saurav\fvm\versions\stable"
-export "FLUTTER_APPLICATION_PATH=C:\Users\Saurav\Desktop\blud\frontend\blud_frontend"
+export "FLUTTER_APPLICATION_PATH=C:\Users\Saurav\Desktop\New folder\frontend\blud_frontend"
 export "COCOAPODS_PARALLEL_CODE_SIGN=true"
 export "FLUTTER_TARGET=lib\main.dart"
 export "FLUTTER_BUILD_DIR=build"

@@ -43,7 +43,7 @@ class _WillingDonorState extends State<WillingDonor> {
     });
   }
 
-  Future<void> _showMyDialog() async {
+  Future<void> _showMyDialog(context1) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -59,10 +59,13 @@ class _WillingDonorState extends State<WillingDonor> {
           ),
           actions: <Widget>[
             TextButton(
-              child: const Text('Ok',
-                  style: TextStyle(color: Color(0xFFFF4040))),
+              child:
+                  const Text('Ok', style: TextStyle(color: Color(0xFFFF4040))),
               onPressed: () async {
-                Navigator.of(context).pop();
+                print("HEEEYYYY111");
+                // Navigator.of(context).pop();
+                print("HEEEYYYY222");
+
                 Response response = await dio.delete(
                     'https://blud-backend.onrender.com/api/v1/request/cancel',
                     data: {"id": requestWD},
@@ -70,9 +73,14 @@ class _WillingDonorState extends State<WillingDonor> {
                       "Content-Type": "application/json",
                       "Authorization": "Bearer $tokenWD",
                     }));
+                print("HEEEYYYY333");
+
                 if (response.data['success']) {
                   Navigator.pop(context);
                 }
+
+                print("HEEEYYYY444");
+                Navigator.pop(context1);
               },
             ),
           ],
@@ -140,7 +148,7 @@ class _WillingDonorState extends State<WillingDonor> {
                   margin: const EdgeInsets.only(left: 5, top: 25),
                   child: InkWell(
                     onTap: () {
-                      _showMyDialog();
+                      _showMyDialog(context);
                     },
                     child: Row(
                       children: [

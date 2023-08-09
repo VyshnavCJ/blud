@@ -183,266 +183,268 @@ class _UserRegState extends State<UserReg> {
                 top: MediaQuery.of(context).size.height * 120 / 727,
                 left: MediaQuery.of(context).size.width * 25 / 375),
             width: MediaQuery.of(context).size.width * 325 / 375,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  child: Text(
-                    'USER REGISTRATION',
-                    style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: MediaQuery.of(context).size.height * 15 / 727,
-                        fontWeight: FontWeight.w700,
-                        color: Color(0xFF700606)),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    child: Text(
+                      'USER REGISTRATION',
+                      style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: MediaQuery.of(context).size.height * 15 / 727,
+                          fontWeight: FontWeight.w700,
+                          color: Color(0xFF700606)),
+                    ),
                   ),
-                ),
-                // const Positioned(
-                //   top: 160, left: 135,
-                //   child: CircleAvatar(radius: 45,
-                //   backgroundColor: Color(0xFFFFABAB),)
-
-                // ),
-                Container(
-                    height: MediaQuery.of(context).size.height - 200,
-                    // margin: const EdgeInsets.only(top: 190),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          TextField(
-                            controller: namecontroller,
-                            decoration: InputDecoration(
-                                labelText: 'Full Name',
-                                labelStyle: TextStyle(color: Color(0xFF700606)),
-                                filled: true,
-                                fillColor: const Color(0xFFFFE3E3),
-                                enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    borderSide:
-                                        BorderSide(color: Color(0xFF700606))),
-                                focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    borderSide:
-                                        BorderSide(color: Color(0xFF700606)))),
-                          ),
-                          const SizedBox(height: 12.0),
-                          Container(
-                            width:
-                                MediaQuery.of(context).size.width * 325 / 375,
-                            padding: const EdgeInsets.all(3.0),
-                            decoration: BoxDecoration(
-                                border: Border.all(width: 1.0),
-                                borderRadius: BorderRadius.circular(10.0),
-                                color: Color(0xFFFFE3E3)),
-                            child: DropdownButton<String>(
-                              value: genderDD,
-                              hint: const Text('Select Gender'),
-                              onChanged: (String? newValue) {
-                                setState(() {
-                                  genderDD = newValue!;
-                                });
-                              },
-                              underline: Container(),
-                              items: <String>[
-                                'Gender',
-                                'Male',
-                                'Female'
-                              ].map<DropdownMenuItem<String>>((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value,
-                                      style: const TextStyle(
-                                          fontFamily: 'Poppins',
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w400,
-                                          color: Color(0xFF700606))),
-                                );
-                              }).toList(),
-                              alignment: Alignment.center,
+                  // const Positioned(
+                  //   top: 160, left: 135,
+                  //   child: CircleAvatar(radius: 45,
+                  //   backgroundColor: Color(0xFFFFABAB),)
+            
+                  // ),
+                  Container(
+                      height: MediaQuery.of(context).size.height - 200,
+                      // margin: const EdgeInsets.only(top: 190),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            TextField(
+                              controller: namecontroller,
+                              decoration: InputDecoration(
+                                  labelText: 'Full Name',
+                                  labelStyle: TextStyle(color: Color(0xFF700606)),
+                                  filled: true,
+                                  fillColor: const Color(0xFFFFE3E3),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      borderSide:
+                                          BorderSide(color: Color(0xFF700606))),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      borderSide:
+                                          BorderSide(color: Color(0xFF700606)))),
                             ),
-                          ),
-
-                          // TextField(
-                          //   controller: gendercontroller,
-                          //   decoration: InputDecoration(
-                          //       labelText: 'Gender',
-                          //       filled: true,
-                          //       fillColor: const Color(0xFFFFE3E3),
-                          //       border: OutlineInputBorder(
-                          //         borderRadius: BorderRadius.circular(10.0),
-                          //       )),
-                          // ),
-                          const SizedBox(
-                            height: 12.0,
-                          ),
-                          Container(
-                            width:
-                                MediaQuery.of(context).size.width * 325 / 375,
-                            padding: EdgeInsets.all(3.0),
-                            decoration: BoxDecoration(
-                                border: Border.all(width: 1.0),
-                                borderRadius: BorderRadius.circular(10.0),
-                                color: Color(0xFFFFE3E3)),
-                            child: DropdownButton<String>(
-                              value: bloodgroupDD,
-                              hint: Text('Select Blood Group'),
-                              onChanged: (String? newValue) {
-                                setState(() {
-                                  bloodgroupDD = newValue!;
-                                });
-                              },
-                              underline: Container(),
-                              items: <String>[
-                                'Blood Group',
-                                'A+',
-                                'A-',
-                                'B+',
-                                'B-',
-                                'AB+',
-                                'AB-',
-                                'O+',
-                                'O-'
-                              ].map<DropdownMenuItem<String>>((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value,
-                                      style: const TextStyle(
-                                          fontFamily: 'Poppins',
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w400,
-                                          color: Color(0xFF700606))),
-                                );
-                              }).toList(),
-                              alignment: Alignment.center,
-                            ),
-                          ),
-                          const SizedBox(height: 12.0),
-                          DateofBirthTextField(
-                              textEditingController: dobcontroller,
-                              displaytext: 'Date Of Birth'),
-                          // TextField(
-                          //   controller: dobcontroller,
-                          //   decoration: InputDecoration(
-                          //       labelText: 'DOB',
-                          //       filled: true,
-                          //       fillColor: const Color(0xFFFFE3E3),
-                          //       border: OutlineInputBorder(
-                          //         borderRadius: BorderRadius.circular(10.0),
-                          //       )),
-                          // ),
-                          const SizedBox(height: 12.0),
-                          TextField(
-                            controller: addresscontroller,
-                            decoration: InputDecoration(
-                                labelText: 'Address',
-                                labelStyle: TextStyle(color: Color(0xFF700606)),
-                                filled: true,
-                                fillColor: const Color(0xFFFFE3E3),
-                                enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    borderSide:
-                                        BorderSide(color: Color(0xFF700606))),
-                                focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    borderSide:
-                                        BorderSide(color: Color(0xFF700606)))),
-                          ),
-                          const SizedBox(height: 12.0),
-                          TextField(
-                            controller: districtcontroller,
-                            decoration: InputDecoration(
-                                labelText: 'District',
-                                labelStyle: TextStyle(color: Color(0xFF700606)),
-                                filled: true,
-                                fillColor: const Color(0xFFFFE3E3),
-                                enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    borderSide:
-                                        BorderSide(color: Color(0xFF700606))),
-                                focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    borderSide:
-                                        BorderSide(color: Color(0xFF700606)))),
-                          ),
-                          const SizedBox(height: 12.0),
-                          TextField(
-                            controller: statecontroller,
-                            decoration: InputDecoration(
-                                labelText: 'State',
-                                labelStyle: TextStyle(color: Color(0xFF700606)),
-                                filled: true,
-                                fillColor: const Color(0xFFFFE3E3),
-                                enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    borderSide:
-                                        BorderSide(color: Color(0xFF700606))),
-                                focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    borderSide:
-                                        BorderSide(color: Color(0xFF700606)))),
-                          ),
-                          const SizedBox(height: 12.0),
-                          TextField(
-                            controller: pincodecontroller,
-                            decoration: InputDecoration(
-                                labelText: 'Pincode',
-                                labelStyle: TextStyle(color: Color(0xFF700606)),
-                                filled: true,
-                                fillColor: const Color(0xFFFFE3E3),
-                                enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    borderSide:
-                                        BorderSide(color: Color(0xFF700606))),
-                                focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    borderSide:
-                                        BorderSide(color: Color(0xFF700606)))),
-                          ),
-                          const SizedBox(height: 15.0),
-                          SizedBox(
+                            const SizedBox(height: 12.0),
+                            Container(
                               width:
-                                  MediaQuery.of(context).size.width * 150 / 375,
-                              height:
-                                  MediaQuery.of(context).size.height * 50 / 727,
-                              child: ElevatedButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      pressed = true;
-                                    });
-                                    name = namecontroller.text.toString();
-                                    address = addresscontroller.text.toString();
-                                    pincode = int.parse(pincodecontroller.text);
-                                    district =
-                                        districtcontroller.text.toString();
-                                    state = statecontroller.text.toString();
-                                    dob = dobcontroller.text.toString();
-                                    gender = genderDD.toLowerCase();
-                                    bg = bloodgroupDD;
-                                    createUser(name, address, pincode, district,
-                                        state, dob, gender, bg, context);
-                                  },
-                                  style: ButtonStyle(
-                                      backgroundColor:
-                                          MaterialStateProperty.all(
-                                              const Color(0xFFFF4040))),
-                                  child: pressed
-                                      ? const Center(
-                                          child: CircularProgressIndicator(
-                                            color: Colors.white,
-                                          ),
-                                        )
-                                      : Text(
-                                          'Create Profile',
-                                          style: TextStyle(
-                                              fontSize: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  15 /
-                                                  727),
-                                        )))
-                        ],
-                      ),
-                    ))
-              ],
+                                  MediaQuery.of(context).size.width * 325 / 375,
+                              padding: const EdgeInsets.all(3.0),
+                              decoration: BoxDecoration(
+                                  border: Border.all(width: 1.0),
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  color: Color(0xFFFFE3E3)),
+                              child: DropdownButton<String>(
+                                value: genderDD,
+                                hint: const Text('Select Gender'),
+                                onChanged: (String? newValue) {
+                                  setState(() {
+                                    genderDD = newValue!;
+                                  });
+                                },
+                                underline: Container(),
+                                items: <String>[
+                                  'Gender',
+                                  'Male',
+                                  'Female'
+                                ].map<DropdownMenuItem<String>>((String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(value,
+                                        style: const TextStyle(
+                                            fontFamily: 'Poppins',
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w400,
+                                            color: Color(0xFF700606))),
+                                  );
+                                }).toList(),
+                                alignment: Alignment.center,
+                              ),
+                            ),
+            
+                            // TextField(
+                            //   controller: gendercontroller,
+                            //   decoration: InputDecoration(
+                            //       labelText: 'Gender',
+                            //       filled: true,
+                            //       fillColor: const Color(0xFFFFE3E3),
+                            //       border: OutlineInputBorder(
+                            //         borderRadius: BorderRadius.circular(10.0),
+                            //       )),
+                            // ),
+                            const SizedBox(
+                              height: 12.0,
+                            ),
+                            Container(
+                              width:
+                                  MediaQuery.of(context).size.width * 325 / 375,
+                              padding: EdgeInsets.all(3.0),
+                              decoration: BoxDecoration(
+                                  border: Border.all(width: 1.0),
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  color: Color(0xFFFFE3E3)),
+                              child: DropdownButton<String>(
+                                value: bloodgroupDD,
+                                hint: Text('Select Blood Group'),
+                                onChanged: (String? newValue) {
+                                  setState(() {
+                                    bloodgroupDD = newValue!;
+                                  });
+                                },
+                                underline: Container(),
+                                items: <String>[
+                                  'Blood Group',
+                                  'A+',
+                                  'A-',
+                                  'B+',
+                                  'B-',
+                                  'AB+',
+                                  'AB-',
+                                  'O+',
+                                  'O-'
+                                ].map<DropdownMenuItem<String>>((String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(value,
+                                        style: const TextStyle(
+                                            fontFamily: 'Poppins',
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w400,
+                                            color: Color(0xFF700606))),
+                                  );
+                                }).toList(),
+                                alignment: Alignment.center,
+                              ),
+                            ),
+                            const SizedBox(height: 12.0),
+                            DateofBirthTextField(
+                                textEditingController: dobcontroller,
+                                displaytext: 'Date Of Birth'),
+                            // TextField(
+                            //   controller: dobcontroller,
+                            //   decoration: InputDecoration(
+                            //       labelText: 'DOB',
+                            //       filled: true,
+                            //       fillColor: const Color(0xFFFFE3E3),
+                            //       border: OutlineInputBorder(
+                            //         borderRadius: BorderRadius.circular(10.0),
+                            //       )),
+                            // ),
+                            const SizedBox(height: 12.0),
+                            TextField(
+                              controller: addresscontroller,
+                              decoration: InputDecoration(
+                                  labelText: 'Address',
+                                  labelStyle: TextStyle(color: Color(0xFF700606)),
+                                  filled: true,
+                                  fillColor: const Color(0xFFFFE3E3),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      borderSide:
+                                          BorderSide(color: Color(0xFF700606))),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      borderSide:
+                                          BorderSide(color: Color(0xFF700606)))),
+                            ),
+                            const SizedBox(height: 12.0),
+                            TextField(
+                              controller: districtcontroller,
+                              decoration: InputDecoration(
+                                  labelText: 'District',
+                                  labelStyle: TextStyle(color: Color(0xFF700606)),
+                                  filled: true,
+                                  fillColor: const Color(0xFFFFE3E3),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      borderSide:
+                                          BorderSide(color: Color(0xFF700606))),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      borderSide:
+                                          BorderSide(color: Color(0xFF700606)))),
+                            ),
+                            const SizedBox(height: 12.0),
+                            TextField(
+                              controller: statecontroller,
+                              decoration: InputDecoration(
+                                  labelText: 'State',
+                                  labelStyle: TextStyle(color: Color(0xFF700606)),
+                                  filled: true,
+                                  fillColor: const Color(0xFFFFE3E3),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      borderSide:
+                                          BorderSide(color: Color(0xFF700606))),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      borderSide:
+                                          BorderSide(color: Color(0xFF700606)))),
+                            ),
+                            const SizedBox(height: 12.0),
+                            TextField(
+                              controller: pincodecontroller,
+                              decoration: InputDecoration(
+                                  labelText: 'Pincode',
+                                  labelStyle: TextStyle(color: Color(0xFF700606)),
+                                  filled: true,
+                                  fillColor: const Color(0xFFFFE3E3),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      borderSide:
+                                          BorderSide(color: Color(0xFF700606))),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      borderSide:
+                                          BorderSide(color: Color(0xFF700606)))),
+                            ),
+                            const SizedBox(height: 15.0),
+                            SizedBox(
+                                width:
+                                    MediaQuery.of(context).size.width * 150 / 375,
+                                height:
+                                    MediaQuery.of(context).size.height * 50 / 727,
+                                child: ElevatedButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        pressed = true;
+                                      });
+                                      name = namecontroller.text.toString();
+                                      address = addresscontroller.text.toString();
+                                      pincode = int.parse(pincodecontroller.text);
+                                      district =
+                                          districtcontroller.text.toString();
+                                      state = statecontroller.text.toString();
+                                      dob = dobcontroller.text.toString();
+                                      gender = genderDD.toLowerCase();
+                                      bg = bloodgroupDD;
+                                      createUser(name, address, pincode, district,
+                                          state, dob, gender, bg, context);
+                                    },
+                                    style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all(
+                                                const Color(0xFFFF4040))),
+                                    child: pressed
+                                        ? const Center(
+                                            child: CircularProgressIndicator(
+                                              color: Colors.white,
+                                            ),
+                                          )
+                                        : Text(
+                                            'Create Profile',
+                                            style: TextStyle(
+                                                fontSize: MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                    15 /
+                                                    727),
+                                          )))
+                          ],
+                        ),
+                      ))
+                ],
+              ),
             ),
           )
         ],

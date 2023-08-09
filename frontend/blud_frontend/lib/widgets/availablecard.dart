@@ -105,7 +105,7 @@ class _AvailableCardState extends State<AvailableCard> {
                               fontWeight: FontWeight.w600),
                         ),
                         Text(
-                          'Distance: ${widget.faddress.substring(0, 3)} km',
+                          'Distance: ${double.parse(widget.faddress).floor()} km',
                           style: TextStyle(
                               fontSize:
                                   MediaQuery.of(context).size.height * 11 / 727,
